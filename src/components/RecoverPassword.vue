@@ -1,5 +1,4 @@
 <template>
-  <div class="body-base">
     <div class="recover-container">
       <div class="recover-titles">
         <div class="recover-logo">
@@ -16,14 +15,13 @@
             <label for="email">Correo</label>
             <input type="email" id="email" v-model="forgotEmail" placeholder="correo@correo.com" required />
           </div>
-          <button type="submit" class="recover-button">Enviar</button>
+          <button type="submit" class="recover-button" @click.prevent="$emit('forgot-password')">Enviar</button>
           <div class="options">
             <a @click.prevent="goBackToLogin"><img src="assets/icons/go-back-login.svg" alt="Login"> Iniciar Sesión</a>
           </div>
         </form>
       </div>
     </div>
-  </div>
 </template>
 
 
@@ -36,17 +34,19 @@ export default {
   },
   methods: {
     handleForgotPassword() {
-      alert(`Correo para restablecer: ${this.forgotEmail}`);
+      $emit('forgot-password')
     },
+
     goBackToLogin() {
       this.$router.push('/');
-    }
+    },
   }
 };
 </script>
 
 <style scoped>
 .recover-container {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -252,12 +252,12 @@ input[type="checkbox"]:checked {
   .recover-box {
     width: calc(100% - 2rem);
   }
-}
-
-@media screen and (max-width: 350px) {
-  .options {
-    align-items: flex-end;
-    flex-direction: column;
+  .recover-container {
+    margin: 0 1.5rem;
+    padding-top: 5rem;
+  }
+  .recover-titles {
+    width: 100%;
   }
 }
 </style>

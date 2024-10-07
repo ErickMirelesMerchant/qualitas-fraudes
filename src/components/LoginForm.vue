@@ -1,5 +1,4 @@
 <template>
-  <div class="body-base">
     <div class="login-container">
       <div class="login-titles">
         <div class="login-logo">
@@ -11,15 +10,15 @@
         </div>
       </div>
       <div class="login-box">
-        <form @submit.prevent="handleLogin">
+        <form @submit.prevent="openDialog">
           <div class="input-group">
             <label for="email">Correo</label>
             <input type="email" id="email" v-model="email" placeholder="Ingresa tu correo" required />
           </div>
           <div class="input-group">
-            <label for="password">Contraseña</label>
+            <label for="password-login">Contraseña</label>
             <div class="password-container">
-              <input :type="showPassword ? 'text' : 'password'" id="password" v-model="password" placeholder="Contraseña" required />
+              <input :type="showPassword ? 'text' : 'password'" id="password-login" v-model="password" placeholder="••••••••" required />
               <button type="button" class="toggle-password" @click="showPassword = !showPassword">
                 <i :class="showPassword ? 'far fa-eye-slash' : 'far fa-eye'"></i>
               </button>
@@ -34,8 +33,27 @@
           <button type="submit" class="login-button">Ingresar</button>
         </form>
       </div>
+       <!-- Diálogo de confirmación -->
+      <div v-if="dialog" class="dialog-overlay">
+        <div class="dialog-box">
+          <div class="dialog-image" >
+            <img src="assets/icons/Warning-icon.svg" alt="Dialog" />
+            <img src="assets/icons/dialog-background.svg" alt="Dialog-bg" class="dialog-bg-icon" />
+          </div>
+          <div class="dialog-body">
+            <h3>Es hora de actualizar tu contraseña</h3>
+            <div class="dialog-text">
+              <p>Por tu seguridad, te recordamos que debes actualizar tu contraseña cada 90 días. Tu contraseña actual está a punto de vencer.</p>
+              <p>Por favor, cambia tu contraseña antes de que expire para evitar interrupciones en tu acceso. Solo te tomará un momento.</p>
+            </div>
+          </div>
+          <div class="dialog-buttons">
+            <button class="secondary-btn" @click="dialog = false">Cerrar</button>
+            <button class="primary-btn" @click="confirmLogin">Actualizar</button>
+          </div>
+        </div>
+      </div>
     </div>
-  </div>
 </template>
 
 <script>
@@ -45,32 +63,39 @@ export default {
       email: '',
       password: '',
       rememberMe: false,
-      showPassword: false
+      showPassword: false,
+      dialog: false,
     };
   },
   methods: {
+    openDialog() {
+      this.dialog = true;
+    },
+    confirmLogin() {
+      this.dialog = false;
+      this.$router.push('/change-password');
+    },
     handleLogin() {
       alert(`Correo: ${this.email}, Contraseña: ${this.password}, Recordarme: ${this.rememberMe}`);
+      this.dialog = false;
     },
     goToForgotPassword() {
-      this.$router.push('/recover-password');  // Navegar a la página de recuperación de contraseña
+      this.$router.push('/recover-password');
     }
   }
 };
 </script>
 
 <style scoped>
+
 .login-container {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
   height: 100vh;
-  padding-top: 2rem;
-}
-
-.body-base {
-  background: url("../assets/images/background-pattern.png") no-repeat center center;
-  background-color: #F9FAFB;
+  padding-top: 4rem;
+  background-color: transparent
 }
 
 .login-titles {
@@ -130,6 +155,10 @@ form {
   align-items: center;
   width: 100%;
   gap: 1.5rem;
+}
+
+.far {
+  color: #667085;
 }
 
 .input-group {
@@ -193,7 +222,7 @@ form {
   width: 100%;
   justify-content: space-between;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.3rem;
 }
 
 .options label {
@@ -205,6 +234,10 @@ form {
   line-height: 20px;
   text-align: left;
   color: #344054
+}
+
+.options label input {
+  margin-right: 5px;
 }
 
 .options a {
@@ -257,13 +290,164 @@ input[type="checkbox"]:checked {
   border-color: #0096ae !important;
 }
 
+
+.dialog-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000; /* Asegúrate de que el diálogo esté en la parte superior */
+}
+
+.dialog-box {
+  background-color: white;
+  padding: 1.5rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  max-width: 600px;
+  width: 100%;
+}
+
+.dialog-image {
+  display: flex;
+  position: relative;
+}
+
+.dialog-image img:first-child {
+  position: relative;
+  left: -4px;
+  top: -4px;
+  height: 48px;
+}
+
+.dialog-bg-icon {
+  width: 12rem;
+  position: absolute;
+  top: -22px;
+  left: -22px;
+}
+
+.dialog-body {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-top: 1rem;
+  gap: 1rem;
+}
+
+.dialog-body h3 {
+  margin: 0;
+}
+
+.dialog-box img {
+  float: left;
+}
+
+.dialog-text {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+.dialog-box h3 {
+  font-family: 'Inter SemiBold', sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 28px;
+  text-align: left;
+  color: #101828;
+  position: relative;
+}
+
+.dialog-box p {
+  font-family: 'Inter Regular', sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+  text-align: left;
+  color: #475467;
+  margin: 0;
+}
+
+.dialog-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+  gap: 6px;
+}
+
+.dialog-buttons button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  width: 270px;
+  height: 44px;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-family: 'Inter SemiBold', sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 24px;
+  text-align: center;
+}
+
+.dialog-buttons .primary-btn {
+  background-color: #0096AE;
+  color: white;
+  border: none;
+  box-shadow: 0px 1px 2px 0px #1018280D;
+}
+
+.dialog-buttons .primary-btn:hover {
+  background-color: #017182;
+}
+
+.secondary-btn {
+  background-color: #FFFFFF;
+  color: #344054;
+  border: 1px solid #D0D5DD;
+  box-shadow: 0px 1px 2px 0px #1018280D;
+}
+
+.dialog-buttons .secondary-btn:hover {
+  background-color: #D0D5DD;
+}
+
+
+
 @media screen and (max-width: 768px) {
   .login-box {
     width: calc(100% - 2rem);
   }
+  .login-container {
+    margin: 0 1.5rem;
+    padding-top: 5rem;
+  }
+  .login-titles {
+    width: 100%;
+  }
+  .dialog-buttons {
+    flex-direction: column;
+    gap: 0.8rem;
+  }
+  .dialog-overlay {
+    padding: 0 1rem
+  }
+  .dialog-buttons button {
+    width: 100%;
+  }
 }
 
-@media screen and (max-width: 350px) {
+@media screen and (max-width: 330px) {
   .options {
     align-items: flex-end;
     flex-direction: column;

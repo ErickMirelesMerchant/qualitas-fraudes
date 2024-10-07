@@ -1,9 +1,8 @@
 // // https://nuxt.com/docs/api/configuration/nuxt-config
-export default defineNuxtConfig({
+export default {
   compatibilityDate: '2024-04-03',
   devtools: { enabled: true },
   srcDir: 'src/', // Asegúrate de que Nuxt trate 'public' como directorio raíz de origen
-  target: 'server',
   ssr: true,
   head: {
     title: 'Qualitas Fraudes',
@@ -17,11 +16,11 @@ export default defineNuxtConfig({
   modules: [],
   build: {},
   router: {
-    extendRoutes(routes, resolve) {
+    extendRoutes(routes: any, resolve: any) {
       routes.push({
         path: '/',
         redirect: '/login',
-      });
+      },);
     },
   },
-})
+}

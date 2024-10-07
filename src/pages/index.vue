@@ -13,7 +13,7 @@ import LoginLayout from '@/components/LoginLayout.vue';
 export default {
   components: {
     LoginForm,
-    LoginLayout,
+    LoginLayout
   }
 }
 </script>

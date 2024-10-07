@@ -1,10 +1,10 @@
 <template>
   <div>
     <LoginLayout />
-    <RecoverPassword v-if="!showForgotPassword" @forgot-password="toggleForgotPassword"/>
+    <ChangePassword v-if="!showChangedPassword" @changed-password="toggleChangedPassword"/>
     <LoginSuccessFullMessage
       v-else
-      @back-to-login="toggleForgotPassword"
+      @back-to-login="toggleChangedPassword"
       :hasButton="hasButton"
       :title_message="title_message"
       :subtitle_message="subtitle_message"
@@ -13,29 +13,30 @@
 </template>
 
 <script>
+import ChangePassword from '@/components/ChangePassword.vue';
 import LoginLayout from '@/components/LoginLayout.vue';
 import LoginSuccessFullMessage from '@/components/LoginSuccessFullMessage.vue';
-import RecoverPassword from '@/components/RecoverPassword.vue';
 
 export default {
   components: {
     LoginLayout,
-    RecoverPassword,
+    ChangePassword,
     LoginSuccessFullMessage,
   },
   data() {
     return {
-      showForgotPassword: false, // Estado para controlar qué componente mostrar
+      showChangedPassword: false, // Estado para controlar qué componente mostrar
       hasButton: false,
       title_message: '',
       subtitle_message: ''
     };
   },
   methods: {
-    toggleForgotPassword() {
-      this.showForgotPassword = !this.showForgotPassword;
-      this.title_message = 'Hemos enviado las instrucciones';
-      this.subtitle_message = 'Revisa tu bandeja de entrada y sigue las instrucciones que enviamos a [correo_usuario] ';
+    toggleChangedPassword() {
+      this.showChangedPassword = !this.showChangedPassword;
+      this.hasButton = true;
+      this.title_message = '¡Tu contraseña ha sido actualizada!';
+      this.subtitle_message = 'Ya puedes iniciar sesión en tu cuenta';
     },
   },
 };

@@ -11,5 +11,6 @@
 
 body {
   font-family: "Inter", sans-serif;
+  margin: 0 !important;
 }
 </style>
