@@ -24,24 +24,23 @@
     </div>
 </template>
 
-
 <script>
-export default {
-  data() {
-    return {
-      forgotEmail: ''
-    };
-  },
-  methods: {
-    handleForgotPassword() {
-      $emit('forgot-password')
+  export default {
+    data() {
+      return {
+        forgotEmail: ''
+      };
     },
+    methods: {
+      handleForgotPassword() {
+        $emit('forgot-password')
+      },
 
-    goBackToLogin() {
-      this.$router.push('/');
-    },
-  }
-};
+      goBackToLogin() {
+        this.$router.push('/');
+      },
+    }
+  };
 </script>
 
 <style scoped>
@@ -229,26 +228,7 @@ form {
   background-color: #017182;
 }
 
-
-input[type="checkbox"] {
-  appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  outline: none;
-  cursor: pointer;
-  border: 1px solid #d0d5dd;
-  min-height: 15px;
-  min-width: 15px;
-  border-radius: 0.250rem;
-}
-
-input[type="checkbox"]:checked {
-  background: url("../assets/icons/Checked.svg") center center no-repeat;
-  background-size: auto;
-  border-color: #0096ae !important;
-}
-
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 586px) {
   .recover-box {
     width: calc(100% - 2rem);
   }

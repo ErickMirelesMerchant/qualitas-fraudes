@@ -1,8 +1,9 @@
 <template>
-  <div>
-    <!-- <LoginForm /> -->
-    <NuxtPage />
-  </div>
+  <NuxtLayout>
+    <v-app>
+      <NuxtPage />
+    </v-app>
+  </NuxtLayout>
 </template>
 
 <style>

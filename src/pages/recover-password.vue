@@ -4,7 +4,6 @@
     <RecoverPassword v-if="!showForgotPassword" @forgot-password="toggleForgotPassword"/>
     <LoginSuccessFullMessage
       v-else
-      @back-to-login="toggleForgotPassword"
       :hasButton="hasButton"
       :title_message="title_message"
       :subtitle_message="subtitle_message"

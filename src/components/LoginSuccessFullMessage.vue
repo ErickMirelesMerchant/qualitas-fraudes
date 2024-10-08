@@ -24,7 +24,7 @@
 export default {
   props: {
     hasButton: {
-      type: Boolean, // Corregir de boolean a Boolean
+      type: Boolean,
       required: false
     },
     title_message: {
@@ -72,20 +72,6 @@ export default {
   color: #475467;
 }
 
-.message-login-box {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 23.5rem;
-  padding: 32px 32px 40px 32px;
-  border-radius: 12px;
-  background-color: #ffffff;
-  text-align: center;
-  flex: 0 1 auto;
-  gap: 24px;
-  box-shadow: 0px 1px 3px 0px #1018280F, 0px 1px 3px 0px #1018281A;
-}
-
 .message-login-logo img {
   width: 50px;
 }
@@ -128,10 +114,7 @@ p {
   background-color: #017182;
 }
 
-@media screen and (max-width: 768px) {
-  .message-login-box {
-    width: calc(100% - 2rem);
-  }
+@media screen and (max-width: 586px) {
   .message-login-container {
     margin: 0 1.5rem;
     padding-top: 5rem;

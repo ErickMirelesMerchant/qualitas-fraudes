@@ -20,7 +20,7 @@
             <div class="password-container">
               <input :type="showPassword ? 'text' : 'password'" id="password-login" v-model="password" placeholder="••••••••" required />
               <button type="button" class="toggle-password" @click="showPassword = !showPassword">
-                <i :class="showPassword ? 'far fa-eye-slash' : 'far fa-eye'"></i>
+                <i :class="showPassword ? 'mdi mdi-eye-off-outline' : 'mdi mdi-eye-outline'"></i>
               </button>
             </div>
           </div>
@@ -68,7 +68,14 @@ export default {
     };
   },
   methods: {
+    showSpinner() {
+      this.$emit('is-loading')
+      setTimeout(() => {
+        this.$emit('is-loading')
+      }, 2500);
+    },
     openDialog() {
+      this.showSpinner()
       this.dialog = true;
     },
     confirmLogin() {
@@ -157,7 +164,7 @@ form {
   gap: 1.5rem;
 }
 
-.far {
+.mdi {
   color: #667085;
 }
 
@@ -251,19 +258,19 @@ form {
 
 }
 
-.login-button {
+.login-button, .v-btn {
   font-family: 'Inter SemiBold', sans-serif;
   width: 100%;
   height: 44px;
   padding: 10px;
-  background-color: #0096AE;
+  background-color: #0096AE !important;
   color: white;
   border: none;
-  border-radius: 8px;
+  border-radius: 8px !important;
   cursor: pointer;
   font-size: 16px;
   font-weight: 600;
-  line-height: 24px;
+  /* line-height: 24px; */
   text-align: center;
 }
 
@@ -310,7 +317,7 @@ input[type="checkbox"]:checked {
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   text-align: center;
-  max-width: 600px;
+  max-width: 34.5rem;
   width: 100%;
 }
 
@@ -424,9 +431,9 @@ input[type="checkbox"]:checked {
 
 
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 586px) {
   .login-box {
-    width: calc(100% - 2rem);
+    width: 100%;
   }
   .login-container {
     margin: 0 1.5rem;

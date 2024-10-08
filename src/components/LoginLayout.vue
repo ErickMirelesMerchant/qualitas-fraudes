@@ -20,9 +20,9 @@
   position: absolute;
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 586px) {
   .login-nav {
-    padding: 0 0.5rem;
+    padding: 0.5rem 0 0.5rem;
   }
 }
 

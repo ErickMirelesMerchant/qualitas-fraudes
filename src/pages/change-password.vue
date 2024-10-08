@@ -4,7 +4,6 @@
     <ChangePassword v-if="!showChangedPassword" @changed-password="toggleChangedPassword"/>
     <LoginSuccessFullMessage
       v-else
-      @back-to-login="toggleChangedPassword"
       :hasButton="hasButton"
       :title_message="title_message"
       :subtitle_message="subtitle_message"
@@ -25,7 +24,7 @@ export default {
   },
   data() {
     return {
-      showChangedPassword: false, // Estado para controlar qué componente mostrar
+      showChangedPassword: false,
       hasButton: false,
       title_message: '',
       subtitle_message: ''

@@ -1,26 +1,39 @@
-// // https://nuxt.com/docs/api/configuration/nuxt-config
-export default {
-  compatibilityDate: '2024-04-03',
-  devtools: { enabled: true },
-  srcDir: 'src/', // Asegúrate de que Nuxt trate 'public' como directorio raíz de origen
+import vuetify, { transformAssetUrls } from 'vite-plugin-vuetify'
+export default defineNuxtConfig({
+  srcDir: 'src/',
   ssr: true,
+  // @ts-ignore
   head: {
     title: 'Qualitas Fraudes',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: 'A simple login app' }
+      { hid: 'description', name: 'description', content: 'A simple login app' },
+      { title: 'Qualitas Fraudes' }
+      
     ]
   },
-  buildModules: [],
-  modules: [],
-  build: {},
-  router: {
-    extendRoutes(routes: any, resolve: any) {
-      routes.push({
-        path: '/',
-        redirect: '/login',
-      },);
+  build: {
+    transpile: ['vuetify'],
+  },
+
+  modules: [
+    (_options, nuxt) => {
+      nuxt.hooks.hook('vite:extendConfig', (config) => {
+        // @ts-expect-error
+        config.plugins.push(vuetify({ autoImport: true }))
+      })
+    },
+    //...
+  ],
+
+  vite: {
+    vue: {
+      template: {
+        transformAssetUrls,
+      },
     },
   },
-}
+
+  compatibilityDate: '2024-10-08',
+})
