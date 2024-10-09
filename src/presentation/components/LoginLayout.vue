@@ -6,8 +6,7 @@
 </div>
 </template>
 
-<style>
-
+<style scoped>
 .login-nav {
   background-color: #F9FAFB;
   padding: 0.5rem 0 0 2rem;
@@ -25,5 +24,4 @@
     padding: 0.5rem 0 0.5rem;
   }
 }
-
 </style>
