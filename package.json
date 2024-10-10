@@ -7,16 +7,23 @@
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
+    "postinstall": "nuxt prepare",
+    "deploy": "gh-pages --dotfiles -d .output/public"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-free": "^6.6.0",
     "@mdi/font": "^7.4.47",
     "nuxt": "^3.13.0",
     "nuxt-app": "file:",
+    "sass": "^1.79.4",
     "vue": "latest",
-    "vue-router": "latest"
+    "vue-router": "^4.4.5"
   },
   "devDependencies": {
+    "@nuxt/types": "^2.18.1",
+    "font-awesome": "^4.7.0",
+    "gh-pages": "^4.0.0",
+    "sass-embedded": "^1.79.4",
     "vite-plugin-vuetify": "^2.0.4",
     "vuetify": "^3.7.2"
   }
