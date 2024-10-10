@@ -5,7 +5,7 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   srcDir: "src/", 
   ssr: true,
-  app: 
+  app: {
     baseURL: '/qualitas-fraudes/',
     head: {
       title: "Qualitas Fraudes",
