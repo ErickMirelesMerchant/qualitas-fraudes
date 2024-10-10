@@ -7,6 +7,7 @@ export default defineNuxtConfig({
   ssr: true,
   app: {
     baseURL: '/qualitas-fraudes/',
+    buildAssetsDir: 'assets',
     head: {
       title: "Qualitas Fraudes",
       meta: [
