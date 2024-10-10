@@ -78,9 +78,9 @@ const appConfig = defuFn(inlineAppConfig);
 
 const _inlineRuntimeConfig = {
   "app": {
-    "baseURL": "/",
+    "baseURL": "/qualitas-fraudes/",
     "buildId": "dev",
-    "buildAssetsDir": "/_nuxt/",
+    "buildAssetsDir": "assets",
     "cdnURL": ""
   },
   "nitro": {
@@ -89,12 +89,12 @@ const _inlineRuntimeConfig = {
       "/__nuxt_error": {
         "cache": false
       },
-      "/_nuxt/builds/meta/**": {
+      "/assets/builds/meta/**": {
         "headers": {
           "cache-control": "public, max-age=31536000, immutable"
         }
       },
-      "/_nuxt/builds/**": {
+      "/assets/builds/**": {
         "headers": {
           "cache-control": "public, max-age=1, immutable"
         }
@@ -147,7 +147,7 @@ new Proxy(/* @__PURE__ */ Object.create(null), {
   }
 });
 
-const serverAssets = [{"baseName":"server","dir":"C:/qualitas-fraudes/server/assets"}];
+const serverAssets = [{"baseName":"server","dir":"C:/qualitas-fraudes/src/server/assets"}];
 
 const assets = createStorage();
 
@@ -160,7 +160,7 @@ const storage = createStorage({});
 storage.mount('/assets', assets);
 
 storage.mount('root', unstorage_47drivers_47fs({"driver":"fs","readOnly":true,"base":"C:\\qualitas-fraudes","ignore":["**/node_modules/**","**/.git/**"]}));
-storage.mount('src', unstorage_47drivers_47fs({"driver":"fs","readOnly":true,"base":"C:\\qualitas-fraudes\\server","ignore":["**/node_modules/**","**/.git/**"]}));
+storage.mount('src', unstorage_47drivers_47fs({"driver":"fs","readOnly":true,"base":"C:\\qualitas-fraudes\\src\\server","ignore":["**/node_modules/**","**/.git/**"]}));
 storage.mount('build', unstorage_47drivers_47fs({"driver":"fs","readOnly":false,"base":"C:\\qualitas-fraudes\\.nuxt","ignore":["**/node_modules/**","**/.git/**"]}));
 storage.mount('cache', unstorage_47drivers_47fs({"driver":"fs","readOnly":false,"base":"C:\\qualitas-fraudes\\.nuxt\\cache","ignore":["**/node_modules/**","**/.git/**"]}));
 storage.mount('data', unstorage_47drivers_47fs({"driver":"fs","base":"C:\\qualitas-fraudes\\.data\\kv","ignore":["**/node_modules/**","**/.git/**"]}));
@@ -621,7 +621,7 @@ const _oDG5MxHIEj = (function(nitro) {
 
 const rootDir = "C:/qualitas-fraudes";
 
-const appHead = {"meta":[{"name":"viewport","content":"width=device-width, initial-scale=1"},{"charset":"utf-8"}],"link":[],"style":[],"script":[],"noscript":[]};
+const appHead = {"meta":[{"charset":"utf-8"},{"name":"viewport","content":"width=device-width, initial-scale=1"},{"hid":"description","name":"description","content":"A simple login app"}],"link":[],"style":[],"script":[],"noscript":[],"title":"Qualitas Fraudes"};
 
 const appRootTag = "div";
 

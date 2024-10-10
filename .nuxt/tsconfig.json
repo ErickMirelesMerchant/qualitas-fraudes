@@ -39,16 +39,16 @@
         "../node_modules/nuxt"
       ],
       "~": [
-        ".."
+        "../src"
       ],
       "~/*": [
-        "../*"
+        "../src/*"
       ],
       "@": [
-        ".."
+        "../src"
       ],
       "@/*": [
-        "../*"
+        "../src/*"
       ],
       "~~": [
         ".."
@@ -63,13 +63,13 @@
         "../*"
       ],
       "assets": [
-        "../assets"
+        "../src/assets"
+      ],
+      "assets/*": [
+        "../src/assets/*"
       ],
       "public": [
-        "../public"
-      ],
-      "public/*": [
-        "../public/*"
+        "../src/public"
       ],
       "#app": [
         "../node_modules/nuxt/dist/app"
@@ -87,7 +87,7 @@
         "./imports"
       ],
       "#app-manifest": [
-        "./manifest/meta/dev"
+        "./manifest/meta/dev.json"
       ],
       "#build": [
         "."
@@ -131,6 +131,7 @@
     "./nuxt.d.ts",
     "../.config/nuxt.*",
     "../**/*",
+    "../src/**/*",
     "../node_modules/@nuxt/devtools/runtime",
     "../node_modules/@nuxt/devtools/dist/runtime",
     "../node_modules/@nuxt/telemetry/runtime",
