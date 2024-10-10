@@ -12,9 +12,9 @@
 </template>
 
 <script>
-import ChangePassword from '@/components/ChangePassword.vue';
-import LoginLayout from '@/components/LoginLayout.vue';
-import LoginSuccessFullMessage from '@/components/LoginSuccessFullMessage.vue';
+import ChangePassword from '~/presentation/components/ChangePassword.vue';
+import LoginLayout from '~/presentation/components/LoginLayout.vue';
+import LoginSuccessFullMessage from '~/presentation/components/LoginSuccessFullMessage.vue';
 
 export default {
   components: {

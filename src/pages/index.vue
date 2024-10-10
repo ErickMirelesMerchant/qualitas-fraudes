@@ -7,9 +7,9 @@
 </template>
 
 <script>
-import Loader from '@/components/Loader.vue';
-import LoginForm from '@/components/LoginForm.vue';
-import LoginLayout from '@/components/LoginLayout.vue';
+import Loader from '~/presentation/components/Loader.vue';
+import LoginForm from '~/presentation/components/LoginForm.vue';
+import LoginLayout from '~/presentation/components/LoginLayout.vue';
 
 
 export default {
