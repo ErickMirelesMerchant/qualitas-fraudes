@@ -42,8 +42,8 @@
 </template>
 
 <script setup>
-import DrawerNavigation from "~/kernel/components/drawer-navigation.vue";
 import customeCardDashboard from "~/kernel/components/cards/custome-card-dashboard.vue";
+import DrawerNavigation from "~/kernel/components/drawer-navigation.vue";
 import customeTable from "~/kernel/components/table/custome-table.vue";
 import customeTabs from "~/kernel/components/tabs/custome-tabs.vue";
 
@@ -52,4 +52,70 @@ const tabsData = [
   { title: "Inactivos" },
   { title: "En baja" },
 ];
+
+const cols = [
+  { field: 'documento', header: 'Documento' },
+  { field: 'status', header: 'Estatus' },
+  { field: 'comentarios', header: 'Comentarios' },
+  { field: 'acciones', header: 'Acciones' },
+]
+
+const tableData = [
+  {
+    documento: 'Documento 1',
+    status: 'En revisión',
+    comentarios: 'Este es un comentario muy largo...',
+    mostrarTodoComentario: false,
+    estatus: 'En revisión',
+    title: 'Contrato.pdf',
+  },
+  {
+    documento: 'Documento 1',
+    status: 'En revisión',
+    comentarios: 'Este es un comentario muy largo...',
+    mostrarTodoComentario: false,
+    estatus: 'En revisión',
+    title: 'Contrato.pdf',
+  },
+  {
+    documento: 'Documento 1',
+    status: 'En revisión',
+    comentarios: 'Este es un comentario muy largo...',
+    mostrarTodoComentario: false,
+    estatus: 'En revisión',
+    title: 'Contrato.pdf',
+  },
+  {
+    documento: 'Documento 1',
+    status: 'En revisión',
+    comentarios: 'Este es un comentario muy largo...',
+    mostrarTodoComentario: false,
+    estatus: 'En revisión',
+    title: 'Contrato.pdf',
+  },
+  {
+    documento: 'Documento 1',
+    status: 'En revisión',
+    comentarios: 'Este es un comentario muy largo...',
+    mostrarTodoComentario: false,
+    estatus: 'En revisión',
+    title: 'Contrato.pdf',
+  },
+  {
+    documento: 'Documento 1',
+    status: 'En revisión',
+    comentarios: 'Este es un comentario muy largo...',
+    mostrarTodoComentario: false,
+    estatus: 'En revisión',
+    title: 'Contrato.pdf',
+  },
+  {
+    documento: 'Documento 1',
+    status: 'En revisión',
+    comentarios: 'Este es un comentario muy largo...',
+    mostrarTodoComentario: false,
+    estatus: 'En revisión',
+    title: 'Contrato.pdf',
+  },
+]
 </script>

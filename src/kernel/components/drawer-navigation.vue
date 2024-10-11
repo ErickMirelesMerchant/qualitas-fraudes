@@ -12,7 +12,7 @@
           :prepend-icon="item.icon"
           :title="item.title"
           :value="item.title"
-          @click="() => console.log('home')"
+          @click="this.$router.push({ path: item.route })"
         ></v-list-item>
       </v-list>
       <template v-slot:append>
@@ -55,7 +55,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, watch, defineProps } from "vue";
+import { defineProps, onMounted, ref, watch } from "vue";
 import { useDisplay } from "vuetify";
 
 const drawer = ref(true);
@@ -77,11 +77,11 @@ watch(mdAndUp, (isDesktop) => {
 });
 
 const items = [
-  { title: "Dashboard", icon: "mdi-view-dashboard-outline" },
-  { title: "Siniestros", icon: "mdi-car-outline" },
-  { title: "Analistas", icon: "mdi-account-multiple-outline" },
-  { title: "Proveedores", icon: "mdi-handshake-outline" },
-  { title: "Notificaciones", icon: "mdi-checkbox-blank-badge-outline" },
+  { title: "Dashboard", icon: "mdi-view-dashboard-outline", route: '/admin/dashboard' },
+  { title: "Siniestros", icon: "mdi-car-outline", route: '/siniestros/siniestros' },
+  { title: "Analistas", icon: "mdi-account-multiple-outline", route: '/analistas/analistas' },
+  { title: "Proveedores", icon: "mdi-handshake-outline", route: '/proveedores/proveedores' },
+  { title: "Notificaciones", icon: "mdi-checkbox-blank-badge-outline", route: '/notificaciones/notificaciones' },
 ];
 </script>
 

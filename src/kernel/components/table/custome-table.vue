@@ -1,5 +1,5 @@
 <template>
-  <v-card>
+  <v-card rounded="">
     <v-card-text>
       <v-row>
         <v-col cols="auto">
