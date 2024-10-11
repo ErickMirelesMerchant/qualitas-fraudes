@@ -1,72 +1,124 @@
 <template>
-    <div class="login-container">
-      <div class="login-titles">
-        <div class="login-logo">
-          <img src="assets/logos/logomark.png" alt="Logo" />
-        </div>
-        <div class="login-title-text">
-          <h2>Inicia sesión</h2>
-          <p>¡Bienvenido de vuelta! Por favor ingresa tus datos</p>
-        </div>
+  <div class="body-base">
+    <div class="login-nav">
+      <img class="ml-4" src="assets/logos/logo_qualitas.png" alt="Logo" >
+    </div>
+
+    <v-card class="login-container pa-8">
+    <!-- Sección de título e imagen -->
+    <div class="login-titles">
+      <div class="login-logo">
+        <v-img 
+          src="/assets/logos/logomark.png" 
+          alt="Logo" 
+          ></v-img>
       </div>
-      <div class="login-box">
-        <form @submit.prevent="openDialog">
-          <div class="input-group">
-            <label for="email">Correo</label>
-            <input type="email" id="email" v-model="email" placeholder="Ingresa tu correo" required />
-          </div>
-          <div class="input-group">
-            <label for="password-login">Contraseña</label>
-            <div class="password-container">
-              <input :type="showPassword ? 'text' : 'password'" id="password-login" v-model="password" placeholder="••••••••" required />
-              <button type="button" class="toggle-password" @click="showPassword = !showPassword">
-                <i :class="showPassword ? 'mdi mdi-eye-off-outline' : 'mdi mdi-eye-outline'"></i>
-              </button>
-            </div>
-          </div>
-          <div class="options">
-            <label>
-              <input type="checkbox" v-model="rememberMe" /> Recuérdame
-            </label>
-            <a @click.prevent="goToForgotPassword">Olvidé contraseña</a>
-          </div>
-          <button type="submit" class="login-button">Ingresar</button>
-        </form>
-      </div>
-       <!-- Diálogo de confirmación -->
-      <div v-if="dialog" class="dialog-overlay">
-        <div class="dialog-box">
-          <div class="dialog-image" >
-            <img src="assets/icons/Warning-icon.svg" alt="Dialog" />
-            <img src="assets/icons/dialog-background.svg" alt="Dialog-bg" class="dialog-bg-icon" />
-          </div>
-          <div class="dialog-body">
-            <h3>Es hora de actualizar tu contraseña</h3>
-            <div class="dialog-text">
-              <p>Por tu seguridad, te recordamos que debes actualizar tu contraseña cada 90 días. Tu contraseña actual está a punto de vencer.</p>
-              <p>Por favor, cambia tu contraseña antes de que expire para evitar interrupciones en tu acceso. Solo te tomará un momento.</p>
-            </div>
-          </div>
-          <div class="dialog-buttons">
-            <button class="secondary-btn" @click="dialog = false">Cerrar</button>
-            <button class="primary-btn" @click="confirmLogin">Actualizar</button>
-          </div>
-        </div>
+      <div class="login-title-text">
+        <h2>Inicia sesión</h2>
+        <p>¡Bienvenido de vuelta! Por favor ingresa tus datos</p>
       </div>
     </div>
+
+    <!-- Formulario de login -->
+    <v-form v-model="isFormValid" @submit.prevent="openDialog" class="login-box">
+      <div class="input-group">
+        <label for="email">Correo</label>
+        <v-text-field
+          v-model="email"
+          :rules="emailRules"
+          placeholder="Ingresa tu correo"
+          required
+          variant="outlined"
+          id="email"
+        ></v-text-field>
+      </div>
+      <div class="input-group">
+        <label for="password">Contraseña</label>
+        <v-text-field
+          v-model="password"
+          :type="showPassword ? 'text' : 'password'"
+          placeholder="••••••••"
+          required
+          variant="outlined"
+          :append-inner-icon="showPassword ? 'mdi-eye-off-outline' : 'mdi-eye-outline'"
+          @click:append-inner="showPassword = !showPassword"
+          id="password"
+          ></v-text-field>
+      </div>
+
+      <!-- Opciones adicionales: recordar y olvidé contraseña -->
+      <div class="options">
+        <label>
+          <v-checkbox
+            v-model="rememberMe"
+            label="Recuérdame"
+          ></v-checkbox>
+        </label>
+        <a @click.prevent="goToForgotPassword">Olvidé contraseña</a>
+      </div>
+
+      <!-- Botón de login -->
+      <v-btn
+        class="login-button"
+        type="submit"
+        :disabled="!isFormValid"
+        color="primary"
+      >
+        Ingresar
+      </v-btn>
+    </v-form>
+
+    <!-- Diálogo de confirmación -->
+    <v-dialog v-model="dialog" persistent max-width="600px" width="100%">
+      <v-card class="dialog-box">
+        <div class="dialog-image">
+          <v-img
+            src="/assets/icons/Warning-icon.svg"
+            alt="Warning icon"
+            height="48"
+            max-width="48"
+          ></v-img>
+          <v-img
+            src="/assets/icons/dialog-background.svg"
+            alt="Dialog-bg"
+            class="dialog-bg-icon"
+            max-height="auto"
+            ></v-img>
+        </div>
+        <div class="dialog-body">
+          <h3>Es hora de actualizar tu contraseña</h3>
+          <p>
+            Por tu seguridad, debes actualizar tu contraseña cada 90 días. Tu
+            contraseña está a punto de vencer.
+          </p>
+          <p>
+            Cambia tu contraseña para evitar interrupciones. Solo te tomará un
+            momento.
+          </p>
+        </div>
+        <div class="dialog-buttons">
+          <v-btn class="secondary-btn" text @click="dialog = false">Cerrar</v-btn>
+          <v-btn class="primary-btn" color="primary" @click="confirmLogin">Actualizar</v-btn>
+        </div>
+      </v-card>
+    </v-dialog>
+  </v-card>
+  </div>
 </template>
 
 <script>
 export default {
-  data() {
-    return {
+  data: () => ({
       email: '',
+      emailRules: [
+      value => !!value || 'Este campo no puede quedar vacío',
+      value => /.+@.+\..+/.test(value) || 'Debe ingresar un correo válido',
+      ],
       password: '',
       rememberMe: false,
       showPassword: false,
       dialog: false,
-    };
-  },
+    }),
   methods: {
     showSpinner() {
       this.$emit('is-loading')
@@ -88,9 +140,13 @@ export default {
     },
     goToForgotPassword() {
       this.$router.push('/recover-password');
-    }
+    },
+    togglePassword() {
+      showPassword = !showPassword
+    },
   }
 };
+
 </script>
 
 <style scoped>
@@ -131,11 +187,11 @@ export default {
   background-color: #ffffff;
   text-align: center;
   flex: 0 1 auto;
-  gap: 24px;
+  gap: 12px;
   box-shadow: 0px 1px 3px 0px #1018280F, 0px 1px 3px 0px #1018281A;
 }
 
-.login-logo img {
+.login-logo .v-img {
   width: 50px;
 }
 
@@ -189,7 +245,7 @@ form {
   font-family: 'Inter Regular', sans-serif;
   width: -webkit-fill-available !important;
   border: 1px solid #D0D5DD;
-  border-radius: 8px;
+  border-radius: 8px !important;
   padding: 10px 14px;
   gap: 8px;
   background-color: #FFFFFF;
@@ -230,6 +286,7 @@ form {
   justify-content: space-between;
   align-items: center;
   gap: 0.3rem;
+  margin-bottom: 1rem;
 }
 
 .options label {
@@ -274,12 +331,12 @@ form {
   text-align: center;
 }
 
-.login-button:hover {
+.login-button:hover, .v-btn:hover {
   background-color: #017182;
 }
 
 
-input[type="checkbox"] {
+input[type="checkbox"], .v-checkbox .v-selection-control__input {
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
@@ -291,12 +348,12 @@ input[type="checkbox"] {
   border-radius: 0.250rem;
 }
 
-input[type="checkbox"]:checked {
-  background: url("../assets/icons/Checked.svg") center center no-repeat;
+input[type="checkbox"]:checked, .v-selection-control--dirty .v-selection-control__input > .v-icon, .v-checkbox:checked {
+  background: url("~/assets/icons/Checked.svg") center center no-repeat;
   background-size: auto;
   border-color: #0096ae !important;
+  color: #0096AE !important;
 }
-
 
 .dialog-overlay {
   position: fixed;
@@ -314,10 +371,9 @@ input[type="checkbox"]:checked {
 .dialog-box {
   background-color: white;
   padding: 1.5rem;
-  border-radius: 10px;
+  border-radius: 10px !important;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   text-align: center;
-  max-width: 34.5rem;
   width: 100%;
 }
 
@@ -326,7 +382,7 @@ input[type="checkbox"]:checked {
   position: relative;
 }
 
-.dialog-image img:first-child {
+.dialog-image img:first-child, .dialog-image .v-img:first-child {
   position: relative;
   left: -4px;
   top: -4px;
@@ -335,6 +391,7 @@ input[type="checkbox"]:checked {
 
 .dialog-bg-icon {
   width: 12rem;
+  max-height: fit-content;
   position: absolute;
   top: -22px;
   left: -22px;
@@ -418,20 +475,33 @@ input[type="checkbox"]:checked {
   background-color: #017182;
 }
 
-.secondary-btn {
-  background-color: #FFFFFF;
+.secondary-btn, .v-btn.secondary-btn {
+  background-color: #FFFFFF !important;
   color: #344054;
   border: 1px solid #D0D5DD;
   box-shadow: 0px 1px 2px 0px #1018280D;
 }
 
 .dialog-buttons .secondary-btn:hover {
-  background-color: #D0D5DD;
+  background-color: #D0D5DD !important;
 }
 
-
+.login-nav {
+  background-color: #F9FAFB;
+  padding: 0.5rem 0 0 2rem;
+}
+.body-base {
+  background: url("~/assets/images/background-pattern.png") no-repeat center center;
+  background-color: #F9FAFB;
+  width: 100vw;
+  height: 110vh;
+  position: absolute;
+}
 
 @media screen and (max-width: 586px) {
+  .login-nav {
+    padding: 0.5rem 0 0.5rem;
+  }
   .login-box {
     width: 100%;
   }

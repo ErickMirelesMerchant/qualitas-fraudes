@@ -7,7 +7,6 @@ export default defineNuxtConfig({
   ssr: true,
   app: {
     baseURL: '/qualitas-fraudes/',
-    buildAssetsDir: 'assets',
     head: {
       title: "Qualitas Fraudes",
       meta: [
@@ -25,6 +24,7 @@ export default defineNuxtConfig({
     transpile: ["vuetify"], 
   },
   css: [
+    '/styles/index.css',
     'vuetify/lib/styles/main.sass',
     '@mdi/font/css/materialdesignicons.min.css',
   ],

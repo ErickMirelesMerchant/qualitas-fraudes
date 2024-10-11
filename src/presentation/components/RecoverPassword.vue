@@ -1,46 +1,62 @@
 <template>
-    <div class="recover-container">
+  <div class="body-base">
+    <div class="recover-nav">
+      <img class="ml-4" src="assets/logos/logo_qualitas.png" alt="Logo" />
+    </div>
+
+    <v-card class="recover-container pa-8">
+      <!-- Sección de título e imagen -->
       <div class="recover-titles">
         <div class="recover-logo">
-          <img src="assets/logos/logomark.png" alt="Logo" />
+          <v-img src="/assets/logos/logomark.png" alt="Logo"></v-img>
         </div>
         <div class="recover-title-text">
           <h2>Recuperar Contraseña</h2>
           <p>¿Olvidaste tu contraseña? Escribe tu correo y te enviaremos un link para recuperarla</p>
         </div>
       </div>
-      <div class="recover-box">
-        <form @submit.prevent="handleForgotPassword">
-          <div class="input-group">
-            <label for="email">Correo</label>
-            <input type="email" id="email" v-model="forgotEmail" placeholder="correo@correo.com" required />
-          </div>
-          <button type="submit" class="recover-button" @click.prevent="$emit('forgot-password')">Enviar</button>
-          <div class="options">
-            <a @click.prevent="goBackToLogin"><img src="assets/icons/go-back-login.svg" alt="Login"> Iniciar Sesión</a>
-          </div>
-        </form>
-      </div>
-    </div>
+
+      <!-- Formulario de recover -->
+      <v-form v-model="isFormValid" @submit.prevent="openDialog" class="recover-box">
+        <div class="input-group">
+          <label for="email">Correo</label>
+          <v-text-field v-model="forgotEmail" :rules="forgotEmailRules" placeholder="Ingresa tu correo" required
+            variant="outlined" id="email"></v-text-field>
+        </div>
+
+        <!-- Botón de recover -->
+        <v-btn class="recover-button" type="submit" :disabled="!isFormValid" color="primary">
+          Enviar
+        </v-btn>
+
+        <div class="options">
+          <a @click.prevent="goBackToLogin"><v-img src="/assets/icons/go-back-login.svg" alt="recover"></v-img> Iniciar
+            Sesión</a>
+        </div>
+      </v-form>
+    </v-card>
+  </div>
 </template>
 
 <script>
-  export default {
-    data() {
-      return {
-        forgotEmail: ''
-      };
+export default {
+  data: () => ({
+    forgotEmail: '',
+    forgotEmailRules: [
+      value => !!value || 'Este campo no puede quedar vacío',
+      value => /.+@.+\..+/.test(value) || 'Debe ingresar un correo válido',
+    ],
+  }),
+  methods: {
+    handleForgotPassword() {
+      $emit('forgot-password')
     },
-    methods: {
-      handleForgotPassword() {
-        $emit('forgot-password')
-      },
 
-      goBackToLogin() {
-        this.$router.push('/');
-      },
-    }
-  };
+    goBackTorecover() {
+      this.$router.push('/');
+    },
+  }
+};
 </script>
 
 <style scoped>
@@ -54,7 +70,7 @@
 }
 
 .body-base {
-  background: url("../assets/images/background-pattern.png") no-repeat center center;
+  background: url("~/assets/images/background-pattern.png") no-repeat center center;
   background-color: #F9FAFB;
 }
 
@@ -152,7 +168,9 @@ form {
   color: #667085;
 }
 
-.input-group input:focus, .input-group input:focus-within, .input-group input:focus-visible {
+.input-group input:focus,
+.input-group input:focus-within,
+.input-group input:focus-visible {
   border: 0.0625rem solid #99cad7;
   box-shadow: 0.1875rem 0.1875rem 0 #c2dfe7,
     -0.1875rem -0.1875rem 0 #c2dfe7, 0.1875rem -0.1875rem 0 #c2dfe7,
@@ -208,7 +226,9 @@ form {
 .options a img {
   margin-right: 0.25rem;
 }
-.recover-button {
+
+.recover-button,
+.v-btn {
   font-family: 'Inter SemiBold', sans-serif;
   width: 100%;
   height: 44px;
@@ -222,24 +242,45 @@ form {
   font-weight: 600;
   line-height: 24px;
   text-align: center;
+  opacity: 1;
 }
 
-.recover-button:hover {
+.recover-button:hover,
+.v-btn:hover {
   background-color: #017182;
+  opacity: 1;
+}
+
+
+.recover-nav {
+  background-color: #F9FAFB;
+  padding: 0.5rem 0 0 2rem;
+}
+
+.body-base {
+  background: url("~/assets/images/background-pattern.png") no-repeat center center;
+  background-color: #F9FAFB;
+  width: 100vw;
+  height: 110vh;
+  position: absolute;
 }
 
 @media screen and (max-width: 586px) {
+  .recover-nav {
+    padding: 0.5rem 0 0.5rem;
+  }
+
   .recover-box {
     width: calc(100% - 2rem);
   }
+
   .recover-container {
     margin: 0 1.5rem;
     padding-top: 5rem;
   }
+
   .recover-titles {
     width: 100%;
   }
 }
 </style>
-
-
