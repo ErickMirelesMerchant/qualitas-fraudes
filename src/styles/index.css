@@ -91,3 +91,7 @@
   top: -4px;
   height: 48px;
 }
+
+.v-icon--size-default {
+  font-size: calc(var(--v-icon-size-multiplier)* 1.2em);
+}
