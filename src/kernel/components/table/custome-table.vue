@@ -6,7 +6,9 @@
           <p class="text-h5">Analistas</p>
         </v-col>
         <v-col cols="auto">
-          <v-chip color="#99CAD7" variant="flat" style="color: #006e80;"> 11 Analistas </v-chip>
+          <v-chip color="#99CAD7" variant="flat" style="color: #006e80">
+            {{ items.length }} {{ type }}
+          </v-chip>
         </v-col>
       </v-row>
       <v-row>
@@ -14,14 +16,33 @@
           <v-table>
             <thead>
               <tr>
-                <th class="text-left">Name</th>
-                <th class="text-left">icon</th>
+                <th v-for="head in heads" :key="head.title">
+                  {{ head.title }}
+                </th>
               </tr>
             </thead>
             <tbody>
               <tr v-for="item in items" :key="item.title">
-                <td>{{ item.title }}</td>
-                <td>{{ item.icon }}</td>
+                <td>{{ item.score }}</td>
+                <td>{{ item.siniestro }}</td>
+                <td>{{ item.reporte }}</td>
+                <td>{{ item.analista }}</td>
+                <td>{{ item.reglas }}</td>
+                <td>{{ item.idProveedor }}</td>
+                <td>{{ item.fechaAsignacionAnalista }}</td>
+                <td>{{ item.fechaAsignacionProveedor }}</td>
+                <td>{{ item.oficinaEmision }}</td>
+                <td>{{ item.gerenteCuenta }}</td>
+                <td>{{ item.etiquetaSSE }}</td>
+                <td>{{ item.estatusPlataforma }}</td>
+                <td>{{ item.marca }}</td>
+                <td>{{ item.fechaReporte }}</td>
+                <td>{{ item.fechaOcurrido }}</td>
+                <td>{{ item.claveAgente }}</td>
+                <td>{{ item.nombreAgente }}</td>
+                <td>{{ item.tiempoRevision }}</td>
+                <td>{{ item.tiempoAsignacion }}</td>
+                <td>{{ item.causa }}</td>
               </tr>
             </tbody>
           </v-table>
@@ -34,20 +55,18 @@
 <script setup>
 import { defineProps } from "vue";
 
-//const drawer = ref(true);
-
 const props = defineProps({
-  /* title: {
+  items: {
+    type: Array,
+    required: true,
+  },
+  heads: {
+    type: Array,
+    required: true,
+  },
+  type: {
     type: String,
     required: true,
-  },*/
+  },
 });
-
-const items = [
-  { title: "Dashboard", icon: "mdi-view-dashboard-outline" },
-  { title: "Siniestros", icon: "mdi-car-outline" },
-  { title: "Analistas", icon: "mdi-account-multiple-outline" },
-  { title: "Proveedores", icon: "mdi-handshake-outline" },
-  { title: "Notificaciones", icon: "mdi-checkbox-blank-badge-outline" },
-];
 </script>

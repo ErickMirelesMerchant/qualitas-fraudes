@@ -13,7 +13,7 @@
       </v-row>
     </v-card-title>
     <v-card-text>
-      <p class="text-h3">50</p>
+      <p class="text-h3">{{ quantity }}</p>
     </v-card-text>
   </v-card>
 </template>
@@ -30,6 +30,11 @@ const props = defineProps({
   icon: {
     type: String,
     required: true,
+  },
+  quantity: {
+    type: Number,
+    required: false,
+    default: 50,
   },
 });
 </script>

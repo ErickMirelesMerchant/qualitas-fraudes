@@ -1,1 +1,1 @@
-export { default } from "file:///C:/qualitas-fraudes/node_modules/@nuxt/vite-builder/dist/runtime/client.manifest.mjs"
+export { default } from "file:///Users/erickmireles/Desktop/repositorio/RocketCode/qualitas/fraudes/qualitas-fraudes/node_modules/@nuxt/vite-builder/dist/runtime/client.manifest.mjs"

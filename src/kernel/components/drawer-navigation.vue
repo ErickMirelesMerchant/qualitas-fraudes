@@ -12,7 +12,8 @@
           :prepend-icon="item.icon"
           :title="item.title"
           :value="item.title"
-          @click="() => console.log('home')"
+          :class="{ 'active-menu-item': isActiveRoute(item) }"
+          @click="navigateTo(item)"
         ></v-list-item>
       </v-list>
       <template v-slot:append>
@@ -24,7 +25,7 @@
               <span class="custom-email">bianca@qualitas.com</span>
             </v-col>
             <v-col :cols="!rail ? '4 text-end' : '12 text-end'">
-              <v-btn icon :elevation="0">
+              <v-btn icon :elevation="0" variant="plain">
                 <v-icon size="x-small" color="#465467">mdi-logout</v-icon>
               </v-btn>
             </v-col>
@@ -42,7 +43,9 @@
       <v-toolbar-title class="custom-title">{{ title }}</v-toolbar-title>
       <v-spacer></v-spacer>
       <v-btn icon>
-        <v-icon size="small" color="grey-darken-1" class="icon-wrapper">mdi-bell-outline</v-icon>
+        <v-icon size="small" color="grey-darken-1" class="icon-wrapper"
+          >mdi-bell-outline</v-icon
+        >
       </v-btn>
     </v-app-bar>
 
@@ -56,11 +59,14 @@
 
 <script setup>
 import { ref, onMounted, watch, defineProps } from "vue";
+import { useRouter, useRoute } from "vue-router";
 import { useDisplay } from "vuetify";
 
 const drawer = ref(true);
 const { mdAndUp } = useDisplay();
 const rail = ref(false);
+const router = useRouter(); // Router for navigation
+const route = useRoute(); // Route for detecting current route
 
 const props = defineProps({
   title: {
@@ -68,6 +74,7 @@ const props = defineProps({
     required: true,
   },
 });
+
 onMounted(() => {
   drawer.value = mdAndUp.value;
 });
@@ -76,13 +83,39 @@ watch(mdAndUp, (isDesktop) => {
   drawer = isDesktop;
 });
 
+// Definir las rutas y títulos del menú
 const items = [
-  { title: "Dashboard", icon: "mdi-view-dashboard-outline" },
-  { title: "Siniestros", icon: "mdi-car-outline" },
-  { title: "Analistas", icon: "mdi-account-multiple-outline" },
-  { title: "Proveedores", icon: "mdi-handshake-outline" },
-  { title: "Notificaciones", icon: "mdi-checkbox-blank-badge-outline" },
+  {
+    title: "Dashboard",
+    icon: "mdi-view-dashboard-outline",
+    route: "/admin/dashboard",
+  },
+  { title: "Siniestros", icon: "mdi-car-outline", route: "/admin/siniestros" },
+  {
+    title: "Analistas",
+    icon: "mdi-account-multiple-outline",
+    route: "/admin/analistas",
+  },
+  {
+    title: "Proveedores",
+    icon: "mdi-handshake-outline",
+    route: "/admin/proveedores",
+  },
+  {
+    title: "Notificaciones",
+    icon: "mdi-checkbox-blank-badge-outline",
+    route: "/admin/notificaciones",
+  },
 ];
+
+const navigateTo = (item) => {
+  router.push(item.route);
+};
+
+
+const isActiveRoute = (item) => {
+  return route.path === item.route;
+};
 </script>
 
 <style scoped>
@@ -106,5 +139,10 @@ const items = [
   width: 40px;
   height: 40px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.active-menu-item {
+  background-color: #e0e0e0;
+  color: #1976d2;
 }
 </style>
