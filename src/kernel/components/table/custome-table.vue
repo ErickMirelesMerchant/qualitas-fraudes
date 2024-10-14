@@ -31,17 +31,16 @@
   </v-card>
 </template>
 
-<script setup>
-import { defineProps } from "vue";
+<script>
 
-//const drawer = ref(true);
+// const drawer = ref(true);
 
-const props = defineProps({
-  /* title: {
-    type: String,
-    required: true,
-  },*/
-});
+// const props = defineProps({
+//   /* title: {
+//     type: String,
+//     required: true,
+//   },*/
+// });
 
 const items = [
   { title: "Dashboard", icon: "mdi-view-dashboard-outline" },
