@@ -16,7 +16,8 @@
     "nuxt": "^3.13.0",
     "nuxt-app": "file:",
     "sass": "^1.79.4",
-    "vue": "latest"
+    "vue": "latest",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "@nuxt/types": "^2.18.1",

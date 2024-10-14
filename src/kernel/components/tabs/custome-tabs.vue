@@ -1,6 +1,11 @@
 <template>
-  <v-tabs v-model="tab" align-tabs="start" color="deep-purple-accent-4">
-    <v-tab v-for="(item, index) in tabsList" :key="index" :value="index + 1">
+  <v-tabs v-model="tab" align-tabs="start" color="#006e80">
+    <v-tab
+      class="text-subtitle-2"
+      v-for="(item, index) in tabsList"
+      :key="index"
+      :value="index + 1"
+    >
       {{ item.title }}
     </v-tab>
   </v-tabs>
