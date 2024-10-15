@@ -1,0 +1,97 @@
+
+.input-group .v-field {
+  font-family: 'Inter Regular', sans-serif;
+  width: -webkit-fill-available !important;
+  height: 44px;
+  border: 1px solid #D0D5DD;
+  border-radius: 8px !important;
+  padding: 10px 14px;
+  gap: 4px;
+  background-color: #FFFFFF;
+  box-shadow: 0px 1px 2px 0px #1018280D;
+  color: #D0D5DD;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  text-align: left;
+
+  input, .v-field__append-inner {
+    color: #667085;
+  }
+}
+
+.v-input__control .v-field--focused:not(.v-field--error) {
+  color: transparent;
+  border: 0.0625rem solid #99cad7;
+  border-radius: 8px !important;
+  box-shadow: 0.1875rem 0.1875rem 0 #c2dfe7,
+    -0.1875rem -0.1875rem 0 #c2dfe7, 0.1875rem -0.1875rem 0 #c2dfe7,
+    -0.1875rem 0.1875rem 0 #c2dfe7;
+  outline: none;
+}
+
+.input-group .v-field__input {
+  align-self: center;
+  padding: 0;
+  min-height: 0;
+}
+
+.v-selection-control .v-icon:before {
+  content:'';
+  outline: none;
+  cursor: pointer;
+  border: 1px solid #d0d5dd;
+  height: 18px;
+  width: 18px;
+  border-radius: 0.250rem;
+  color: #667085;
+  opacity: 1;
+}
+
+.mdi-checkbox-marked.v-icon:before {
+  color: #0096AE !important;
+  background: url("../assets/icons/Checked.svg") center center no-repeat;
+}
+
+.options .v-input__details {
+  display: none;
+}
+
+.v-selection-control__input:hover::before {
+  opacity: 0;
+}
+
+.options .v-checkbox .v-selection-control, .v-selection-control__wrapper, .v-selection-control__input {
+  width: auto;
+  height: auto;
+  min-width: 0;
+  min-height: 0;
+}
+
+.v-selection-control .v-label {
+  display: flex;
+  align-items: center;
+  font-family: 'Inter Medium', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+  text-align: left;
+  color: #344054;
+  opacity: 1;
+}
+
+.v-btn {
+  text-transform: none !important;
+  letter-spacing: 0.0125rem !important;
+}
+
+.dialog-image .v-img:first-child {
+  position: relative;
+  left: -4px;
+  top: -4px;
+  height: 48px;
+}
+
+.v-icon--size-default {
+  font-size: calc(var(--v-icon-size-multiplier)* 1.2em);
+}

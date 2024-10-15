@@ -48,7 +48,7 @@
   align-items: center;
   justify-content: center;
   background-color: white;
-  background-image: url("../assets/images/background-pattern.png");
+  background-image: url("~/assets/images/background-pattern.png");
   z-index: 9999;
 }
 

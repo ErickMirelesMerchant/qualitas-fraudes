@@ -1,5 +1,5 @@
 <template>
-  <v-card rounded="">
+  <v-card rounded="12">
     <v-card-text>
       <v-row>
         <v-col cols="auto">
@@ -127,5 +127,9 @@ function updateAllChecked() {
 
   .v-table__wrapper td {
     text-wrap: nowrap;
+  }
+
+  .v-card {
+    border-radius: 12px;
   }
 </style>

@@ -1,30 +1,26 @@
 <template>
   <DrawerNavigation title="Siniestros">
-    <div class="container-titles">
+    <v-row>
+      <v-col cols="8" class="container-titles">
         <h1>Siniestros</h1>
         <p class="my-3">Gestiona las acciones de cada siniestro</p>
-      </div>
-      <v-btn append-icon="mdi-launch">
-        Exportar tabla
-      </v-btn>
-    <v-text-field
-      v-model="searchQuery"
-      hide-details="true"
-      label="Buscar"
-    ></v-text-field>
+      </v-col>
+      <v-col cols="4" class="container-actions-buttons">
+        <v-btn append-icon="mdi-launch">
+          Exportar tabla
+        </v-btn>
+        <v-text-field prepend-inner-icon="mdi-magnify" v-model="searchQuery" variant="outlined" hide-details="true" placeholder="Buscar"></v-text-field>
+      </v-col>
+    </v-row>
 
     <v-row>
       <v-col cols="12">
-        <customTable :columns="columns" :data="filteredData" :has-checkbox="true" :first="first" 
-        :rows="rows" />
+        <customTable :columns="columns" :data="filteredData" :has-checkbox="true" :first="first" :rows="rows" />
       </v-col>
     </v-row>
     <v-row>
       <v-col cols="12">
-        <paginator  :totalRecords="filteredData.length" 
-        :rows="rows" 
-        :first="first" 
-        @pageChange="updatePage"  />
+        <paginator :totalRecords="filteredData.length" :rows="rows" :first="first" @pageChange="updatePage" />
       </v-col>
     </v-row>
   </DrawerNavigation>
@@ -308,20 +304,36 @@ const data = [
 const first = ref(0);
 const rows = ref(10);
 
-// Computada que filtra los datos en base a la búsqueda
 const filteredData = computed(() => {
   if (!searchQuery.value) {
-    return data; // Si no hay búsqueda, retornamos todos los datos
+    return data;
   }
-  return data.filter(item => 
+  return data.filter(item =>
     Object.values(item).some(
       value => String(value).toLowerCase().includes(searchQuery.value.toLowerCase())
     )
   );
 });
 
-// Actualiza la página cuando el componente de paginación emite el cambio
 const updatePage = (newFirst) => {
   first.value = newFirst;
 };
 </script>
+
+<style>
+.v-text-field input:focus, .v-text-field i {
+  color: #000000;
+}
+.v-text-field {
+  background-color: #FFFFFF;
+}
+.v-field {
+  border-radius: 12px;
+}
+.container-actions-buttons {
+  text-align: end;
+}
+.container-actions-buttons .v-btn {
+  margin-bottom: 1rem;
+}
+</style>

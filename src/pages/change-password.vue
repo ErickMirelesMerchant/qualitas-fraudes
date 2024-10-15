@@ -1,6 +1,5 @@
 <template>
   <div>
-    <LoginLayout />
     <ChangePassword v-if="!showChangedPassword" @changed-password="toggleChangedPassword"/>
     <LoginSuccessFullMessage
       v-else
@@ -13,12 +12,10 @@
 
 <script>
 import ChangePassword from '~/presentation/components/ChangePassword.vue';
-import LoginLayout from '~/presentation/components/LoginLayout.vue';
 import LoginSuccessFullMessage from '~/presentation/components/LoginSuccessFullMessage.vue';
 
 export default {
   components: {
-    LoginLayout,
     ChangePassword,
     LoginSuccessFullMessage,
   },

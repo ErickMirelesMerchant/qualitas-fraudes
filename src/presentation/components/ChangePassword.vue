@@ -1,47 +1,49 @@
 <template>
-  <div class="change-password-container">
-    <div class="change-password-titles">
-      <div class="change-password-logo">
-        <img src="assets/logos/logomark.png" alt="Logo" />
-      </div>
-      <div class="change-password-title-text">
-        <h2>Configura tu nueva contraseña</h2>
-        <p>Debe tener al menos 8 caracteres, una mayúscula y un símbolo especial</p>
-      </div>
+  <div class="body-base">
+    <div class="login-nav">
+      <img class="ml-4" src="assets/logos/logo_qualitas.png" alt="Logo" />
     </div>
-    <div class="change-password-box">
-      <form @submit.prevent="handleChangePassword">
+    <v-card class="change-password-container pa-8">
+      <div class="change-password-titles">
+        <div class="change-password-logo">
+          <v-img src="/assets/logos/logomark.png" alt="Logo"></v-img>
+        </div>
+        <div class="change-password-title-text">
+          <h2>Recuperar Contraseña</h2>
+          <p>
+            ¿Olvidaste tu contraseña? Escribe tu correo y te enviaremos un link
+            para recuperarla
+          </p>
+        </div>
+      </div>
+      <v-form v-model="isFormValid" @submit.prevent="handleChangePassword" class="change-password-box">
         <div class="input-group">
           <label for="password">Nueva contraseña</label>
-          <div class="password-container">
-            <input :type="showPassword ? 'text' : 'password'" id="password" v-model="password" placeholder="••••••••" required />
-            <button type="button" class="toggle-password" @click="showPassword = !showPassword">
-              <i :class="showPassword ? 'mdi mdi-eye-off-outline' : 'mdi mdi-eye-outline'"></i>
-            </button>
-          </div>
+          <v-text-field v-model="password" :type="showPassword ? 'text' : 'password'" placeholder="••••••••" required
+            variant="outlined" :append-inner-icon="showPassword ? 'mdi-eye-off-outline' : 'mdi-eye-outline'"
+            @click:append-inner="showPassword = !showPassword" id="password"></v-text-field>
         </div>
         <div class="input-group">
-          <label for="passwordConfirm">Confirmar contraseña</label>
-          <div class="password-container">
-            <input :type="showPasswordConfirm ? 'text' : 'password'" id="passwordConfirm" v-model="passwordConfirm" placeholder="••••••••" required />
-            <button type="button" class="toggle-password" @click="showPasswordConfirm = !showPasswordConfirm">
-              <i :class="showPasswordConfirm ? 'mdi mdi-eye-off-outline' : 'mdi mdi-eye-outline'"></i>
-            </button>
-          </div>
+          <label for="password">Confirmar contraseña</label>
+          <v-text-field v-model="passwordConfirm" :type="showPasswordConfirm ? 'text' : 'password'"
+            placeholder="••••••••" required variant="outlined"
+            :append-inner-icon="showPasswordConfirm ? 'mdi-eye-off-outline' : 'mdi-eye-outline'"
+            @click:append-inner="showPasswordConfirm = !showPasswordConfirm" id="password"></v-text-field>
         </div>
-        <button type="submit" class="change-password-button">Cambiar contraseña</button>
-      </form>
-    </div>
+        <v-btn class="change-password-button" type="submit">
+          Cambiar contraseña
+        </v-btn>
+      </v-form>
+    </v-card>
   </div>
 </template>
 
 <script>
-  export default {
+export default {
   data() {
     return {
       password: '',
       passwordConfirm: '',
-      rememberMe: false,
       showPassword: false,
       showPasswordConfirm: false,
     };
@@ -62,7 +64,7 @@
   align-items: center;
   height: 100vh;
   padding-top: 4rem;
-  background-color: transparent
+  background-color: transparent;
 }
 
 .change-password-titles {
@@ -97,7 +99,7 @@
   box-shadow: 0px 1px 3px 0px #1018280F, 0px 1px 3px 0px #1018281A;
 }
 
-.change-password-logo img {
+.change-password-logo .v-img {
   width: 50px;
 }
 
@@ -114,7 +116,7 @@ h2 {
 
 p {
   color: #6c757d;
-  margin-bottom: 15px 0 30px 0 ;
+  margin-bottom: 15px 0 30px 0;
   font-family: 'Inter', sans-serif;
 }
 
@@ -162,7 +164,9 @@ form {
   color: #667085;
 }
 
-.input-group input:focus, .input-group input:focus-within, .input-group input:focus-visible {
+.input-group input:focus,
+.input-group input:focus-within,
+.input-group input:focus-visible {
   border: 0.0625rem solid #99cad7;
   box-shadow: 0.1875rem 0.1875rem 0 #c2dfe7,
     -0.1875rem -0.1875rem 0 #c2dfe7, 0.1875rem -0.1875rem 0 #c2dfe7,
@@ -208,17 +212,36 @@ form {
   background-color: #017182;
 }
 
+
+.login-nav {
+  background-color: #F9FAFB;
+  padding: 0.5rem 0 0 2rem;
+}
+
+.body-base {
+  background: url("~/assets/images/background-pattern.png") no-repeat center center;
+  background-color: #F9FAFB;
+  width: 100vw;
+  height: 110vh;
+  position: absolute;
+}
+
 @media screen and (max-width: 586px) {
+  .login-nav {
+    padding: 0.5rem 0 0.5rem;
+  }
+
   .change-password-box {
     width: calc(100% - 2rem);
   }
+
   .change-password-container {
     margin: 0 1.5rem;
     padding-top: 5rem;
   }
+
   .change-password-titles {
     width: 100%;
   }
 }
-
 </style>

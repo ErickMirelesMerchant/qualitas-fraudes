@@ -73,6 +73,7 @@ const props = defineProps({
     type: String,
     required: true,
   },
+  // value: title.toLowerCase(),
 });
 
 onMounted(() => {
@@ -83,7 +84,6 @@ watch(mdAndUp, (isDesktop) => {
   drawer = isDesktop;
 });
 
-// Definir las rutas y títulos del menú
 const items = [
   {
     title: "Dashboard",

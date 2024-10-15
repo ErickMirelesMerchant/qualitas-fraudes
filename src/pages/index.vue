@@ -1,22 +1,19 @@
 <template>
   <div>
-    <LoginLayout />
     <Loader v-if="loading"/>
     <LoginForm @is-loading="toggleIsLoading"/>
   </div>
 </template>
 
 <script>
-import Loader from '~/presentation/components/Loader.vue';
+import Loader from '~/kernel/components/loader/Loader.vue';
 import LoginForm from '~/presentation/components/LoginForm.vue';
-import LoginLayout from '~/presentation/components/LoginLayout.vue';
 
 
 export default {
   components: {
     LoginForm,
     Loader,
-    LoginLayout
   },
   data() {
     return {
