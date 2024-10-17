@@ -23,11 +23,22 @@
                       <v-checkbox v-model="allChecked" @change="toggleAll" hide-details="true" />
                     </span>
                   </th>
-                  <th v-for="col in columns" :key="col.title" id="header-{{ col.key }}">{{ col.title }}</th>
+                  <th
+                    v-for="col in columns"
+                    :key="col.key"
+                    id="header-{{ col.key }}"
+                    @click="col.sortable && sortTable(col.key)"
+                    :style="{ cursor: col.sortable ? 'pointer' : 'default' }"
+                  >
+                    {{ col.title }}
+                    <span v-if="col.sortable">
+                      <v-icon small>mdi-filter-variant</v-icon>
+                    </span>
+                  </th>
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="(item, index) in paginatedData" :key="index">
+                <tr v-for="(item, index) in sortedData" :key="index">
                   <td v-if="hasCheckbox" id="checkbox-{{ index }}">
                     <v-checkbox v-model="item.checked" @change="updateAllChecked" hide-details="true" />
                   </td>
@@ -76,6 +87,10 @@ const props = defineProps({
 const tableData = ref([]);
 const allChecked = ref(false);
 
+// Estado para el orden
+const sortedBy = ref(null);
+const sortDirection = ref('asc');
+
 watch(
   () => props.data,
   (newData) => {
@@ -85,15 +100,6 @@ watch(
   { immediate: true }
 );
 
-// const paginatedData = computed(() => {
-//   const start = (currentPage.value - 1) * itemsPerPage;
-//   return tableData.value.slice(start, start + itemsPerPage);
-// });
-
-// const pageCount = computed(() => {
-//   return Math.ceil(tableData.value.length / itemsPerPage);
-// });
-
 const { first, rows } = toRefs(props);
 
 const paginatedData = computed(() => {
@@ -101,6 +107,32 @@ const paginatedData = computed(() => {
   const end = start + rows.value;
   return tableData.value.slice(start, end);
 });
+
+
+// Función para manejar el orden
+const sortedData = computed(() => {
+  if (!sortedBy.value) return paginatedData.value;
+  
+  const sortedArray = [...paginatedData.value].sort((a, b) => {
+    const sortFactor = sortDirection.value === 'asc' ? 1 : -1;
+    if (a[sortedBy.value] > b[sortedBy.value]) return sortFactor;
+    if (a[sortedBy.value] < b[sortedBy.value]) return -sortFactor;
+    return 0;
+  });
+  
+  return sortedArray;
+});
+
+function sortTable(key) {
+  if (sortedBy.value === key) {
+    // Cambiar dirección si ya está ordenado por esta columna
+    sortDirection.value = sortDirection.value === 'asc' ? 'desc' : 'asc';
+  } else {
+    // Establecer nueva columna de orden
+    sortedBy.value = key;
+    sortDirection.value = 'asc';
+  }
+}
 
 function toggleAll() {
   tableData.value.forEach(item => {
