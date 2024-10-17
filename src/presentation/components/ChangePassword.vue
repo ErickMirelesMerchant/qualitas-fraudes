@@ -77,7 +77,7 @@ export default {
 }
 
 .change-password-title-text {
-  font-family: 'Inter Regular';
+  font-family: 'Inter Regular', sans-serif;
   font-size: 16px;
   font-weight: 400;
   line-height: 24px;
@@ -104,7 +104,6 @@ export default {
 }
 
 h2 {
-  color: #4a4a4a;
   font-family: 'Montserrat', sans-serif;
   font-size: 24px;
   font-weight: 600;
@@ -192,19 +191,18 @@ form {
   cursor: pointer;
 }
 
-.change-password-button {
+.change-password-button, .v-btn {
+  color: #4a4a4a;
   font-family: 'Inter SemiBold', sans-serif;
   width: 100%;
   height: 44px;
   padding: 10px;
-  background-color: #0096AE;
-  color: white;
+  background-color: #0096AE !important;
   border: none;
-  border-radius: 8px;
+  border-radius: 8px !important;
   cursor: pointer;
   font-size: 16px;
   font-weight: 600;
-  line-height: 24px;
   text-align: center;
 }
 

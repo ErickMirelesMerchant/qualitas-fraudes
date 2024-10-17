@@ -1,23 +1,26 @@
 <template>
   <v-card rounded="12">
-    <v-card-text>
-      <v-row>
-        <v-col cols="auto">
+    <v-card-text style="padding: auto 0;">
+      <v-row class="table-header">
+        <v-col cols="10" class="table-header-actions">
           <p class="text-h5">Siniestros</p>
+          <v-chip color="#C2DFE7" variant="flat" style="color: #006e80;">{{ tableData.length }} Siniestros</v-chip>
         </v-col>
-        <v-col cols="auto">
-          <v-chip color="#99CAD7" variant="flat" style="color: #006e80;">{{ tableData.length }} Siniestros</v-chip>
+        <v-col cols="2">
+          <v-btn variant="outline" style="color: #344054 !important;" append-icon="mdi-cog-outline" class="config-btn">
+          Configurar
+        </v-btn>
         </v-col>
       </v-row>
-      <v-row>
+      <v-row style="margin-top: 0;">
         <v-col cols="12">
-          <v-card-text>
+          <v-card-text class="card-table">
             <v-table>
               <thead>
                 <tr>
                   <th v-if="hasCheckbox" id="checkbox-header">
                     <span style="width: fit-content; display: flex;">
-                      <v-checkbox v-model="allChecked" @change="toggleAll" />
+                      <v-checkbox v-model="allChecked" @change="toggleAll" hide-details="true" />
                     </span>
                   </th>
                   <th v-for="col in columns" :key="col.title" id="header-{{ col.key }}">{{ col.title }}</th>
@@ -26,11 +29,14 @@
               <tbody>
                 <tr v-for="(item, index) in paginatedData" :key="index">
                   <td v-if="hasCheckbox" id="checkbox-{{ index }}">
-                    <v-checkbox v-model="item.checked" @change="updateAllChecked" />
+                    <v-checkbox v-model="item.checked" @change="updateAllChecked" hide-details="true" />
                   </td>
                   <td v-for="col in columns" :key="col.key">
-                    <span v-if="col.title === 'Estatus plataforma'">
-                      <v-chip :color="item.estadoColor" label>{{ item.estatusPlataforma }}</v-chip>
+                    <span v-if="col.title === 'Score'">
+                      <v-chip class="score-chip" prepend-icon="mdi-arrow-down">{{ item.score }}</v-chip>
+                    </span>
+                    <span v-else-if="col.title === 'Estatus plataforma'">
+                      <v-chip class="status-chip">{{ item.estatusPlataforma }}</v-chip>
                     </span>
                     <span v-else>{{ item[col.key] }}</span>
                   </td>
@@ -88,7 +94,7 @@ watch(
 //   return Math.ceil(tableData.value.length / itemsPerPage);
 // });
 
-const { data, first, rows } = toRefs(props);
+const { first, rows } = toRefs(props);
 
 const paginatedData = computed(() => {
   const start = first.value;
@@ -125,11 +131,96 @@ function updateAllChecked() {
     background-color: #f0f0f0;
   }
 
-  .v-table__wrapper td {
+  .v-table td, .v-table th {
     text-wrap: nowrap;
   }
 
   .v-card {
     border-radius: 12px;
+  }
+  .v-chip {
+    width: 90px;
+    height: 22px;
+    padding: 2px 8px;
+    border-radius: 99999px !important;
+    border: 1px solid #99CAD7;
+    font-family: 'Inter-Medium', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 18px;
+  }
+
+  .v-chip.score-chip {
+    border: 1px solid  #B9E6FE;
+    color: #026AA2;
+    width: fit-content;
+  }
+
+  .v-chip.status-chip {
+    border: 1px solid  #99CAD7;
+    color: #006E80;
+    background-color: #C2DFE7;
+    width: fit-content;
+  }
+
+  .text-h5 {
+    font-family: 'Inter-SemiBold', sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 28px;
+    text-align: left;
+    color: #101828;
+  }
+
+  .v-row.table-header{
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .v-input {
+    display: flex;
+  }
+  .v-table th:first-child, .v-table td:first-child {
+    padding: 0;
+  }
+
+  .v-table th {
+    font-family: 'Inter-Medium', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 18px;
+    text-align: left;
+    color:#475467;
+  }
+
+  .v-table td {
+    font-family: 'Inter-Regular', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 20px;
+    text-align: left;
+    color: #475467;
+  }
+  .v-btn.config-btn {
+    width: 129px;
+    height: 40px;
+    padding: 10px 14px;
+    border-radius: 8px !important;
+    border: 1px solid #D0D5DD;
+    font-family: 'Inter-SemiBold', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 20px;
+    text-align: left;
+    margin-left: calc(100% - 129px);
+  }
+  .v-col.table-header-actions{
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .v-card-text.card-table {
+    padding: 0 !important
   }
 </style>

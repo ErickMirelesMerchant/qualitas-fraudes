@@ -48,12 +48,11 @@
 
       <!-- Opciones adicionales: recordar y olvidé contraseña -->
       <div class="options">
-        <label>
-          <v-checkbox
-            v-model="rememberMe"
-            label="Recuérdame"
-          ></v-checkbox>
-        </label>
+        <v-checkbox
+          v-model="rememberMe"
+          label="Recuérdame"
+          id="rememberMe"
+        ></v-checkbox>
         <a @click.prevent="goToForgotPassword">Olvidé contraseña</a>
       </div>
 
@@ -142,7 +141,7 @@ export default {
       this.$router.push('/recover-password');
     },
     togglePassword() {
-      showPassword = !showPassword
+      this.showPassword = !this.showPassword
     },
   }
 };
@@ -160,6 +159,9 @@ export default {
   padding-top: 4rem;
   background-color: transparent
 }
+.v-card--variant-elevated {
+  box-shadow: none;
+}
 
 .login-titles {
   display: flex;
@@ -169,7 +171,7 @@ export default {
 }
 
 .login-title-text {
-  font-family: 'Inter Regular';
+  font-family: 'Inter Regular', sans-serif;
   font-size: 16px;
   font-weight: 400;
   line-height: 24px;
@@ -196,7 +198,6 @@ export default {
 }
 
 h2 {
-  color: #4a4a4a;
   font-family: 'Montserrat', sans-serif;
   font-size: 24px;
   font-weight: 600;
@@ -327,7 +328,6 @@ form {
   cursor: pointer;
   font-size: 16px;
   font-weight: 600;
-  /* line-height: 24px; */
   text-align: center;
 }
 

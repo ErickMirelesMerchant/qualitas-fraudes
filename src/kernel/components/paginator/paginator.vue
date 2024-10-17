@@ -3,6 +3,7 @@
     <!-- Botón de página anterior -->
     <v-btn
       class="paginator-button prev"
+      variant="outlined"
       :disabled="first === 0"
       @click="prevPage"
       icon
@@ -16,6 +17,7 @@
     <!-- Botón de página siguiente -->
     <v-btn
       class="paginator-button next"
+      variant="outlined"
       :disabled="first + rows >= totalRecords"
       @click="nextPage"
       icon
@@ -57,13 +59,37 @@ const nextPage = () => {
 </script>
 
 <style scoped>
+
 .custom-paginator {
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  justify-content: center;
-}
-
-.paginator-button {
+  width: 100%;
+  color: #344054;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: 400;
+  padding: 0.75rem 1rem;
   margin: 0 5px;
 }
+
+.v-btn.paginator-button {
+  display: flex;
+  background: white !important;
+  cursor: pointer;
+  padding: 0.5rem;
+  width: fit-content;
+  height: fit-content;
+  border: 0.0625rem solid #d0d5dd;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px !important;
+  color: #344054 !important;
+}
+
+.v-btn.paginator-button[disabled] {
+  border-color: #d0d5dd;
+  cursor: not-allowed;
+}
+
 </style>

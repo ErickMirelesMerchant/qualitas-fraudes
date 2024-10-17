@@ -79,7 +79,7 @@ export default {
 }
 
 .recover-title-text {
-  font-family: "Inter Regular";
+  font-family: "Inter Regular", sans-serif;
   font-size: 16px;
   font-weight: 400;
   line-height: 24px;
@@ -106,7 +106,6 @@ export default {
 }
 
 h2 {
-  color: #4a4a4a;
   font-family: "Montserrat", sans-serif;
   font-size: 24px;
   font-weight: 600;
@@ -175,7 +174,9 @@ form {
 .password-container {
   position: relative;
 }
-
+.v-card--variant-elevated {
+  box-shadow: none;
+}
 .toggle-password {
   position: absolute;
   right: 10px;
@@ -224,14 +225,14 @@ form {
 
 .recover-button,
 .v-btn {
-  font-family: "Inter SemiBold", sans-serif;
+  font-family: "Inter SemiBold", sans-serif !important;
   width: 100%;
   height: 44px;
   padding: 10px;
-  background-color: #0096ae;
+  background-color: #0096ae !important;
   color: white;
   border: none;
-  border-radius: 8px;
+  border-radius: 8px !important;
   cursor: pointer;
   font-size: 16px;
   font-weight: 600;

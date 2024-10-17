@@ -9,7 +9,7 @@
         <v-btn append-icon="mdi-launch">
           Exportar tabla
         </v-btn>
-        <v-text-field prepend-inner-icon="mdi-magnify" v-model="searchQuery" variant="outlined" hide-details="true" placeholder="Buscar"></v-text-field>
+        <v-text-field class="search-input-siniestros" prepend-inner-icon="mdi-magnify" v-model="searchQuery" variant="outlined" hide-details="true" placeholder="Buscar"></v-text-field>
       </v-col>
     </v-row>
 
@@ -320,20 +320,67 @@ const updatePage = (newFirst) => {
 };
 </script>
 
-<style>
+<style scoped>
+.container-titles {
+  h1 {
+    font-family: 'Montserrat SemiBold', sans-serif;
+    font-size: 30px;
+    font-weight: 600;
+    line-height: 38px;
+    text-align: left;
+    color: #101828;
+  }
+  p {
+    font-family: 'Inter-Regular', sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    text-align: left;
+    color: #475467;
+  }
+}
+
+
 .v-text-field input:focus, .v-text-field i {
   color: #000000;
 }
 .v-text-field {
   background-color: #FFFFFF;
 }
-.v-field {
-  border-radius: 12px;
+.v-input {
+  width: 400px !important;
+  height: 44px !important;
+  max-height: 44px !important;
 }
+
 .container-actions-buttons {
-  text-align: end;
+  display: flex;
+    justify-content: flex-end;
+    flex-direction: column;
+    align-items: flex-end;
 }
 .container-actions-buttons .v-btn {
-  margin-bottom: 1rem;
+  margin-bottom: 3.5rem;
+  width: 282px;
+  height: 40px;
+  padding: 10px 14px;
+  gap: 4px;
+  border-radius: 8px !important;
+  background:  #0096AE;
+  border: 1px solid #0096AE;
+  box-shadow: 0px 1px 2px 0px #1018280D;
+  font-family: 'Inter-SemiBold', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 20px;
+  text-align: left;
+  align-content: center;
 }
+
+.container-actions-buttons .v-icon {
+  height: 20px;
+  width: 20px;
+  min-width: 20px;
+}
+
 </style>
