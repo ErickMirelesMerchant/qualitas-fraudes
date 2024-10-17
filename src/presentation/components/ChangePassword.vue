@@ -98,7 +98,9 @@ export default {
   gap: 24px;
   box-shadow: 0px 1px 3px 0px #1018280F, 0px 1px 3px 0px #1018281A;
 }
-
+.v-card--variant-elevated {
+  box-shadow: none;
+}
 .change-password-logo .v-img {
   width: 50px;
 }
