@@ -48,7 +48,7 @@
       <v-col cols="12" md="4">
         <v-text-field
           density="comfortable"
-          v-model="search"
+          v-model="searchQuery"
           variant="solo"
           prepend-inner-icon="mdi-magnify"
           placeholder="Buscar"
@@ -66,145 +66,347 @@
 
     <v-row>
       <v-col cols="12">
-        <customeTable :items="filteredItems" :heads="heads" type="Proveedores" />
+        <customTable
+          :columns="columns"
+          :data="filteredData"
+          :has-checkbox="true"
+          :first="first"
+          :rows="rows"
+          title="Proveedores"
+        />
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col cols="12">
+        <paginator
+          :totalRecords="filteredData.length"
+          :rows="rows"
+          :first="first"
+          @pageChange="updatePage"
+        />
       </v-col>
     </v-row>
   </DrawerNavigation>
 </template>
 
 <script setup>
+import { ref } from 'vue';
 import DrawerNavigation from "~/kernel/components/drawer-navigation.vue";
 import customeCardDashboard from "~/kernel/components/cards/custome-card-dashboard.vue";
-import customeTable from "~/kernel/components/table/custome-table.vue";
 import customeTabs from "~/kernel/components/tabs/custome-tabs.vue";
-import { ref, computed } from "vue";
+import paginator from "~/kernel/components/paginator/paginator.vue";
+import customTable from "~/kernel/components/custom-table/custom-table.vue";
 import * as XLSX from "xlsx";
-
-const search = ref("");
+const searchQuery = ref("");
 
 const tabsData = [
   { title: "Activos" },
   { title: "Inactivos" },
   { title: "En baja" },
 ];
+const columns = [
+  { title: 'Score', key: 'score' },
+  { title: 'Siniestro', sortable: true, key: 'siniestro' },
+  { title: 'Siniestro Relacionado', sortable: true, key: 'siniestroRelacionado' },
+  { title: 'Reporte', key: 'reporte' },
+  { title: 'Analista', sortable: true, key: 'analista' },
+  { title: 'Reglas', key: 'reglas' },
+  { title: 'ID proveedor', sortable: true, key: 'IDproveedor' },
+  { title: 'Fecha asignación analista', sortable: true, key: 'fechaAsignacionAnalista' },
+  { title: 'Fecha asignación proveedor', sortable: true, key: 'fechaAsignacionProvedor' },
+  { title: 'Oficina de emisión', sortable: true, key: 'oficinaEmision' },
+  { title: 'Gerente de cuenta', sortable: true, key: 'gerenteCuenta' },
+  { title: 'Etiqueta SISE', sortable: true, key: 'etiquetaSISE' },
+  { title: 'Estatus plataforma', sortable: true, key: 'estatusPlataforma' },
+  { title: 'Marca', sortable: true, key: 'marca' },
+  { title: 'Fecha de reporte', key: 'fechaDeReporte' },
+  { title: 'Fecha ocurrido', key: 'fechaOcurrido' },
+  { title: 'Clave agente', sortable: true, key: 'claveAgente' },
+  { title: 'Nombre agente', sortable: true, key: 'nombreAgente' },
+  { title: 'Tiempo de revisión', key: 'tiempoRevisión' },
+  { title: 'Tiempo de asignación', key: 'tiempoAsignacion' },
+  { title: 'Causa', sortable: true, key: 'causa' },
+]
+const data = [
+  {
+    score: 23,
+    siniestro: '04241245475', 
+    siniestroRelacionado: '04241245474',
+    reporte: '14241456661',
+    analista: 'acs0jxs',
+    reglas: '[Reglas]',
+    IDproveedor: '[ID Proveedor]',
+    fechaAsignacionAnalista: '28/05/24   8:30:24',
+    fechaAsignacionProvedor: '28/05/24   8:30:24',
+    oficinaEmision: 'Nombre de oficina',
+    gerenteCuenta: 'Nombre de gerente de cuenta',
+    etiquetaSISE: 'Etiqueta',
+    estatusPlataforma: 'Estatus',
+    marca: 'Toyota',
+    fechaDeReporte: '30/09/2024',
+    fechaOcurrido: '30/09/2024',
+    claveAgente: 'AGT-123456',
+    nombreAgente: 'Juan Carlos Pérez González',
+    tiempoRevisión: '5 días',
+    tiempoAsignacion: '5 días',
+    causa: 'Robo de automóvil',
+  },
+  {
+    score: 23,
+    siniestro: '04241245475', 
+    siniestroRelacionado: '04241245477',
+    reporte: '04241456669',
+    analista: 'qcs0jxs',
+    reglas: '[Reglas]',
+    IDproveedor: '[ID Proveedor]',
+    fechaAsignacionAnalista: '28/05/24   8:30:24',
+    fechaAsignacionProvedor: '28/05/24   8:30:24',
+    oficinaEmision: 'Nombre de oficina',
+    gerenteCuenta: 'Nombre de gerente de cuenta',
+    etiquetaSISE: 'Etiqueta',
+    estatusPlataforma: 'Estatus',
+    marca: 'Toyota',
+    fechaDeReporte: '30/09/2024',
+    fechaOcurrido: '30/09/2024',
+    claveAgente: 'AGT-123456',
+    nombreAgente: 'Juan Carlos Pérez González',
+    tiempoRevisión: '5 días',
+    tiempoAsignacion: '5 días',
+    causa: 'Robo de automóvil',
+  },
+  {
+    score: 23,
+    siniestro: '04241245476', 
+    siniestroRelacionado: '04241245473',
+    reporte: '04241456665',
+    analista: 'dcs0jxs',
+    reglas: '[Reglas]',
+    IDproveedor: '[ID Proveedor]',
+    fechaAsignacionAnalista: '28/05/24   8:30:24',
+    fechaAsignacionProvedor: '28/05/24   8:30:24',
+    oficinaEmision: 'Nombre de oficina',
+    gerenteCuenta: 'Nombre de gerente de cuenta',
+    etiquetaSISE: 'Etiqueta',
+    estatusPlataforma: 'Estatus',
+    marca: 'Toyota',
+    fechaDeReporte: '30/09/2024',
+    fechaOcurrido: '30/09/2024',
+    claveAgente: 'AGT-123456',
+    nombreAgente: 'Juan Carlos Pérez González',
+    tiempoRevisión: '5 días',
+    tiempoAsignacion: '5 días',
+    causa: 'Robo de automóvil',
+  },
+  {
+    score: 23,
+    siniestro: '04241245473', 
+    siniestroRelacionado: '04241245475',
+    reporte: '04241456664',
+    analista: 'vcs0jxs',
+    reglas: '[Reglas]',
+    IDproveedor: '[ID Proveedor]',
+    fechaAsignacionAnalista: '28/05/24   8:30:24',
+    fechaAsignacionProvedor: '28/05/24   8:30:24',
+    oficinaEmision: 'Nombre de oficina',
+    gerenteCuenta: 'Nombre de gerente de cuenta',
+    etiquetaSISE: 'Etiqueta',
+    estatusPlataforma: 'Estatus',
+    marca: 'Toyota',
+    fechaDeReporte: '30/09/2024',
+    fechaOcurrido: '30/09/2024',
+    claveAgente: 'AGT-123456',
+    nombreAgente: 'Juan Carlos Pérez González',
+    tiempoRevisión: '5 días',
+    tiempoAsignacion: '5 días',
+    causa: 'Robo de automóvil',
+  },
+  {
+    score: 23,
+    siniestro: '04241245472', 
+    siniestroRelacionado: '04241245475',
+    reporte: '04241456664',
+    analista: 'qcs0jxs',
+    reglas: '[Reglas]',
+    IDproveedor: '[ID Proveedor]',
+    fechaAsignacionAnalista: '28/05/24   8:30:24',
+    fechaAsignacionProvedor: '28/05/24   8:30:24',
+    oficinaEmision: 'Nombre de oficina',
+    gerenteCuenta: 'Nombre de gerente de cuenta',
+    etiquetaSISE: 'Etiqueta',
+    estatusPlataforma: 'Estatus',
+    marca: 'Toyota',
+    fechaDeReporte: '30/09/2024',
+    fechaOcurrido: '30/09/2024',
+    claveAgente: 'AGT-123456',
+    nombreAgente: 'Juan Carlos Pérez González',
+    tiempoRevisión: '5 días',
+    tiempoAsignacion: '5 días',
+    causa: 'Robo de automóvil',
+  },
+  {
+    score: 23,
+    siniestro: '04241245475', 
+    siniestroRelacionado: '04241245475',
+    reporte: '04241456664',
+    analista: 'qcs0jxs',
+    reglas: '[Reglas]',
+    IDproveedor: '[ID Proveedor]',
+    fechaAsignacionAnalista: '28/05/24   8:30:24',
+    fechaAsignacionProvedor: '28/05/24   8:30:24',
+    oficinaEmision: 'Nombre de oficina',
+    gerenteCuenta: 'Nombre de gerente de cuenta',
+    etiquetaSISE: 'Etiqueta',
+    estatusPlataforma: 'Estatus',
+    marca: 'Toyota',
+    fechaDeReporte: '30/09/2024',
+    fechaOcurrido: '30/09/2024',
+    claveAgente: 'AGT-123456',
+    nombreAgente: 'Juan Carlos Pérez González',
+    tiempoRevisión: '5 días',
+    tiempoAsignacion: '5 días',
+    causa: 'Robo de automóvil',
+  },
+  {
+    score: 23,
+    siniestro: '04241245475', 
+    siniestroRelacionado: '04241245475',
+    reporte: '04241456664',
+    analista: 'qcs0jxs',
+    reglas: '[Reglas]',
+    IDproveedor: '[ID Proveedor]',
+    fechaAsignacionAnalista: '28/05/24   8:30:24',
+    fechaAsignacionProvedor: '28/05/24   8:30:24',
+    oficinaEmision: 'Nombre de oficina',
+    gerenteCuenta: 'Nombre de gerente de cuenta',
+    etiquetaSISE: 'Etiqueta',
+    estatusPlataforma: 'Estatus',
+    marca: 'Toyota',
+    fechaDeReporte: '30/09/2024',
+    fechaOcurrido: '30/09/2024',
+    claveAgente: 'AGT-123456',
+    nombreAgente: 'Juan Carlos Pérez González',
+    tiempoRevisión: '5 días',
+    tiempoAsignacion: '5 días',
+    causa: 'Robo de automóvil',
+  },
+  {
+    score: 23,
+    siniestro: '04241245475', 
+    siniestroRelacionado: '04241245475',
+    reporte: '04241456664',
+    analista: 'qcs0jxs',
+    reglas: '[Reglas]',
+    IDproveedor: '[ID Proveedor]',
+    fechaAsignacionAnalista: '28/05/24   8:30:24',
+    fechaAsignacionProvedor: '28/05/24   8:30:24',
+    oficinaEmision: 'Nombre de oficina',
+    gerenteCuenta: 'Nombre de gerente de cuenta',
+    etiquetaSISE: 'Etiqueta',
+    estatusPlataforma: 'Estatus',
+    marca: 'Toyota',
+    fechaDeReporte: '30/09/2024',
+    fechaOcurrido: '30/09/2024',
+    claveAgente: 'AGT-123456',
+    nombreAgente: 'Juan Carlos Pérez González',
+    tiempoRevisión: '5 días',
+    tiempoAsignacion: '5 días',
+    causa: 'Robo de automóvil',
+  },
+  {
+    score: 23,
+    siniestro: '04241245475', 
+    siniestroRelacionado: '04241245475',
+    reporte: '04241456664',
+    analista: 'qcs0jxs',
+    reglas: '[Reglas]',
+    IDproveedor: '[ID Proveedor]',
+    fechaAsignacionAnalista: '28/05/24   8:30:24',
+    fechaAsignacionProvedor: '28/05/24   8:30:24',
+    oficinaEmision: 'Nombre de oficina',
+    gerenteCuenta: 'Nombre de gerente de cuenta',
+    etiquetaSISE: 'Etiqueta',
+    estatusPlataforma: 'Estatus',
+    marca: 'Toyota',
+    fechaDeReporte: '30/09/2024',
+    fechaOcurrido: '30/09/2024',
+    claveAgente: 'AGT-123456',
+    nombreAgente: 'Juan Carlos Pérez González',
+    tiempoRevisión: '5 días',
+    tiempoAsignacion: '5 días',
+    causa: 'Robo de automóvil',
+  },
+  {
+    score: 23,
+    siniestro: '04241245475', 
+    siniestroRelacionado: '04241245475',
+    reporte: '04241456664',
+    analista: 'qcs0jxs',
+    reglas: '[Reglas]',
+    IDproveedor: '[ID Proveedor]',
+    fechaAsignacionAnalista: '28/05/24   8:30:24',
+    fechaAsignacionProvedor: '28/05/24   8:30:24',
+    oficinaEmision: 'Nombre de oficina',
+    gerenteCuenta: 'Nombre de gerente de cuenta',
+    etiquetaSISE: 'Etiqueta',
+    estatusPlataforma: 'Estatus',
+    marca: 'Toyota',
+    fechaDeReporte: '30/09/2024',
+    fechaOcurrido: '30/09/2024',
+    claveAgente: 'AGT-123456',
+    nombreAgente: 'Juan Carlos Pérez González',
+    tiempoRevisión: '5 días',
+    tiempoAsignacion: '5 días',
+    causa: 'Robo de automóvil',
+  },
+  {
+    score: 23,
+    siniestro: '04241245475', 
+    siniestroRelacionado: '04241245475',
+    reporte: '04241456664',
+    analista: 'qcs0jxs',
+    reglas: '[Reglas]',
+    IDproveedor: '[ID Proveedor]',
+    fechaAsignacionAnalista: '28/05/24   8:30:24',
+    fechaAsignacionProvedor: '28/05/24   8:30:24',
+    oficinaEmision: 'Nombre de oficina',
+    gerenteCuenta: 'Nombre de gerente de cuenta',
+    etiquetaSISE: 'Etiqueta',
+    estatusPlataforma: 'Estatus',
+    marca: 'Toyota',
+    fechaDeReporte: '30/09/2024',
+    fechaOcurrido: '30/09/2024',
+    claveAgente: 'AGT-123456',
+    nombreAgente: 'Juan Carlos Pérez González',
+    tiempoRevisión: '5 días',
+    tiempoAsignacion: '5 días',
+    causa: 'Robo de automóvil',
+  },
+]
 
-const items = ref([
-  {
-    score: "23",
-    siniestro: "04241245475",
-    reporte: "04241456664",
-    analista: "qsci0jks",
-    reglas: "[Reglas]",
-    idProveedor: "[ID Proveedor]",
-    fechaAsignacionAnalista: "28/05/24 8:30:24",
-    fechaAsignacionProveedor: "28/05/24 8:30:24",
-    oficinaEmision: "Nombre de oficina",
-    gerenteCuenta: "Nombre de gerente de cuenta",
-    etiqueta: "Etiqueta",
-    etiquetaSSE: "Etiqueta",
-    estatusPlataforma: "Estatus",
-    marca: "Toyota",
-    fechaReporte: "30/09/2024",
-    fechaOcurrido: "30/09/2024",
-    claveAgente: "AGT-123456",
-    nombreAgente: "Juan Carlos Pérez González",
-    tiempoRevision: "5 días",
-    tiempoAsignacion: "5 días",
-    causa: "Robo de automóvil",
-  },
-  {
-    score: "23",
-    siniestro: "04241245475",
-    reporte: "04241456664",
-    analista: "qsci0jks",
-    reglas: "[Reglas]",
-    idProveedor: "[ID Proveedor]",
-    fechaAsignacionAnalista: "28/05/24 8:30:24",
-    fechaAsignacionProveedor: "28/05/24 8:30:24",
-    oficinaEmision: "Nombre de oficina",
-    gerenteCuenta: "Nombre de gerente de cuenta",
-    etiqueta: "Etiqueta",
-    etiquetaSSE: "Etiqueta",
-    estatusPlataforma: "Estatus",
-    marca: "Toyota",
-    fechaReporte: "30/09/2024",
-    fechaOcurrido: "30/09/2024",
-    claveAgente: "AGT-123456",
-    nombreAgente: "Alan Carlos Pérez González",
-    tiempoRevision: "5 días",
-    tiempoAsignacion: "5 días",
-    causa: "Robo de automóvil",
-  },
-  {
-    score: "23",
-    siniestro: "04241245475",
-    reporte: "04241456664",
-    analista: "qsci0jks",
-    reglas: "[Reglas]",
-    idProveedor: "[ID Proveedor]",
-    fechaAsignacionAnalista: "28/05/24 8:30:24",
-    fechaAsignacionProveedor: "28/05/24 8:30:24",
-    oficinaEmision: "Nombre de oficina",
-    gerenteCuenta: "Nombre de gerente de cuenta",
-    etiqueta: "Etiqueta",
-    etiquetaSSE: "Etiqueta",
-    estatusPlataforma: "Estatus",
-    marca: "Toyota",
-    fechaReporte: "30/09/2024",
-    fechaOcurrido: "30/09/2024",
-    claveAgente: "AGT-123456",
-    nombreAgente: "Alfredo Carlos Pérez González",
-    tiempoRevision: "5 días",
-    tiempoAsignacion: "5 días",
-    causa: "Robo de automóvil",
-  },
-]);
+const first = ref(0);
+const rows = ref(10);
 
-const heads = ref([
-  { title: "Score" },
-  { title: "Siniestro" },
-  { title: "Reporte" },
-  { title: "Analista" },
-  { title: "Reglas" },
-  { title: "ID Proveedor" },
-  { title: "Fecha asignación analista" },
-  { title: "Fecha asignación proveedor" },
-  { title: "Oficina de emisión" },
-  { title: "Gerente de cuenta" },
-  { title: "Etiqueta" },
-  { title: "Etiqueta SSE" },
-  { title: "Estatus plataforma" },
-  { title: "Marca" },
-  { title: "Fecha de reporte" },
-  { title: "Fecha ocurrido" },
-  { title: "Clave agente" },
-  { title: "Nombre agente" },
-  { title: "Tiempo de revisión" },
-  { title: "Tiempo de asignación" },
-  { title: "Causa" },
-]);
+const filteredData = computed(() => {
+  if (!searchQuery.value) {
+    return data;
+  }
+  return data.filter(item =>
+    Object.values(item).some(
+      value => String(value).toLowerCase().includes(searchQuery.value.toLowerCase())
+    )
+  );
+});
+
+const updatePage = (newFirst) => {
+  first.value = newFirst;
+};
 
 const exportToExcel = () => {
-  const worksheet = XLSX.utils.json_to_sheet(items.value);
+  console.log("Exporting to Excel", dat);
+  
+  const worksheet = XLSX.utils.json_to_sheet(data.value);
   const workbook = XLSX.utils.book_new();
   XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
   XLSX.writeFile(workbook, "tabla_exportada.xlsx");
 };
-
-const filteredItems = computed(() => {
-  if (!search.value) {
-    return items.value;
-  }
-
-  const searchTerm = search.value.toLowerCase();
-  return items.value.filter((item) => {
-    return (
-      item.siniestro.toLowerCase().includes(searchTerm) ||
-      item.reporte.toLowerCase().includes(searchTerm) ||
-      item.analista.toLowerCase().includes(searchTerm) ||
-      item.nombreAgente.toLowerCase().includes(searchTerm) ||
-      item.marca.toLowerCase().includes(searchTerm)
-    );
-  });
-});
 </script>
