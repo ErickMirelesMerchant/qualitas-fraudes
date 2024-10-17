@@ -6,7 +6,7 @@
         <p class="my-3">Gestiona las acciones de cada siniestro</p>
       </v-col>
       <v-col cols="4" class="container-actions-buttons">
-        <v-btn append-icon="mdi-launch">
+        <v-btn append-icon="mdi-launch" @click="exportToExcel">
           Exportar tabla
         </v-btn>
         <v-text-field class="search-input-siniestros" prepend-inner-icon="mdi-magnify" v-model="searchQuery" variant="outlined" hide-details="true" placeholder="Buscar"></v-text-field>
@@ -31,6 +31,7 @@ import { ref } from 'vue';
 import customTable from "~/kernel/components/custom-table/custom-table.vue";
 import DrawerNavigation from "~/kernel/components/drawer-navigation.vue";
 import paginator from "~/kernel/components/paginator/paginator.vue";
+import * as XLSX from "xlsx";
 
 const searchQuery = ref("");
 
@@ -329,6 +330,14 @@ const filteredData = computed(() => {
 
 const updatePage = (newFirst) => {
   first.value = newFirst;
+};
+
+const exportToExcel = () => {
+  
+  const worksheet = XLSX.utils.json_to_sheet(data);
+  const workbook = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
+  XLSX.writeFile(workbook, "tabla_exportada.xlsx");
 };
 </script>
 

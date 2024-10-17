@@ -96,7 +96,7 @@
           </p>
         </div>
         <div class="dialog-buttons">
-          <v-btn class="secondary-btn" text @click="dialog = false">Cerrar</v-btn>
+          <v-btn class="secondary-btn" text @click="goToDashboard">Cerrar</v-btn>
           <v-btn class="primary-btn" color="primary" @click="confirmLogin">Actualizar</v-btn>
         </div>
       </v-card>
@@ -106,6 +106,7 @@
 </template>
 
 <script>
+
 export default {
   data: () => ({
       email: '',
@@ -139,6 +140,9 @@ export default {
     },
     goToForgotPassword() {
       this.$router.push('/recover-password');
+    },
+    goToDashboard() {
+      this.$router.push('/admin/dashboard');
     },
     togglePassword() {
       this.showPassword = !this.showPassword

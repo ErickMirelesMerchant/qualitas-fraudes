@@ -73,6 +73,7 @@
           :first="first"
           :rows="rows"
           title="Proveedores"
+          :showBotton="false"
         />
       </v-col>
     </v-row>
@@ -99,11 +100,11 @@ import customTable from "~/kernel/components/custom-table/custom-table.vue";
 import * as XLSX from "xlsx";
 const searchQuery = ref("");
 
-const tabsData = [
+const tabsData = ref([
   { title: "Activos" },
   { title: "Inactivos" },
   { title: "En baja" },
-];
+]);
 const columns = [
   { title: 'Score', key: 'score' },
   { title: 'Siniestro', sortable: true, key: 'siniestro' },
@@ -126,7 +127,7 @@ const columns = [
   { title: 'Tiempo de revisión', key: 'tiempoRevisión' },
   { title: 'Tiempo de asignación', key: 'tiempoAsignacion' },
   { title: 'Causa', sortable: true, key: 'causa' },
-]
+];
 const data = [
   {
     score: 23,
@@ -381,7 +382,7 @@ const data = [
     tiempoAsignacion: '5 días',
     causa: 'Robo de automóvil',
   },
-]
+];
 
 const first = ref(0);
 const rows = ref(10);
@@ -402,9 +403,8 @@ const updatePage = (newFirst) => {
 };
 
 const exportToExcel = () => {
-  console.log("Exporting to Excel", dat);
   
-  const worksheet = XLSX.utils.json_to_sheet(data.value);
+  const worksheet = XLSX.utils.json_to_sheet(data);
   const workbook = XLSX.utils.book_new();
   XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
   XLSX.writeFile(workbook, "tabla_exportada.xlsx");

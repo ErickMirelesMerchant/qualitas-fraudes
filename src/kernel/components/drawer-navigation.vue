@@ -25,7 +25,7 @@
               <span class="custom-email">bianca@qualitas.com</span>
             </v-col>
             <v-col :cols="!rail ? '4 text-end' : '12 text-end'">
-              <v-btn icon :elevation="0" variant="plain">
+              <v-btn @click="logout" icon :elevation="0" variant="plain">
                 <v-icon size="x-small" color="#465467">mdi-logout</v-icon>
               </v-btn>
             </v-col>
@@ -110,6 +110,10 @@ const items = [
 
 const navigateTo = (item) => {
   router.push(item.route);
+};
+
+const logout = () => {
+  router.push("/");
 };
 
 

@@ -9,14 +9,14 @@
           <v-chip
             color="#C2DFE7"
             variant="flat"
-            style="color: #006e80; border-radius: 16px"
+            style="color: #006e80; border-radius: 16px !important"
             :ripple="false"
             >{{ tableData.length }} {{ title }}</v-chip
           >
         </v-col>
         <v-spacer />
-        <v-col cols="auto">
-          <v-btn prepend-icon="$vuetify" variant="outline"> Configurar </v-btn>
+        <v-col v-if="showBotton" cols="auto">
+          <v-btn append-icon="mdi-cog" variant="outlined"> Configurar </v-btn>
         </v-col>
       </v-row>
       <v-row style="margin-top: 0">
@@ -103,6 +103,10 @@ const props = defineProps({
   title: {
     required: true,
     type: String,
+  },
+  showBotton: {
+    type: Boolean,
+    default: true,
   },
 });
 
