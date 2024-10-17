@@ -82,12 +82,9 @@ const props = defineProps({
   rows: Number
 });
 
-// const itemsPerPage = 10;
-// const currentPage = ref(1);
 const tableData = ref([]);
 const allChecked = ref(false);
 
-// Estado para el orden
 const sortedBy = ref(null);
 const sortDirection = ref('asc');
 
@@ -109,7 +106,6 @@ const paginatedData = computed(() => {
 });
 
 
-// Función para manejar el orden
 const sortedData = computed(() => {
   if (!sortedBy.value) return paginatedData.value;
   
@@ -125,10 +121,8 @@ const sortedData = computed(() => {
 
 function sortTable(key) {
   if (sortedBy.value === key) {
-    // Cambiar dirección si ya está ordenado por esta columna
     sortDirection.value = sortDirection.value === 'asc' ? 'desc' : 'asc';
   } else {
-    // Establecer nueva columna de orden
     sortedBy.value = key;
     sortDirection.value = 'asc';
   }
