@@ -70,6 +70,25 @@
                         item.estatusPlataforma
                       }}</v-chip>
                     </span>
+                    <span v-else-if="col.title === 'Estatus'">
+                      <v-chip
+                        :color="
+                          item.estatus === 'Activo'
+                            ? '#ecfdf3'
+                            : item.estatus === 'Inactivo'
+                            ? '#fffaeb'
+                            : '#fef3f2'
+                        "
+                        variant="flat"
+                        :style="item.estatus === 'Activo'
+                            ? 'color: #5da886; border-radius: 16px!important;'
+                            : item.estatus === 'Inactivo'
+                            ? 'color: #be5d24; border-radius: 16px!important;'
+                            : 'color: #cf716a;border-radius: 16px!important; '"
+                      >
+                        {{ item.estatus }}
+                      </v-chip>
+                    </span>
                     <span v-else>{{ item[col.key] }}</span>
                   </td>
                 </tr>

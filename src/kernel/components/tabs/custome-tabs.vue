@@ -1,5 +1,5 @@
 <template>
-  <v-tabs v-model="tab" align-tabs="start" color="#006e80">
+  <v-tabs v-model="internalTab" align-tabs="start" color="#006e80">
     <v-tab
       class="text-subtitle-2"
       v-for="(item, index) in tabsList"
@@ -12,14 +12,29 @@
 </template>
 
 <script setup>
-import { ref, defineProps } from "vue";
+import { ref, defineProps, watch } from "vue";
 
-const tab = ref(null);
 const props = defineProps({
   tabsList: {
     type: Array,
     required: true,
     default: () => [],
   },
+  modelValue: {
+    type: Number,
+    required: true,
+  },
 });
+
+const internalTab = ref(props.modelValue);
+const emit = defineEmits(["update:modelValue"]);
+watch(internalTab, (newValue) => {
+  emit("update:modelValue", newValue);
+});
+watch(
+  () => props.modelValue,
+  (newValue) => {
+    internalTab.value = newValue;
+  }
+);
 </script>
