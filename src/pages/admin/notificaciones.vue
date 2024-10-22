@@ -5,7 +5,7 @@
           <h1 class="mb-5">Notificaciones</h1>
         </v-col>
         <v-spacer></v-spacer>
-        <v-col cols="auto">
+        <!--v-col cols="auto">
           <v-btn
             append-icon="mdi-export-variant"
             @click="exportToExcel"
@@ -17,7 +17,7 @@
               <v-icon color="white"></v-icon>
             </template>
           </v-btn>
-        </v-col>
+        </v-col-->
       </v-row>
     </DrawerNavigation>
   </template>

@@ -98,6 +98,8 @@ import customeCardDashboard from "~/kernel/components/cards/custome-card-dashboa
 import DrawerNavigation from "~/kernel/components/drawer-navigation.vue";
 import customeTabs from "~/kernel/components/tabs/custome-tabs.vue";
 import customTable from "~/kernel/components/custom-table/custom-table.vue";
+import paginator from "~/kernel/components/paginator/paginator.vue";
+import * as XLSX from "xlsx";
 
 const searchQuery = ref("");
 const tab = ref(1); // El tab seleccionado, inicializado en "Activos"
@@ -196,5 +198,12 @@ const filteredData = computed(() => {
 
 const updatePage = (newFirst) => {
   first.value = newFirst;
+};
+
+const exportToExcel = () => {
+  const worksheet = XLSX.utils.json_to_sheet(data);
+  const workbook = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
+  XLSX.writeFile(workbook, "tabla_exportada.xlsx");
 };
 </script>
