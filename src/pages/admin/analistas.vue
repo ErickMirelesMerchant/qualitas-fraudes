@@ -6,12 +6,7 @@
       </v-col>
       <v-spacer></v-spacer>
       <v-col cols="auto">
-        <v-btn
-          append-icon="mdi-export-variant"
-          @click="exportToExcel"
-          color="primary"
-          rounded="x-large"
-        >
+        <v-btn append-icon="mdi-export-variant" @click="exportToExcel" color="primary" rounded="x-large">
           Exportar tabla
           <template v-slot:append>
             <v-icon color="white"></v-icon>
@@ -21,45 +16,22 @@
     </v-row>
     <v-row>
       <v-col cols="12" md="3">
-        <customeCardDashboard
-          title="Activos"
-          icon="mdi-account-check-outline"
-          :quantity="9"
-        />
+        <customeCardDashboard title="Activos" icon="mdi-account-check-outline" :quantity="9" />
       </v-col>
       <v-col cols="12" md="3">
-        <customeCardDashboard
-          title="Inactivos"
-          icon="mdi-account-remove-outline"
-          :quantity="2"
-        />
+        <customeCardDashboard title="Inactivos" icon="mdi-account-remove-outline" :quantity="2" />
       </v-col>
       <v-col cols="12" md="3">
-        <customeCardDashboard
-          title="En baja"
-          icon="mdi-account-minus-outline"
-          :quantity="4"
-        />
+        <customeCardDashboard title="En baja" icon="mdi-account-minus-outline" :quantity="4" />
       </v-col>
       <v-col cols="12" md="3">
-        <customeCardDashboard
-          title="Conectados"
-          icon="mdi mdi-account-circle-outline"
-          :quantity="9"
-        />
+        <customeCardDashboard title="Conectados" icon="mdi mdi-account-circle-outline" :quantity="9" />
       </v-col>
     </v-row>
     <v-row justify="end">
       <v-col cols="12" md="4">
-        <v-text-field
-          density="comfortable"
-          v-model="searchQuery"
-          variant="solo"
-          prepend-inner-icon="mdi-magnify"
-          placeholder="Buscar"
-          outlined
-          hide-details="auto"
-        ></v-text-field>
+        <v-text-field density="comfortable" v-model="searchQuery" variant="solo" prepend-inner-icon="mdi-magnify"
+          placeholder="Buscar" outlined hide-details="auto"></v-text-field>
       </v-col>
     </v-row>
     <v-row>
@@ -69,37 +41,38 @@
     </v-row>
     <v-row>
       <v-col cols="12">
-        <customTable
-          :columns="columns"
-          :data="filteredData"
-          :has-checkbox="true"
-          :first="first"
-          :rows="rows"
-          title="Analistas"
-          :showBotton="false"
-        />
+        <customTable title="Analistas" :columns="columns" :data="filteredData" :has-checkbox="true" :first="first"
+          :rows="rows" :menuItems="actionItems" :showButton="false" />
       </v-col>
     </v-row>
     <v-row>
       <v-col cols="12">
-        <paginator
-          :totalRecords="filteredData.length"
-          :rows="rows"
-          :first="first"
-          @pageChange="updatePage"
-        />
+        <paginator :totalRecords="filteredData.length" :rows="rows" :first="first" @pageChange="updatePage" />
       </v-col>
     </v-row>
+    <dialogChanger :icon="dialogData.icon" :title="dialogData.title" :description="dialogData.description" :isOpen="dialogVisible"
+      @confirm="handleDataChange" @close="dialogVisible = false">
+      <template v-slot:content>
+        <v-select v-if="dialogData.items" class="" variant="outlined" v-model="newChanger" :items="dialogData.items"
+          placeholder="Selecciona una opción" />
+          <div v-else>
+            <div v-if="dialogData.inactivities.length === 0" class="text-center my-4">
+              No hay inactividad programada
+            </div>
+          </div>
+      </template>
+    </dialogChanger>
   </DrawerNavigation>
 </template>
 
 <script setup>
-import customeCardDashboard from "~/kernel/components/cards/custome-card-dashboard.vue";
-import DrawerNavigation from "~/kernel/components/drawer-navigation.vue";
-import customeTabs from "~/kernel/components/tabs/custome-tabs.vue";
-import customTable from "~/kernel/components/custom-table/custom-table.vue";
-import paginator from "~/kernel/components/paginator/paginator.vue";
 import * as XLSX from "xlsx";
+import customeCardDashboard from "~/kernel/components/cards/custome-card-dashboard.vue";
+import customTable from "~/kernel/components/custom-table/custom-table.vue";
+import dialogChanger from "~/kernel/components/dialog-changer/dialog-changer.vue";
+import DrawerNavigation from "~/kernel/components/drawer-navigation.vue";
+import paginator from "~/kernel/components/paginator/paginator.vue";
+import customeTabs from "~/kernel/components/tabs/custome-tabs.vue";
 
 const searchQuery = ref("");
 const tab = ref(1); // El tab seleccionado, inicializado en "Activos"
@@ -112,15 +85,15 @@ const tabsData = ref([
 ]);
 
 const columns = [
-  { title: "ID", key: "id", sortable: true },
-  { title: "Nombre", sortable: true, key: "nombre" },
-  { title: "Estatus", sortable: true, key: "estatus" },
+  { title: "ID", key: "id" },
+  { title: "Nombre", key: "nombre" },
+  { title: "Estatus", key: "estatus" },
   { title: "Capacidad", key: "capacidad" },
-  { title: "Fecha de ingreso", sortable: true, key: "fechaDeIngreso" },
-  { title: "Última conexión", key: "ultimaConexión", sortable: true },
-  { title: "Tiempo activo", sortable: true, key: "tiempoActivo" },
-  { title: "Prox. inactividad", sortable: true, key: "proxInactividad" },
-  { title: "Acciones", key: "acciones" },
+  { title: "Fecha de ingreso", key: "fechaDeIngreso" },
+  { title: "Última conexión", key: "ultimaConexión" },
+  { title: "Tiempo activo", key: "tiempoActivo" },
+  { title: "Prox. inactividad", key: "proxInactividad" },
+  { title: "Acciones", key: "accionesAnalistas" },
 ];
 
 const data = [
@@ -129,44 +102,132 @@ const data = [
     nombre: "Miguel Angel Contreras Madrigal",
     estatus: "Activo",
     capacidad: "0",
-    fechaDeIngreso: "dd/mm/aaaa 17:00 hrs",
-    ultimaConexión: "8 hrs",
-    tiempoActivo: "[ID Proveedor]",
+    fechaDeIngreso: "28/05/24",
+    ultimaConexión: "dd/mm/aaaa 17:00 hrs",
+    tiempoActivo: "8 hrs",
     proxInactividad: "dd/mm/aaaa -      dd/mm/aaaa",
-    acciones: "28/05/24   8:30:24",
+    accionesAnalistas: "",
   },
   {
     id: "0002",
     nombre: "Miguel Angel Contreras Madrigal",
     estatus: "Activo",
     capacidad: "1",
-    fechaDeIngreso: "dd/mm/aaaa 17:00 hrs",
-    ultimaConexión: "8 hrs",
-    tiempoActivo: "[ID Proveedor]",
-    proxInactividad: "dd/mm/aaaa -      dd/mm/aaaa",
-    acciones: "28/05/24   8:30:24",
+    fechaDeIngreso: "28/05/24",
+    ultimaConexión: "dd/mm/aaaa 17:00 hrs",
+    tiempoActivo: "8 hrs",
+    proxInactividad: "No programado",
+    accionesAnalistas: "",
   },
   {
     id: "0003",
     nombre: "Miguel Angel Contreras Madrigal",
-    estatus: "Inactivo",
-    capacidad: "10",
-    fechaDeIngreso: "dd/mm/aaaa 17:00 hrs",
-    ultimaConexión: "8 hrs",
-    tiempoActivo: "[ID Proveedor]",
+    estatus: "Activo",
+    capacidad: "2",
+    fechaDeIngreso: "28/05/24",
+    ultimaConexión: "dd/mm/aaaa 17:00 hrs",
+    tiempoActivo: "8 hrs",
     proxInactividad: "dd/mm/aaaa -      dd/mm/aaaa",
-    acciones: "28/05/24   8:30:24",
+    accionesAnalistas: "",
   },
   {
     id: "0004",
     nombre: "Miguel Angel Contreras Madrigal",
-    estatus: "En baja",
-    capacidad: "1",
-    fechaDeIngreso: "dd/mm/aaaa 17:00 hrs",
-    ultimaConexión: "8 hrs",
-    tiempoActivo: "[ID Proveedor]",
+    estatus: "Activo",
+    capacidad: "3",
+    fechaDeIngreso: "28/05/24",
+    ultimaConexión: "dd/mm/aaaa 17:00 hrs",
+    tiempoActivo: "8 hrs",
     proxInactividad: "dd/mm/aaaa -      dd/mm/aaaa",
-    acciones: "28/05/24   8:30:24",
+    accionesAnalistas: "",
+  },
+  {
+    id: "0005",
+    nombre: "Miguel Angel Contreras Madrigal",
+    estatus: "Activo",
+    capacidad: "4",
+    fechaDeIngreso: "28/05/24",
+    ultimaConexión: "dd/mm/aaaa 17:00 hrs",
+    tiempoActivo: "8 hrs",
+    proxInactividad: "dd/mm/aaaa -      dd/mm/aaaa",
+    accionesAnalistas: "",
+  },
+  {
+    id: "0006",
+    nombre: "Miguel Angel Contreras Madrigal",
+    estatus: "Activo",
+    capacidad: "5",
+    fechaDeIngreso: "28/05/24",
+    ultimaConexión: "dd/mm/aaaa 17:00 hrs",
+    tiempoActivo: "8 hrs",
+    proxInactividad: "dd/mm/aaaa -      dd/mm/aaaa",
+    accionesAnalistas: "",
+  },
+  {
+    id: "0007",
+    nombre: "Miguel Angel Contreras Madrigal",
+    estatus: "Activo",
+    capacidad: "6",
+    fechaDeIngreso: "28/05/24",
+    ultimaConexión: "dd/mm/aaaa 17:00 hrs",
+    tiempoActivo: "8 hrs",
+    proxInactividad: "dd/mm/aaaa -      dd/mm/aaaa",
+    accionesAnalistas: "",
+  },
+  {
+    id: "0008",
+    nombre: "Miguel Angel Contreras Madrigal",
+    estatus: "Activo",
+    capacidad: "7",
+    fechaDeIngreso: "28/05/24",
+    ultimaConexión: "dd/mm/aaaa 17:00 hrs",
+    tiempoActivo: "8 hrs",
+    proxInactividad: "dd/mm/aaaa -      dd/mm/aaaa",
+    accionesAnalistas: "",
+  },
+  {
+    id: "0009",
+    nombre: "Miguel Angel Contreras Madrigal",
+    estatus: "Activo",
+    capacidad: "8",
+    fechaDeIngreso: "28/05/24",
+    ultimaConexión: "dd/mm/aaaa 17:00 hrs",
+    tiempoActivo: "8 hrs",
+    proxInactividad: "No programado",
+    accionesAnalistas: "",
+  },
+  {
+    id: "0010",
+    nombre: "Miguel Angel Contreras Madrigal",
+    estatus: "Activo",
+    capacidad: "9",
+    fechaDeIngreso: "28/05/24",
+    ultimaConexión: "dd/mm/aaaa 17:00 hrs",
+    tiempoActivo: "8 hrs",
+    proxInactividad: "dd/mm/aaaa -      dd/mm/aaaa",
+    accionesAnalistas: "",
+  },
+  {
+    id: "0011",
+    nombre: "Miguel Angel Contreras Madrigal",
+    estatus: "Activo",
+    capacidad: "10",
+    fechaDeIngreso: "28/05/24",
+    ultimaConexión: "dd/mm/aaaa 17:00 hrs",
+    tiempoActivo: "8 hrs",
+    proxInactividad: "dd/mm/aaaa -      dd/mm/aaaa",
+    accionesAnalistas: "",
+  },
+  {
+    id: "0012",
+    nombre: "Miguel Angel Contreras Madrigal",
+    estatus: "Activo",
+    capacidad: "11",
+    fechaDeIngreso: "28/05/24",
+    ultimaConexión: "dd/mm/aaaa 17:00 hrs",
+    tiempoActivo: "8 hrs",
+    proxInactividad: "dd/mm/aaaa -      dd/mm/aaaa",
+    accionesAnalistas: "",
   },
 ];
 
@@ -193,7 +254,7 @@ const filteredData = computed(() => {
     );
   }
 
-  return filtered;
+  return filtered; // Devuelve un nuevo array con los datos filtered;
 });
 
 const updatePage = (newFirst) => {
@@ -206,4 +267,50 @@ const exportToExcel = () => {
   XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
   XLSX.writeFile(workbook, "tabla_exportada.xlsx");
 };
+
+const dialogVisible = ref(false);
+const newChanger = ref('');
+
+let dialogData;
+
+const actionItems = [
+  { icon: 'status-icon-label', title: 'Cambiar estatus', action: () => openDialog('status') },
+  { icon: 'capacity-icon-label', title: 'Cambiar capacidad', action: () => openDialog('capacity') },
+  { icon: 'inactivity-icon-label', title: 'Programar inactividad', action: () => openDialog('inactivity') },
+];
+
+function openDialog(type) {
+  if (type === 'status') {
+    dialogData = {
+      icon: 'switch-status',
+      title: 'Cambio de estatus',
+      label: 'Estatus',
+      description: '¿Deseas cambiar el estatus del analista [ID Analista] [Nombre Analista]? Su estatus actual es [Estatus]. ',
+      items: ['Activo', 'Inactivo', 'En baja'],
+    }
+  } else if (type === 'capacity') {
+    dialogData = {
+      icon: 'switch-capacity',
+      title: 'Cambio de capacidad',
+      label: 'Capacidad',
+      description: '¿Deseas cambiar la capacidad de [ID Analista] [Nombre Analista]? Su capacidad actual es [Capacidad].',
+      items: ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'],
+    }
+  } else if (type === 'inactivity') {
+    dialogData = {
+      icon: 'switch-inactivity',
+      title: 'Programar Inactividad',
+      description: 'Gestiona y programa los períodos de inactividad. ',
+      inactivities: []
+    }
+  }
+
+  dialogVisible.value = true;
+  return dialogData
+}
+
+function handleDataChange() {
+
+  dialogVisible.value = false;
+}
 </script>
