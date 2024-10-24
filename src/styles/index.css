@@ -128,3 +128,31 @@
   background: #eaecf0;
   border-radius: 12px;
 }
+
+.v-btn.primary-btn {
+  background-color: #0096AE;
+  color: white !important;
+  border: none;
+  box-shadow: 0px 1px 2px 0px #1018280D;
+  border-radius: 8px !important;
+  width: 220px;
+  height: 44px !important;
+}
+
+.primary-btn:hover {
+  background-color: #017182;
+}
+
+.secondary-btn, .v-btn.secondary-btn {
+  background-color: #FFFFFF !important;
+  color: #344054;
+  border: 1px solid #D0D5DD;
+  box-shadow: 0px 1px 2px 0px #1018280D;
+  border-radius: 8px !important;
+  width: 220px;
+  height: 44px !important;
+}
+
+.secondary-btn:hover {
+  background-color: #D0D5DD !important;
+}

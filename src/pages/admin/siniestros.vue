@@ -15,7 +15,7 @@
 
     <v-row>
       <v-col cols="12">
-        <customTable :columns="columns" :data="filteredData" :has-checkbox="true" :first="first" :rows="rows" title="Siniestros"/>
+        <customTable :columns="columns" :data="filteredData" :has-checkbox="false" :first="first" :rows="rows" title="Siniestros"/>
       </v-col>
     </v-row>
     <v-row>

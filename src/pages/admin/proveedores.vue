@@ -73,7 +73,7 @@
           :first="first"
           :rows="rows"
           title="Proveedores"
-          :showBotton="false"
+          :showButton="false"
         />
       </v-col>
     </v-row>
@@ -106,13 +106,13 @@
 
 <script setup>
 import { ref } from "vue";
-import DrawerNavigation from "~/kernel/components/drawer-navigation.vue";
-import customeCardDashboard from "~/kernel/components/cards/custome-card-dashboard.vue";
-import customeTabs from "~/kernel/components/tabs/custome-tabs.vue";
-import paginator from "~/kernel/components/paginator/paginator.vue";
-import customTable from "~/kernel/components/custom-table/custom-table.vue";
-import customAlert from "~/kernel/components/alerts/custom-alert.vue";
 import * as XLSX from "xlsx";
+import customAlert from "~/kernel/components/alerts/custom-alert.vue";
+import customeCardDashboard from "~/kernel/components/cards/custome-card-dashboard.vue";
+import customTable from "~/kernel/components/custom-table/custom-table.vue";
+import DrawerNavigation from "~/kernel/components/drawer-navigation.vue";
+import paginator from "~/kernel/components/paginator/paginator.vue";
+import customeTabs from "~/kernel/components/tabs/custome-tabs.vue";
 const searchQuery = ref("");
 
 const showAlert = ref(true);
