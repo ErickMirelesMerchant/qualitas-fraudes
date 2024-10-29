@@ -43,9 +43,14 @@
       <v-card-actions class="justify-space-around">
         <v-row>
           <v-col cols="12" md="6">
-            <v-btn class="primary-btn" @click="confirm" width="100%">{{
-              title.includes("Inactividad") ? "Guardar" : "Confirmar"
-            }}</v-btn>
+            <v-btn
+              class="primary-btn"
+              @click="$emit('handleDataChange')"
+              width="100%"
+              >{{
+                title.includes("Inactividad") ? "Guardar" : "Confirmar"
+              }}</v-btn
+            >
           </v-col>
           <v-col cols="12" md="6">
             <v-btn width="100%" class="secondary-btn" text @click="closeDialog"
@@ -70,7 +75,7 @@ const props = defineProps({
 });
 
 const emit = defineEmits([
-  "confirm",
+  "handleDataChange",
   "close",
   "date-selected",
   "update:dateRange",

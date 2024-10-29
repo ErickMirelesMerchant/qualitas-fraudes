@@ -98,7 +98,7 @@
       :description="dialogData.description"
       :isOpen="dialogVisible"
       :calendarVisible="calendarVisible"
-      @confirm="handleDataChange"
+      @handleDataChange="handleDataChange"
       @close="dialogVisible = false"
       @update:dateRange="handleDateSelected"
     >

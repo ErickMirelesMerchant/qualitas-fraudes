@@ -10,11 +10,7 @@
     >
       <v-icon>mdi-chevron-left</v-icon>
     </v-btn>
-
-    <!-- Texto de paginación -->
     <span> Página {{ getCurrentPage() }} de {{ getTotalPages() }} </span>
-
-    <!-- Botón de página siguiente -->
     <v-btn
       class="paginator-button next"
       variant="outlined"

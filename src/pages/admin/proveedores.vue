@@ -73,6 +73,7 @@
           :first="first"
           :rows="rows"
           title="Proveedores"
+          :menuItems="actionItems"
           :showButton="false"
         />
       </v-col>
@@ -95,7 +96,7 @@
         :variant="'outlined'"
         :position="'top-right'"
         :show="showAlert"
-        :timer="10000"
+        :timer="4000"
       >
         <p
           class="text-h4 mb-2"
@@ -111,6 +112,60 @@
           proveedor ha sido asignado correctamente.
         </p>
       </CustomAlert>
+
+      <dialogChanger
+        v-if="dialogVisible"
+        :icon="dialogData.icon"
+        :title="dialogData.title"
+        :description="dialogData.description"
+        :isOpen="dialogVisible"
+        :calendarVisible="calendarVisible"
+        @handleDataChange="handleDataChange"
+        @close="dialogVisible = false"
+        @update:dateRange="handleDateSelected"
+      >
+        <template v-slot:content>
+          <v-select
+            v-if="dialogData.items"
+            variant="outlined"
+            v-model="newChanger"
+            :items="dialogData.items"
+            placeholder="Selecciona una opción"
+          />
+          <div
+            v-else
+            class="text-center d-flex flex-column align-items-center justify-center ga-3 my-4"
+          >
+            <v-btn
+              variant="text"
+              height="48px"
+              color="transparent"
+              @click="openCalendar"
+            >
+              <v-img
+                center
+                src="/assets/icons/add-button.svg"
+                alt="add-btn"
+                height="48px"
+                width="48px"
+              ></v-img>
+            </v-btn>
+            <div v-if="dialogData.inactivities.length === 0">
+              No hay inactividad programada
+            </div>
+            <div v-if="dialogData.inactivities.length !== 0">
+              <ul
+                v-for="inactivity in dialogData.inactivities"
+                :key="inactivity.id"
+              >
+                <li>
+                  {{ inactivity[0] }} - {{ inactivity[inactivity.length - 1] }}
+                </li>
+              </ul>
+            </div>
+          </div>
+        </template>
+      </dialogChanger>
     </v-row>
   </DrawerNavigation>
 </template>
@@ -123,10 +178,22 @@ import customTable from "~/kernel/components/custom-table/custom-table.vue";
 import DrawerNavigation from "~/kernel/components/drawer-navigation.vue";
 import paginator from "~/kernel/components/paginator/paginator.vue";
 import customeTabs from "~/kernel/components/tabs/custome-tabs.vue";
+import dialogChanger from "~/kernel/components/dialog-changer/dialog-changer.vue";
 import CustomAlert from "~/kernel/components/alerts/CustomAlert.vue";
 const searchQuery = ref("");
 
-const showAlert = ref(true);
+const showAlert = ref(false);
+const dialogVisible = ref(false);
+const calendarVisible = ref(false);
+const newChanger = ref(null);
+let dialogData = {
+  img: "",
+  title: "",
+  label: "",
+  description: "",
+  items: [],
+  inactivities: [],
+};
 
 const tabsData = ref([
   { title: "Activos" },
@@ -167,6 +234,7 @@ const columns = [
   { title: "Tiempo de revisión", key: "tiempoRevisión" },
   { title: "Tiempo de asignación", key: "tiempoAsignacion" },
   { title: "Causa", sortable: true, key: "causa" },
+  { title: "Acciones", key: "accionesAnalistas" },
 ];
 const data = [
   {
@@ -424,6 +492,34 @@ const data = [
   },
 ];
 
+const actionItems = [
+  {
+    icon: "mdi-swap-horizontal",
+    title: "Cambiar estatus",
+    action: () => openDialog("status"),
+  },
+  {
+    icon: "mdi-pencil-outline",
+    title: "Cambiar capacidad",
+    action: () => openDialog("capacity"),
+  },
+  {
+    icon: "mdi-weather-sunset",
+    title: "Programar inactividad",
+    action: () => openDialog("inactivity"),
+  },
+  {
+    icon: "mdi-map-outline",
+    title: "Asignar localidad",
+    action: () => openDialog("inactivity"),
+  },
+  {
+    icon: "mdi-button-cursor",
+    title: "Asignar combo asignación",
+    action: () => openDialog("inactivity"),
+  },
+];
+
 const first = ref(0);
 const rows = ref(10);
 
@@ -448,4 +544,52 @@ const exportToExcel = () => {
   XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
   XLSX.writeFile(workbook, "tabla_exportada.xlsx");
 };
+
+function openDialog(type) {
+  if (type === "status") {
+    dialogData = {
+      icon: "mdi-swap-horizontal",
+      title: "Cambio de estatus",
+      label: "Estatus",
+      description:
+        "¿Deseas cambiar el estatus del analista [ID Analista] [Nombre Analista]? Su estatus actual es [Estatus]. ",
+      items: ["Activo", "Inactivo", "En baja"],
+    };
+  } else if (type === "capacity") {
+    dialogData = {
+      icon: "mdi-pencil-outline",
+      title: "Cambio de capacidad",
+      label: "Capacidad",
+      description:
+        "¿Deseas cambiar la capacidad de [ID Analista] [Nombre Analista]? Su capacidad actual es [Capacidad].",
+      items: ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"],
+    };
+  } else if (type === "inactivity") {
+    dialogData = {
+      icon: "mdi-weather-sunset",
+      title: "Programar Inactividad",
+      description: "Gestiona y programa los períodos de inactividad. ",
+      inactivities: [],
+    };
+  }
+
+  dialogVisible.value = true;
+  calendarVisible.value = false;
+  return dialogData;
+}
+
+function handleDataChange() {
+  console.log("Data changed");
+  showAlert.value = true;
+  dialogVisible.value = false;
+}
+
+function openCalendar() {
+  calendarVisible.value = true;
+}
+
+function handleDateSelected(range) {
+  dialogData.inactivities.push(range);
+  calendarVisible.value = false;
+}
 </script>
