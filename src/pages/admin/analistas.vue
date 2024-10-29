@@ -50,18 +50,32 @@
         <paginator :totalRecords="filteredData.length" :rows="rows" :first="first" @pageChange="updatePage" />
       </v-col>
     </v-row>
-    <dialogChanger v-if="dialogVisible" :image="dialogData.img" :title="dialogData.title"
-      :description="dialogData.description" :isOpen="dialogVisible" :calendarVisible="calendarVisible"
-      @confirm="handleDataChange" @close="dialogVisible = false" @update:dateRange="handleDateRange">
+    <dialogChanger v-if="dialogVisible"
+                   :image="dialogData.img"
+                   :title="dialogData.title"
+                   :description="dialogData.description"
+                   :isOpen="dialogVisible"
+                   :calendarVisible="calendarVisible"
+                   @confirm="handleDataChange"
+                   @close="dialogVisible = false"
+                   @update:dateRange="handleDateSelected">
       <template v-slot:content>
-        <v-select v-if="dialogData.items" class="" variant="outlined" v-model="newChanger" :items="dialogData.items"
-          placeholder="Selecciona una opción" />
+        <v-select v-if="dialogData.items"
+                  variant="outlined"
+                  v-model="newChanger"
+                  :items="dialogData.items"
+                  placeholder="Selecciona una opción" />
         <div v-else class="text-center d-flex flex-column align-items-center justify-center ga-3 my-4">
-          <v-btn variant="text" height="48px" color="transparent" @click="calendarVisible = true">
+          <v-btn  variant="text" height="48px" color="transparent" @click="openCalendar">
             <v-img center src="/assets/icons/add-button.svg" alt="add-btn" height="48px" width="48px"></v-img>
           </v-btn>
           <div v-if="dialogData.inactivities.length === 0">
             No hay inactividad programada
+          </div>
+          <div v-if="dialogData.inactivities.length !== 0">
+            <ul v-for="inactivity in dialogData.inactivities" :key="inactivity.id">
+              <li>{{ inactivity[0] }} - {{ inactivity[inactivity.length - 1] }}</li>
+            </ul>
           </div>
         </div>
       </template>
@@ -79,9 +93,8 @@ import paginator from "~/kernel/components/paginator/paginator.vue";
 import customeTabs from "~/kernel/components/tabs/custome-tabs.vue";
 
 const searchQuery = ref("");
-const tab = ref(1); // El tab seleccionado, inicializado en "Activos"
+const tab = ref(1);
 
-// Manejo de tabs y el filtrado de datos
 const tabsData = ref([
   { title: "Activos" },
   { title: "Inactivos" },
@@ -109,7 +122,7 @@ const data = [
     fechaDeIngreso: "28/05/24",
     ultimaConexión: "dd/mm/aaaa 17:00 hrs",
     tiempoActivo: "8 hrs",
-    proxInactividad: "dd/mm/aaaa -      dd/mm/aaaa",
+    proxInactividad: "dd/mm/aaaa - dd/mm/aaaa",
     accionesAnalistas: "",
   },
   {
@@ -131,7 +144,7 @@ const data = [
     fechaDeIngreso: "28/05/24",
     ultimaConexión: "dd/mm/aaaa 17:00 hrs",
     tiempoActivo: "8 hrs",
-    proxInactividad: "dd/mm/aaaa -      dd/mm/aaaa",
+    proxInactividad: "dd/mm/aaaa - dd/mm/aaaa",
     accionesAnalistas: "",
   },
   {
@@ -142,7 +155,7 @@ const data = [
     fechaDeIngreso: "28/05/24",
     ultimaConexión: "dd/mm/aaaa 17:00 hrs",
     tiempoActivo: "8 hrs",
-    proxInactividad: "dd/mm/aaaa -      dd/mm/aaaa",
+    proxInactividad: "dd/mm/aaaa - dd/mm/aaaa",
     accionesAnalistas: "",
   },
   {
@@ -153,7 +166,7 @@ const data = [
     fechaDeIngreso: "28/05/24",
     ultimaConexión: "dd/mm/aaaa 17:00 hrs",
     tiempoActivo: "8 hrs",
-    proxInactividad: "dd/mm/aaaa -      dd/mm/aaaa",
+    proxInactividad: "dd/mm/aaaa - dd/mm/aaaa",
     accionesAnalistas: "",
   },
   {
@@ -164,7 +177,7 @@ const data = [
     fechaDeIngreso: "28/05/24",
     ultimaConexión: "dd/mm/aaaa 17:00 hrs",
     tiempoActivo: "8 hrs",
-    proxInactividad: "dd/mm/aaaa -      dd/mm/aaaa",
+    proxInactividad: "dd/mm/aaaa - dd/mm/aaaa",
     accionesAnalistas: "",
   },
   {
@@ -175,7 +188,7 @@ const data = [
     fechaDeIngreso: "28/05/24",
     ultimaConexión: "dd/mm/aaaa 17:00 hrs",
     tiempoActivo: "8 hrs",
-    proxInactividad: "dd/mm/aaaa -      dd/mm/aaaa",
+    proxInactividad: "dd/mm/aaaa - dd/mm/aaaa",
     accionesAnalistas: "",
   },
   {
@@ -186,7 +199,7 @@ const data = [
     fechaDeIngreso: "28/05/24",
     ultimaConexión: "dd/mm/aaaa 17:00 hrs",
     tiempoActivo: "8 hrs",
-    proxInactividad: "dd/mm/aaaa -      dd/mm/aaaa",
+    proxInactividad: "dd/mm/aaaa - dd/mm/aaaa",
     accionesAnalistas: "",
   },
   {
@@ -208,7 +221,7 @@ const data = [
     fechaDeIngreso: "28/05/24",
     ultimaConexión: "dd/mm/aaaa 17:00 hrs",
     tiempoActivo: "8 hrs",
-    proxInactividad: "dd/mm/aaaa -      dd/mm/aaaa",
+    proxInactividad: "dd/mm/aaaa - dd/mm/aaaa",
     accionesAnalistas: "",
   },
   {
@@ -219,7 +232,7 @@ const data = [
     fechaDeIngreso: "28/05/24",
     ultimaConexión: "dd/mm/aaaa 17:00 hrs",
     tiempoActivo: "8 hrs",
-    proxInactividad: "dd/mm/aaaa -      dd/mm/aaaa",
+    proxInactividad: "dd/mm/aaaa - dd/mm/aaaa",
     accionesAnalistas: "",
   },
   {
@@ -230,7 +243,7 @@ const data = [
     fechaDeIngreso: "28/05/24",
     ultimaConexión: "dd/mm/aaaa 17:00 hrs",
     tiempoActivo: "8 hrs",
-    proxInactividad: "dd/mm/aaaa -      dd/mm/aaaa",
+    proxInactividad: "dd/mm/aaaa - dd/mm/aaaa",
     accionesAnalistas: "",
   },
 ];
@@ -238,7 +251,6 @@ const data = [
 const first = ref(0);
 const rows = ref(10);
 
-// Filtrar los datos basados en el tab seleccionado
 const filteredData = computed(() => {
   let filtered = data;
 
@@ -258,7 +270,7 @@ const filteredData = computed(() => {
     );
   }
 
-  return filtered; // Devuelve un nuevo array con los datos filtered;
+  return filtered;
 });
 
 const updatePage = (newFirst) => {
@@ -274,7 +286,7 @@ const exportToExcel = () => {
 
 const dialogVisible = ref(false);
 const calendarVisible = ref(false);
-const selectedDateRange = ref(null);
+// const selectedDateRange = ref([null, null]);
 const newChanger = ref('');
 
 
@@ -288,15 +300,15 @@ let dialogData = {
 };
 
 const actionItems = [
-  { icon: 'status-icon-label', title: 'Cambiar estatus', action: () => openDialog('status') },
-  { icon: 'capacity-icon-label', title: 'Cambiar capacidad', action: () => openDialog('capacity') },
-  { icon: 'inactivity-icon-label', title: 'Programar inactividad', action: () => openDialog('inactivity') },
+  { icon: '/assets/icons/status-icon-label.svg', title: 'Cambiar estatus', action: () => openDialog('status') },
+  { icon: '/assets/icons/capacity-icon-label.svg', title: 'Cambiar capacidad', action: () => openDialog('capacity') },
+  { icon: '/assets/icons/inactivity-icon-label.svg', title: 'Programar inactividad', action: () => openDialog('inactivity') },
 ];
 
 function openDialog(type) {
   if (type === 'status') {
     dialogData = {
-      img: 'switch-status',
+      img: '/assets/icons/switch-status.svg',
       title: 'Cambio de estatus',
       label: 'Estatus',
       description: '¿Deseas cambiar el estatus del analista [ID Analista] [Nombre Analista]? Su estatus actual es [Estatus]. ',
@@ -304,7 +316,7 @@ function openDialog(type) {
     }
   } else if (type === 'capacity') {
     dialogData = {
-      img: 'switch-capacity',
+      img: '/assets/icons/switch-capacity.svg',
       title: 'Cambio de capacidad',
       label: 'Capacidad',
       description: '¿Deseas cambiar la capacidad de [ID Analista] [Nombre Analista]? Su capacidad actual es [Capacidad].',
@@ -312,7 +324,7 @@ function openDialog(type) {
     }
   } else if (type === 'inactivity') {
     dialogData = {
-      img: 'switch-inactivity',
+      img: '/assets/icons/switch-inactivity.svg',
       title: 'Programar Inactividad',
       description: 'Gestiona y programa los períodos de inactividad. ',
       inactivities: []
@@ -329,8 +341,12 @@ function handleDataChange() {
   dialogVisible.value = false;
 }
 
-function handleDateRange(range) {
-  selectedDateRange.value = range;
-  console.log("Rango seleccionado:", range); // Aquí puedes manejar el rango seleccionado
+function openCalendar() {
+  calendarVisible.value = true;
+}
+
+function handleDateSelected(range) {
+  dialogData.inactivities.push(range);
+  calendarVisible.value = false;
 }
 </script>

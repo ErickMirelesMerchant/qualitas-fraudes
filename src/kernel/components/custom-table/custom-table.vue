@@ -78,7 +78,7 @@
                             <v-divider></v-divider>
                           <v-list-item v-for="(item, index) in menuItems" :key="index" @click="item.action" class="d-flex">
                             <v-list-item-title>
-                              <v-img :src="`/assets/icons/${item.icon}.svg`" alt="modifier-icon" height="48" max-width="48"></v-img>
+                              <v-img :src="item.icon" alt="modifier-icon" height="48" max-width="48"></v-img>
                               {{ item.title }}
                             </v-list-item-title>
                           </v-list-item>

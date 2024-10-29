@@ -10,13 +10,32 @@
         <v-btn append-icon="mdi-launch" @click="exportToExcel">
           Exportar tabla
         </v-btn>
-        <v-text-field max-width="100%" class="search-input-siniestros" prepend-inner-icon="mdi-magnify" v-model="searchQuery" variant="outlined" hide-details="true" placeholder="Buscar"></v-text-field>
+        <v-text-field max-width="100%" class="search-input-siniestros" prepend-inner-icon="mdi-magnify"
+          v-model="searchQuery" variant="outlined" hide-details="true" placeholder="Buscar"></v-text-field>
       </v-col>
     </v-row>
-
     <v-row>
-      <v-col cols="12">
-        <customTable :columns="columns" :data="filteredData" :has-checkbox="false" :first="first" :rows="rows" title="Siniestros"/>
+      <v-col></v-col>
+      <!-- <Details :textButton="'Ver detalle de siniestro'" :actionButton="verDetalle">
+        <template #content>
+          <v-row class="mb-1">
+            <v-col cols="12">
+              <h6 class="text-subtitle-1">Nombre corto proveedor</h6>
+              <p>[Nombre corto proveedor]</p>
+            </v-col>
+          </v-row>
+          <v-row class="mb-1">
+            <v-col cols="12">
+              <h6 class="text-subtitle-1">Tipo proveedor</h6>
+              <p>[Tipo proveedor]</p>
+            </v-col>
+          </v-row>
+        </template>
+      </Details> -->
+      <v-col cols="auto">
+
+        <customTable :columns="columns" :data="filteredData" :has-checkbox="false" :first="first" :rows="rows"
+          title="Siniestros" />
       </v-col>
     </v-row>
     <v-row>
