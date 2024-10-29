@@ -1,15 +1,16 @@
 <template>
   <DrawerNavigation title="Siniestros">
     <v-row>
-      <v-col cols="8" class="container-titles">
+      <v-col cols="auto" class="container-titles">
         <h1>Siniestros</h1>
         <p class="my-3">Gestiona las acciones de cada siniestro</p>
       </v-col>
-      <v-col cols="4" class="container-actions-buttons">
+      <v-spacer></v-spacer>
+      <v-col cols="auto" class="container-actions-buttons">
         <v-btn append-icon="mdi-launch" @click="exportToExcel">
           Exportar tabla
         </v-btn>
-        <v-text-field class="search-input-siniestros" prepend-inner-icon="mdi-magnify" v-model="searchQuery" variant="outlined" hide-details="true" placeholder="Buscar"></v-text-field>
+        <v-text-field max-width="100%" class="search-input-siniestros" prepend-inner-icon="mdi-magnify" v-model="searchQuery" variant="outlined" hide-details="true" placeholder="Buscar"></v-text-field>
       </v-col>
     </v-row>
 
@@ -28,10 +29,10 @@
 
 <script setup>
 import { ref } from 'vue';
+import * as XLSX from "xlsx";
 import customTable from "~/kernel/components/custom-table/custom-table.vue";
 import DrawerNavigation from "~/kernel/components/drawer-navigation.vue";
 import paginator from "~/kernel/components/paginator/paginator.vue";
-import * as XLSX from "xlsx";
 
 const searchQuery = ref("");
 

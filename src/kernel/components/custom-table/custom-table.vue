@@ -1,6 +1,6 @@
 <template>
-  <v-card rounded="12">
-    <v-card-text style="padding: auto 0">
+  <v-card rounded="lg">
+    <v-card-text style="padding: auto 0;">
       <v-row class="pa-1">
         <v-col cols="auto">
           <p class="text-h5">{{ title }}</p>
@@ -11,7 +11,7 @@
         </v-col>
         <v-spacer />
         <v-col v-if="showButton" cols="auto">
-          <v-btn append-icon="mdi-cog" variant="outlined"> Configurar </v-btn>
+          <v-btn append-icon="mdi-cog" variant="outlined" color="#344054" style="border-color: #D0D5DD;border-radius: 8px !important"> {{textButton}} </v-btn>
         </v-col>
       </v-row>
       <v-row style="margin-top: 0">
@@ -57,10 +57,10 @@
                           ? '#fffaeb'
                           : '#fef3f2'
                         " variant="flat" :style="item.estatus === 'Activo'
-                          ? 'color: #5da886;'
+                          ? 'color: #5da886; border-radius: 16px !important'
                           : item.estatus === 'Inactivo'
-                            ? 'color: #be5d24;'
-                            : 'color: #cf716a;'">
+                            ? 'color: #be5d24; border-radius: 16px !important'
+                            : 'color: #cf716a; border-radius: 16px !important'">
                         {{ item.estatus }}
                       </v-chip>
                     </span>
@@ -126,6 +126,13 @@ const props = defineProps({
     type: Boolean,
     default: true,
   },
+  textButton: {
+    type: String,
+    default: "Configurar",
+  },
+  actionButton: {
+    type: Function,
+  }
 });
 
 const tableData = ref([]);

@@ -50,16 +50,20 @@
         <paginator :totalRecords="filteredData.length" :rows="rows" :first="first" @pageChange="updatePage" />
       </v-col>
     </v-row>
-    <dialogChanger :icon="dialogData.icon" :title="dialogData.title" :description="dialogData.description" :isOpen="dialogVisible"
-      @confirm="handleDataChange" @close="dialogVisible = false">
+    <dialogChanger v-if="dialogVisible" :image="dialogData.img" :title="dialogData.title"
+      :description="dialogData.description" :isOpen="dialogVisible" :calendarVisible="calendarVisible"
+      @confirm="handleDataChange" @close="dialogVisible = false" @update:dateRange="handleDateRange">
       <template v-slot:content>
         <v-select v-if="dialogData.items" class="" variant="outlined" v-model="newChanger" :items="dialogData.items"
           placeholder="Selecciona una opción" />
-          <div v-else>
-            <div v-if="dialogData.inactivities.length === 0" class="text-center my-4">
-              No hay inactividad programada
-            </div>
+        <div v-else class="text-center d-flex flex-column align-items-center justify-center ga-3 my-4">
+          <v-btn variant="text" height="48px" color="transparent" @click="calendarVisible = true">
+            <v-img center src="/assets/icons/add-button.svg" alt="add-btn" height="48px" width="48px"></v-img>
+          </v-btn>
+          <div v-if="dialogData.inactivities.length === 0">
+            No hay inactividad programada
           </div>
+        </div>
       </template>
     </dialogChanger>
   </DrawerNavigation>
@@ -269,9 +273,19 @@ const exportToExcel = () => {
 };
 
 const dialogVisible = ref(false);
+const calendarVisible = ref(false);
+const selectedDateRange = ref(null);
 const newChanger = ref('');
 
-let dialogData;
+
+let dialogData = {
+  img: '',
+  title: '',
+  label: '',
+  description: '',
+  items: [],
+  inactivities: [],
+};
 
 const actionItems = [
   { icon: 'status-icon-label', title: 'Cambiar estatus', action: () => openDialog('status') },
@@ -282,7 +296,7 @@ const actionItems = [
 function openDialog(type) {
   if (type === 'status') {
     dialogData = {
-      icon: 'switch-status',
+      img: 'switch-status',
       title: 'Cambio de estatus',
       label: 'Estatus',
       description: '¿Deseas cambiar el estatus del analista [ID Analista] [Nombre Analista]? Su estatus actual es [Estatus]. ',
@@ -290,7 +304,7 @@ function openDialog(type) {
     }
   } else if (type === 'capacity') {
     dialogData = {
-      icon: 'switch-capacity',
+      img: 'switch-capacity',
       title: 'Cambio de capacidad',
       label: 'Capacidad',
       description: '¿Deseas cambiar la capacidad de [ID Analista] [Nombre Analista]? Su capacidad actual es [Capacidad].',
@@ -298,7 +312,7 @@ function openDialog(type) {
     }
   } else if (type === 'inactivity') {
     dialogData = {
-      icon: 'switch-inactivity',
+      img: 'switch-inactivity',
       title: 'Programar Inactividad',
       description: 'Gestiona y programa los períodos de inactividad. ',
       inactivities: []
@@ -306,11 +320,17 @@ function openDialog(type) {
   }
 
   dialogVisible.value = true;
+  calendarVisible.value = false;
   return dialogData
 }
 
 function handleDataChange() {
 
   dialogVisible.value = false;
+}
+
+function handleDateRange(range) {
+  selectedDateRange.value = range;
+  console.log("Rango seleccionado:", range); // Aquí puedes manejar el rango seleccionado
 }
 </script>

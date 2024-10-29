@@ -2,67 +2,81 @@
   <v-dialog v-model="isDialogOpen" persistent max-width="500px" width="100%">
     <v-card class="dialog-box">
       <div class="dialog-image">
-        <v-img left :src="`/assets/icons/${icon}.svg`" alt="switch-status" height="48" max-width="48"></v-img>
+        <v-img left :src="`/assets/icons/${image}.svg`" alt="switch-status" height="48" max-width="48"></v-img>
         <v-img src="/assets/icons/dialog-background.svg" alt="Dialog-bg" class="dialog-bg-icon"
           max-height="auto"></v-img>
       </div>
 
-      <v-card-text class="text-left	px-0 py-4">
-        <v-card-title class="">
-          <span>{{ title }}</span>
-        </v-card-title class="px-0">
+      <v-card-text class="text-left px-0 py-4">
+        <v-card-title>{{ title }}</v-card-title>
         <p class="pb-4">{{ description }}</p>
         <slot name="content" class="w-100 ma-4"></slot>
+
+        <!-- Diálogo del calendario -->
+        <v-dialog v-if="calendarVisible" v-model="calendarVisible" max-width="330">
+          <v-card>
+            <v-date-picker v-model="dateRange" mode="range" multiple="range" hide-header></v-date-picker>
+            <v-card-actions>
+              <v-btn text @click="closeCalendar">Cancelar</v-btn>
+              <v-btn text @click="confirmDate">Confirmar</v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
       </v-card-text>
 
       <v-card-actions class="justify-space-around">
         <v-btn class="secondary-btn" text @click="closeDialog">Cancelar</v-btn>
-        <v-btn class="primary-btn" @click="confirm">{{title.includes('Inactividad') ? 'Guardar' : 'Confirmar'}}</v-btn>
+        <v-btn class="primary-btn" @click="confirm">{{ title.includes('Inactividad') ? 'Guardar' : 'Confirmar' }}</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
 </template>
 
 <script setup>
+import { defineEmits, defineProps, ref, watch } from 'vue';
+
 const props = defineProps({
-  icon: {
-    type: String,
-    required: true,
-  },
-  title: {
-    type: String,
-    required: true,
-  },
-  description: {
-    type: String,
-    required: true,
-  },
-  isOpen: {
-    type: Boolean,
-    default: false,
-  },
+  image: String,
+  title: String,
+  description: String,
+  isOpen: Boolean,
+  calendarVisible: Boolean,
 });
 
-const emit = defineEmits(['confirm', 'close']);
+const emit = defineEmits(['confirm', 'close', 'update:dateRange']);
 const isDialogOpen = ref(props.isOpen);
+const calendarVisible = ref(props.calendarVisible);
+const dateRange = ref([null, null]);
 
-watch(
-  () => props.isOpen,
-  (newVal) => {
-    isDialogOpen.value = newVal;
-  }
-);
+// Sincronización de `isOpen`
+watch(() => props.isOpen, (newVal) => {
+  isDialogOpen.value = newVal;
+});
 
+// Sincronización de `calendarVisible`
+watch(() => props.calendarVisible, (newVal) => {
+  calendarVisible.value = newVal;
+});
+
+// Cerrar diálogos
 function closeDialog() {
   isDialogOpen.value = false;
   emit('close');
 }
 
-function confirm() {
-  emit('confirm');
-  closeDialog();
+function closeCalendar() {
+  calendarVisible.value = false;
+  emit("update:calendarVisible", false);
 }
+
+// Confirmar selección de fecha
+function confirmDate() {
+  emit('update:dateRange', dateRange.value); // Emitimos el rango seleccionado al componente padre
+  closeCalendar();
+}
+
 </script>
+
 
 <style scoped>
 .v-card-title {
