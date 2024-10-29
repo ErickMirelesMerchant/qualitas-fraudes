@@ -1,6 +1,13 @@
 <template>
   <v-app>
-    <v-navigation-drawer v-model="drawer" app :rail="rail" permanent>
+    <v-navigation-drawer
+      v-if="isMounted"
+      v-model="drawer"
+      app
+      :rail="rail"
+      :class="{ 'v-navigation-drawer--mobile': isMobile }"
+      permanent
+    >
       <v-img
         src="/assets/logos/logo_qualitas.png"
         alt="Qualitas Logo"
@@ -58,31 +65,41 @@
 </template>
 
 <script setup>
-import { onMounted, ref, watch } from "vue";
+import { computed, onMounted, ref, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { useDisplay } from "vuetify";
 
-const drawer = ref(true);
-const { mdAndUp } = useDisplay();
+const drawer = ref(false); // Cambiado a `false` por defecto para evitar discrepancia inicial
+const isMounted = ref(false); // Nuevo control para montaje en cliente
 const rail = ref(false);
-const router = useRouter(); // Router for navigation
-const route = useRoute(); // Route for detecting current route
+const { mdAndUp } = useDisplay(); // Detecta tamaño de pantalla
+const router = useRouter();
+const route = useRoute();
 
 const props = defineProps({
   title: {
     type: String,
     required: true,
   },
-  // value: title.toLowerCase(),
 });
+
+// Determina si es mobile basado en `mdAndUp` y si el cliente está montado
+const isMobile = computed(() => !mdAndUp.value && isMounted.value);
 
 onMounted(() => {
-  drawer.value = mdAndUp.value;
+  isMounted.value = true;
+  drawer.value = mdAndUp.value; // Define `drawer` solo cuando está montado en cliente
 });
 
-watch(mdAndUp, (isDesktop) => {
-  drawer = isDesktop;
-});
+// Sincroniza `drawer` con el tamaño de pantalla solo en el cliente
+watch(
+  mdAndUp,
+  (isDesktop) => {
+    drawer.value = isDesktop;
+    if (!isDesktop) rail.value = false; // Resetear `rail` si no es desktop
+  },
+  { immediate: true } // Aplica el watcher inmediatamente
+);
 
 const items = [
   {
@@ -115,7 +132,6 @@ const navigateTo = (item) => {
 const logout = () => {
   router.push("/");
 };
-
 
 const isActiveRoute = (item) => {
   return route.path === item.route;

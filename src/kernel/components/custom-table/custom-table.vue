@@ -1,17 +1,29 @@
 <template>
   <v-card rounded="lg">
-    <v-card-text style="padding: auto 0;">
+    <v-card-text style="padding: auto 0">
       <v-row class="pa-1">
         <v-col cols="auto">
           <p class="text-h5">{{ title }}</p>
         </v-col>
         <v-col cols="auto">
-          <v-chip color="#C2DFE7" variant="flat" style="color: #006e80; border-radius: 16px !important"
-            :ripple="false">{{ tableData.length }} {{ title }}</v-chip>
+          <v-chip
+            color="#C2DFE7"
+            variant="flat"
+            style="color: #006e80; border-radius: 16px !important"
+            :ripple="false"
+            >{{ tableData.length }} {{ title }}</v-chip
+          >
         </v-col>
         <v-spacer />
         <v-col v-if="showButton" cols="auto">
-          <v-btn append-icon="mdi-cog" variant="outlined" color="#344054" style="border-color: #D0D5DD;border-radius: 8px !important"> {{textButton}} </v-btn>
+          <v-btn
+            append-icon="mdi-cog"
+            variant="outlined"
+            color="#344054"
+            style="border-color: #d0d5dd; border-radius: 8px !important"
+          >
+            {{ textButton }}
+          </v-btn>
         </v-col>
       </v-row>
       <v-row style="margin-top: 0">
@@ -22,12 +34,20 @@
                 <tr>
                   <th v-if="hasCheckbox" id="checkbox-header">
                     <span style="width: fit-content; display: flex">
-                      <v-checkbox v-model="allChecked" @change="toggleAll" hide-details="true" />
+                      <v-checkbox
+                        v-model="allChecked"
+                        @change="toggleAll"
+                        hide-details="true"
+                      />
                     </span>
                   </th>
-                  <th v-for="col in columns" :key="col.key" id="header-{{ col.key }}"
+                  <th
+                    v-for="col in columns"
+                    :key="col.key"
+                    id="header-{{ col.key }}"
                     @click="col.sortable && sortTable(col.key)"
-                    :style="{ cursor: col.sortable ? 'pointer' : 'default' }">
+                    :style="{ cursor: col.sortable ? 'pointer' : 'default' }"
+                  >
                     {{ col.title }}
                     <span v-if="col.sortable">
                       <v-icon small>mdi-filter-variant</v-icon>
@@ -38,47 +58,88 @@
               <tbody>
                 <tr v-for="(item, index) in sortedData" :key="index">
                   <td v-if="hasCheckbox" id="checkbox-{{ index }}">
-                    <v-checkbox v-model="item.checked" @change="updateAllChecked" hide-details="true" />
+                    <v-checkbox
+                      v-model="item.checked"
+                      @change="updateAllChecked"
+                      hide-details="true"
+                    />
                   </td>
                   <td v-for="col in columns" :key="col.key">
                     <span v-if="col.title === 'Score'">
-                      <v-chip class="score-chip" prepend-icon="mdi-arrow-down" color="#026AA2"
-                        style="border-radius: 16px !important; border:1px solid #B9E6FE;">{{ item.score }}</v-chip>
+                      <v-chip
+                        class="score-chip"
+                        prepend-icon="mdi-arrow-down"
+                        color="#026AA2"
+                        style="
+                          border-radius: 16px !important;
+                          border: 1px solid #b9e6fe;
+                        "
+                        >{{ item.score }}</v-chip
+                      >
                     </span>
                     <span v-else-if="col.title === 'Estatus plataforma'">
-                      <v-chip class="status-chip" style="border-radius: 16px !important">{{
-                        item.estatusPlataforma
-                      }}</v-chip>
+                      <v-chip
+                        class="status-chip"
+                        style="border-radius: 16px !important"
+                        >{{ item.estatusPlataforma }}</v-chip
+                      >
                     </span>
                     <span v-else-if="col.title === 'Estatus'">
-                      <v-chip :color="item.estatus === 'Activo'
-                        ? '#ecfdf3'
-                        : item.estatus === 'Inactivo'
-                          ? '#fffaeb'
-                          : '#fef3f2'
-                        " variant="flat" :style="item.estatus === 'Activo'
-                          ? 'color: #5da886; border-radius: 16px !important'
-                          : item.estatus === 'Inactivo'
-                            ? 'color: #be5d24; border-radius: 16px !important'
-                            : 'color: #cf716a; border-radius: 16px !important'">
+                      <v-chip
+                        :color="
+                          item.estatus === 'Activo'
+                            ? '#ecfdf3'
+                            : item.estatus === 'Inactivo'
+                            ? '#fffaeb'
+                            : '#fef3f2'
+                        "
+                        variant="flat"
+                        :style="
+                          item.estatus === 'Activo'
+                            ? 'color: #5da886;'
+                            : item.estatus === 'Inactivo'
+                            ? 'color: #be5d24;'
+                            : 'color: #cf716a;'
+                        "
+                      >
                         {{ item.estatus }}
                       </v-chip>
                     </span>
                     <span v-else-if="col.key === 'accionesAnalistas'">
                       <v-menu>
                         <template v-slot:activator="{ props }">
-                          <v-btn icon variant="plain" v-bind="props" color="#667085">
+                          <v-btn
+                            icon
+                            variant="plain"
+                            v-bind="props"
+                            color="#667085"
+                          >
                             <v-icon>mdi-dots-vertical</v-icon>
                           </v-btn>
                         </template>
 
                         <!-- Contenido del menú -->
-                        <v-list class="rounded-lg" style="width: 240px; font-family: 'Inter-SemiBold', sans-serif; font-size: 14px; font-weight: 600; line-height: 20px; text-align: left;">
+                        <v-list
+                          class="rounded-lg"
+                          style="
+                            width: 240px;
+                            font-family: 'Inter-SemiBold', sans-serif;
+                            font-size: 14px;
+                            font-weight: 600;
+                            line-height: 20px;
+                            text-align: left;
+                          "
+                        >
                           <span class="py-2 px-4 d-flex">Acciones</span>
-                            <v-divider></v-divider>
-                          <v-list-item v-for="(item, index) in menuItems" :key="index" @click="item.action" class="d-flex">
+                          <v-divider></v-divider>
+                          <v-list-item
+                            v-for="(item, index) in menuItems"
+                            :key="index"
+                            @click="item.action"
+                            class="d-flex"
+                          >
                             <v-list-item-title>
-                              <v-img :src="item.icon" alt="modifier-icon" height="48" max-width="48"></v-img>
+                              <v-icon>{{ item.icon }}</v-icon>
                               {{ item.title }}
                             </v-list-item-title>
                           </v-list-item>
@@ -132,7 +193,7 @@ const props = defineProps({
   },
   actionButton: {
     type: Function,
-  }
+  },
 });
 
 const tableData = ref([]);

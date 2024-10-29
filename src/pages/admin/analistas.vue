@@ -6,7 +6,12 @@
       </v-col>
       <v-spacer></v-spacer>
       <v-col cols="auto">
-        <v-btn append-icon="mdi-export-variant" @click="exportToExcel" color="primary" rounded="x-large">
+        <v-btn
+          append-icon="mdi-export-variant"
+          @click="exportToExcel"
+          color="primary"
+          rounded="x-large"
+        >
           Exportar tabla
           <template v-slot:append>
             <v-icon color="white"></v-icon>
@@ -16,22 +21,45 @@
     </v-row>
     <v-row>
       <v-col cols="12" md="3">
-        <customeCardDashboard title="Activos" icon="mdi-account-check-outline" :quantity="9" />
+        <customeCardDashboard
+          title="Activos"
+          icon="mdi-account-check-outline"
+          :quantity="9"
+        />
       </v-col>
       <v-col cols="12" md="3">
-        <customeCardDashboard title="Inactivos" icon="mdi-account-remove-outline" :quantity="2" />
+        <customeCardDashboard
+          title="Inactivos"
+          icon="mdi-account-remove-outline"
+          :quantity="2"
+        />
       </v-col>
       <v-col cols="12" md="3">
-        <customeCardDashboard title="En baja" icon="mdi-account-minus-outline" :quantity="4" />
+        <customeCardDashboard
+          title="En baja"
+          icon="mdi-account-minus-outline"
+          :quantity="4"
+        />
       </v-col>
       <v-col cols="12" md="3">
-        <customeCardDashboard title="Conectados" icon="mdi mdi-account-circle-outline" :quantity="9" />
+        <customeCardDashboard
+          title="Conectados"
+          icon="mdi mdi-account-circle-outline"
+          :quantity="9"
+        />
       </v-col>
     </v-row>
     <v-row justify="end">
       <v-col cols="12" md="4">
-        <v-text-field density="comfortable" v-model="searchQuery" variant="solo" prepend-inner-icon="mdi-magnify"
-          placeholder="Buscar" outlined hide-details="auto"></v-text-field>
+        <v-text-field
+          density="comfortable"
+          v-model="searchQuery"
+          variant="solo"
+          prepend-inner-icon="mdi-magnify"
+          placeholder="Buscar"
+          outlined
+          hide-details="auto"
+        ></v-text-field>
       </v-col>
     </v-row>
     <v-row>
@@ -41,40 +69,76 @@
     </v-row>
     <v-row>
       <v-col cols="12">
-        <customTable title="Analistas" :columns="columns" :data="filteredData" :has-checkbox="true" :first="first"
-          :rows="rows" :menuItems="actionItems" :showButton="false" />
+        <customTable
+          title="Analistas"
+          :columns="columns"
+          :data="filteredData"
+          :has-checkbox="true"
+          :first="first"
+          :rows="rows"
+          :menuItems="actionItems"
+          :showButton="false"
+        />
       </v-col>
     </v-row>
     <v-row>
       <v-col cols="12">
-        <paginator :totalRecords="filteredData.length" :rows="rows" :first="first" @pageChange="updatePage" />
+        <paginator
+          :totalRecords="filteredData.length"
+          :rows="rows"
+          :first="first"
+          @pageChange="updatePage"
+        />
       </v-col>
     </v-row>
-    <dialogChanger v-if="dialogVisible"
-                   :image="dialogData.img"
-                   :title="dialogData.title"
-                   :description="dialogData.description"
-                   :isOpen="dialogVisible"
-                   :calendarVisible="calendarVisible"
-                   @confirm="handleDataChange"
-                   @close="dialogVisible = false"
-                   @update:dateRange="handleDateSelected">
+    <dialogChanger
+      v-if="dialogVisible"
+      :icon="dialogData.icon"
+      :title="dialogData.title"
+      :description="dialogData.description"
+      :isOpen="dialogVisible"
+      :calendarVisible="calendarVisible"
+      @confirm="handleDataChange"
+      @close="dialogVisible = false"
+      @update:dateRange="handleDateSelected"
+    >
       <template v-slot:content>
-        <v-select v-if="dialogData.items"
-                  variant="outlined"
-                  v-model="newChanger"
-                  :items="dialogData.items"
-                  placeholder="Selecciona una opción" />
-        <div v-else class="text-center d-flex flex-column align-items-center justify-center ga-3 my-4">
-          <v-btn  variant="text" height="48px" color="transparent" @click="openCalendar">
-            <v-img center src="/assets/icons/add-button.svg" alt="add-btn" height="48px" width="48px"></v-img>
+        <v-select
+          v-if="dialogData.items"
+          variant="outlined"
+          v-model="newChanger"
+          :items="dialogData.items"
+          placeholder="Selecciona una opción"
+        />
+        <div
+          v-else
+          class="text-center d-flex flex-column align-items-center justify-center ga-3 my-4"
+        >
+          <v-btn
+            variant="text"
+            height="48px"
+            color="transparent"
+            @click="openCalendar"
+          >
+            <v-img
+              center
+              src="/assets/icons/add-button.svg"
+              alt="add-btn"
+              height="48px"
+              width="48px"
+            ></v-img>
           </v-btn>
           <div v-if="dialogData.inactivities.length === 0">
             No hay inactividad programada
           </div>
           <div v-if="dialogData.inactivities.length !== 0">
-            <ul v-for="inactivity in dialogData.inactivities" :key="inactivity.id">
-              <li>{{ inactivity[0] }} - {{ inactivity[inactivity.length - 1] }}</li>
+            <ul
+              v-for="inactivity in dialogData.inactivities"
+              :key="inactivity.id"
+            >
+              <li>
+                {{ inactivity[0] }} - {{ inactivity[inactivity.length - 1] }}
+              </li>
             </ul>
           </div>
         </div>
@@ -205,7 +269,7 @@ const data = [
   {
     id: "0009",
     nombre: "Miguel Angel Contreras Madrigal",
-    estatus: "Activo",
+    estatus: "En baja",
     capacidad: "8",
     fechaDeIngreso: "28/05/24",
     ultimaConexión: "dd/mm/aaaa 17:00 hrs",
@@ -216,7 +280,7 @@ const data = [
   {
     id: "0010",
     nombre: "Miguel Angel Contreras Madrigal",
-    estatus: "Activo",
+    estatus: "En baja",
     capacidad: "9",
     fechaDeIngreso: "28/05/24",
     ultimaConexión: "dd/mm/aaaa 17:00 hrs",
@@ -227,7 +291,7 @@ const data = [
   {
     id: "0011",
     nombre: "Miguel Angel Contreras Madrigal",
-    estatus: "Activo",
+    estatus: "Inactivo",
     capacidad: "10",
     fechaDeIngreso: "28/05/24",
     ultimaConexión: "dd/mm/aaaa 17:00 hrs",
@@ -238,7 +302,7 @@ const data = [
   {
     id: "0012",
     nombre: "Miguel Angel Contreras Madrigal",
-    estatus: "Activo",
+    estatus: "Inactivo",
     capacidad: "11",
     fechaDeIngreso: "28/05/24",
     ultimaConexión: "dd/mm/aaaa 17:00 hrs",
@@ -286,58 +350,69 @@ const exportToExcel = () => {
 
 const dialogVisible = ref(false);
 const calendarVisible = ref(false);
-// const selectedDateRange = ref([null, null]);
-const newChanger = ref('');
-
+const newChanger = ref(null);
 
 let dialogData = {
-  img: '',
-  title: '',
-  label: '',
-  description: '',
+  img: "",
+  title: "",
+  label: "",
+  description: "",
   items: [],
   inactivities: [],
 };
 
 const actionItems = [
-  { icon: '/assets/icons/status-icon-label.svg', title: 'Cambiar estatus', action: () => openDialog('status') },
-  { icon: '/assets/icons/capacity-icon-label.svg', title: 'Cambiar capacidad', action: () => openDialog('capacity') },
-  { icon: '/assets/icons/inactivity-icon-label.svg', title: 'Programar inactividad', action: () => openDialog('inactivity') },
+  {
+    icon: "mdi-swap-horizontal",
+    title: "Cambiar estatus",
+    action: () => openDialog("status"),
+  },
+  {
+    icon: "mdi-pencil-outline",
+    title: "Cambiar capacidad",
+    action: () => openDialog("capacity"),
+  },
+  {
+    icon: "mdi-weather-sunset",
+    title: "Programar inactividad",
+    action: () => openDialog("inactivity"),
+  },
 ];
 
 function openDialog(type) {
-  if (type === 'status') {
+  if (type === "status") {
     dialogData = {
-      img: '/assets/icons/switch-status.svg',
-      title: 'Cambio de estatus',
-      label: 'Estatus',
-      description: '¿Deseas cambiar el estatus del analista [ID Analista] [Nombre Analista]? Su estatus actual es [Estatus]. ',
-      items: ['Activo', 'Inactivo', 'En baja'],
-    }
-  } else if (type === 'capacity') {
+      icon: "mdi-swap-horizontal",
+      title: "Cambio de estatus",
+      label: "Estatus",
+      description:
+        "¿Deseas cambiar el estatus del analista [ID Analista] [Nombre Analista]? Su estatus actual es [Estatus]. ",
+      items: ["Activo", "Inactivo", "En baja"],
+    };
+  } else if (type === "capacity") {
     dialogData = {
-      img: '/assets/icons/switch-capacity.svg',
-      title: 'Cambio de capacidad',
-      label: 'Capacidad',
-      description: '¿Deseas cambiar la capacidad de [ID Analista] [Nombre Analista]? Su capacidad actual es [Capacidad].',
-      items: ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'],
-    }
-  } else if (type === 'inactivity') {
+      icon: "mdi-pencil-outline",
+      title: "Cambio de capacidad",
+      label: "Capacidad",
+      description:
+        "¿Deseas cambiar la capacidad de [ID Analista] [Nombre Analista]? Su capacidad actual es [Capacidad].",
+      items: ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"],
+    };
+  } else if (type === "inactivity") {
     dialogData = {
-      img: '/assets/icons/switch-inactivity.svg',
-      title: 'Programar Inactividad',
-      description: 'Gestiona y programa los períodos de inactividad. ',
-      inactivities: []
-    }
+      icon: "mdi-weather-sunset",
+      title: "Programar Inactividad",
+      description: "Gestiona y programa los períodos de inactividad. ",
+      inactivities: [],
+    };
   }
 
   dialogVisible.value = true;
   calendarVisible.value = false;
-  return dialogData
+  return dialogData;
 }
 
 function handleDataChange() {
-
   dialogVisible.value = false;
 }
 

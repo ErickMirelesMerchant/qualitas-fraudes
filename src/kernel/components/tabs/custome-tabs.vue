@@ -1,5 +1,5 @@
 <template>
-  <v-tabs v-model="internalTab" align-tabs="start" color="#006e80">
+  <v-tabs v-if="isMounted" v-model="internalTab" align-tabs="start" color="#006e80">
     <v-tab
       class="text-subtitle-2"
       v-for="(item, index) in tabsList"
@@ -12,7 +12,7 @@
 </template>
 
 <script setup>
-import { ref, defineProps, watch } from "vue";
+import { ref, defineProps, watch, onMounted } from "vue";
 
 const props = defineProps({
   tabsList: {
@@ -27,7 +27,13 @@ const props = defineProps({
 });
 
 const internalTab = ref(props.modelValue);
+const isMounted = ref(false); 
 const emit = defineEmits(["update:modelValue"]);
+
+onMounted(() => {
+  isMounted.value = true;
+});
+
 watch(internalTab, (newValue) => {
   emit("update:modelValue", newValue);
 });

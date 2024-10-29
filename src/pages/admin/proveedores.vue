@@ -86,20 +86,31 @@
           @pageChange="updatePage"
         />
       </v-col>
-      <customAlert
+
+      <CustomAlert
         v-if="showAlert"
-        :variant="'success'"
-        :icon="'mdi-check-circle'"
+        :type="'success'"
+        :icon="'mdi-check-circle-outline'"
         :icon-close="'mdi-close'"
-        :is-outline="false"
+        :variant="'outlined'"
         :position="'top-right'"
         :show="showAlert"
-        :timer="2000"
+        :timer="10000"
       >
-        Periodo de inactividad registrado. El periodo de inactividad para el
-        proveedor ha sido asignado correctamente.
-      </customAlert>
-     
+        <p
+          class="text-h4 mb-2"
+          style="font-size: 14px !important; color: black !important"
+        >
+          Vista de tabla configurada correctamente
+        </p>
+        <p
+          class="text-body-1"
+          style="font-size: 12px !important; color: #37474f !important"
+        >
+          Periodo de inactividad registrado. El periodo de inactividad para el
+          proveedor ha sido asignado correctamente.
+        </p>
+      </CustomAlert>
     </v-row>
   </DrawerNavigation>
 </template>
@@ -107,12 +118,12 @@
 <script setup>
 import { ref } from "vue";
 import * as XLSX from "xlsx";
-import customAlert from "~/kernel/components/alerts/custom-alert.vue";
 import customeCardDashboard from "~/kernel/components/cards/custome-card-dashboard.vue";
 import customTable from "~/kernel/components/custom-table/custom-table.vue";
 import DrawerNavigation from "~/kernel/components/drawer-navigation.vue";
 import paginator from "~/kernel/components/paginator/paginator.vue";
 import customeTabs from "~/kernel/components/tabs/custome-tabs.vue";
+import CustomAlert from "~/kernel/components/alerts/CustomAlert.vue";
 const searchQuery = ref("");
 
 const showAlert = ref(true);

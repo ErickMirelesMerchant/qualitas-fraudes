@@ -481,7 +481,7 @@ input[type="checkbox"]:checked, .v-selection-control--dirty .v-selection-control
 
 .secondary-btn, .v-btn.secondary-btn {
   background-color: #FFFFFF !important;
-  color: #344054;
+  color: #344054!important;
   border: 1px solid #D0D5DD;
   box-shadow: 0px 1px 2px 0px #1018280D;
 }
