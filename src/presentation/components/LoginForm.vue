@@ -5,120 +5,126 @@
     </div>
 
     <v-card class="login-container pa-8">
-    <!-- Sección de título e imagen -->
-    <div class="login-titles">
-      <div class="login-logo">
-        <v-img 
-          src="/assets/logos/logomark.png" 
-          alt="Logo" 
+      <!-- Sección de título e imagen -->
+      <div class="login-titles">
+        <div class="login-logo">
+          <v-img 
+            src="/assets/logos/logomark.png" 
+            alt="Logo" 
           ></v-img>
+        </div>
+        <div class="login-title-text">
+          <h2>Inicia sesión</h2>
+          <p>¡Bienvenido de vuelta! Por favor ingresa tus datos</p>
+        </div>
       </div>
-      <div class="login-title-text">
-        <h2>Inicia sesión</h2>
-        <p>¡Bienvenido de vuelta! Por favor ingresa tus datos</p>
-      </div>
-    </div>
 
-    <!-- Formulario de login -->
-    <v-form v-model="isFormValid" @submit.prevent="openDialog" class="login-box">
-      <div class="input-group">
-        <label for="email">Correo</label>
-        <v-text-field
-          v-model="email"
-          :rules="emailRules"
-          placeholder="Ingresa tu correo"
-          required
-          variant="outlined"
-          id="email"
-        ></v-text-field>
-      </div>
-      <div class="input-group">
-        <label for="password">Contraseña</label>
-        <v-text-field
-          v-model="password"
-          :type="showPassword ? 'text' : 'password'"
-          placeholder="••••••••"
-          required
-          variant="outlined"
-          :append-inner-icon="showPassword ? 'mdi-eye-off-outline' : 'mdi-eye-outline'"
-          @click:append-inner="showPassword = !showPassword"
-          id="password"
+      <!-- Formulario de login -->
+      <v-form v-model="isFormValid" @submit.prevent="openDialog" class="login-box">
+        <div class="input-group">
+          <label for="email">Correo</label>
+          <v-text-field
+            v-model="email"
+            :rules="emailRules"
+            placeholder="Ingresa tu correo"
+            required
+            variant="outlined"
+            id="email"
+            :error-messages="formError ? ['Los datos ingresados no son correctos'] : []"
           ></v-text-field>
-      </div>
+        </div>
+        <div class="input-group">
+          <label for="password">Contraseña</label>
+          <v-text-field
+            v-model="password"
+            :type="showPassword ? 'text' : 'password'"
+            placeholder="••••••••"
+            :rules="passwordRules"
+            required
+            variant="outlined"
+            :append-inner-icon="showPassword ? 'mdi-eye-off-outline' : 'mdi-eye-outline'"
+            @click:append-inner="showPassword = !showPassword"
+            id="password"
+            :error-messages="formError ? ['Los datos ingresados no son correctos'] : []"
+          ></v-text-field>
+        </div>
 
-      <!-- Opciones adicionales: recordar y olvidé contraseña -->
-      <div class="options">
-        <v-checkbox
-          v-model="rememberMe"
-          label="Recuérdame"
-          id="rememberMe"
-        ></v-checkbox>
-        <a @click.prevent="goToForgotPassword">Olvidé contraseña</a>
-      </div>
+        <!-- Opciones adicionales: recordar y olvidé contraseña -->
+        <div class="options">
+          <v-checkbox
+            v-model="rememberMe"
+            label="Recuérdame"
+            id="rememberMe"
+          ></v-checkbox>
+          <a @click.prevent="goToForgotPassword">Olvidé contraseña</a>
+        </div>
 
-      <!-- Botón de login -->
-      <v-btn
-        class="login-button"
-        type="submit"
-        :disabled="!isFormValid"
-        color="primary"
-      >
-        Ingresar
-      </v-btn>
-    </v-form>
+        <!-- Botón de login -->
+        <v-btn
+          class="login-button"
+          type="submit"
+          :disabled="!isFormValid"
+          color="primary"
+        >
+          Ingresar
+        </v-btn>
+      </v-form>
 
-    <!-- Diálogo de confirmación -->
-    <v-dialog v-model="dialog" persistent max-width="600px" width="100%">
-      <v-card class="dialog-box">
-        <div class="dialog-image">
-          <v-img
-            src="/assets/icons/Warning-icon.svg"
-            alt="Warning icon"
-            height="48"
-            max-width="48"
-          ></v-img>
-          <v-img
-            src="/assets/icons/dialog-background.svg"
-            alt="Dialog-bg"
-            class="dialog-bg-icon"
-            max-height="auto"
+      <!-- Diálogo de confirmación -->
+      <v-dialog v-model="dialog" persistent max-width="600px" width="100%">
+        <v-card class="dialog-box">
+          <div class="dialog-image">
+            <v-img
+              src="/assets/icons/Warning-icon.svg"
+              alt="Warning icon"
+              height="48"
+              max-width="48"
             ></v-img>
-        </div>
-        <div class="dialog-body">
-          <h3>Es hora de actualizar tu contraseña</h3>
-          <p>
-            Por tu seguridad, debes actualizar tu contraseña cada 90 días. Tu
-            contraseña está a punto de vencer.
-          </p>
-          <p>
-            Cambia tu contraseña para evitar interrupciones. Solo te tomará un
-            momento.
-          </p>
-        </div>
-        <div class="dialog-buttons">
-          <v-btn class="secondary-btn" text @click="goToDashboard">Cerrar</v-btn>
-          <v-btn class="primary-btn" color="primary" @click="confirmLogin">Actualizar</v-btn>
-        </div>
-      </v-card>
-    </v-dialog>
-  </v-card>
+            <v-img
+              src="/assets/icons/dialog-background.svg"
+              alt="Dialog-bg"
+              class="dialog-bg-icon"
+              max-height="auto"
+            ></v-img>
+          </div>
+          <div class="dialog-body">
+            <h3>Es hora de actualizar tu contraseña</h3>
+            <p>
+              Por tu seguridad, debes actualizar tu contraseña cada 90 días. Tu
+              contraseña está a punto de vencer.
+            </p>
+            <p>
+              Cambia tu contraseña para evitar interrupciones. Solo te tomará un
+              momento.
+            </p>
+          </div>
+          <div class="dialog-buttons">
+            <v-btn class="secondary-btn" text @click="goToDashboard">Cerrar</v-btn>
+            <v-btn class="primary-btn" color="primary" @click="confirmLogin">Actualizar</v-btn>
+          </div>
+        </v-card>
+      </v-dialog>
+    </v-card>
   </div>
 </template>
 
 <script>
-
 export default {
   data: () => ({
-      email: '',
-      emailRules: [
+    email: '',
+    emailRules: [
       value => !!value || 'Este campo no puede quedar vacío',
       value => /.+@.+\..+/.test(value) || 'Debe ingresar un correo válido',
-      ],
-      password: '',
-      rememberMe: false,
-      showPassword: false,
-      dialog: false,
-    }),
+    ],
+    password: '',
+    passwordRules: [
+      value => !!value || 'Este campo no puede quedar vacío',
+    ],
+    rememberMe: false,
+    showPassword: false,
+    dialog: false,
+    formError: false,
+  }),
   methods: {
     showSpinner() {
       this.$emit('is-loading')
@@ -127,8 +133,13 @@ export default {
       }, 2500);
     },
     openDialog() {
-      this.showSpinner()
-      this.dialog = true;
+      if (this.isFormValid) {
+        this.showSpinner();
+        this.dialog = true;
+        this.formError = false;
+      } else {
+        this.formError = true;
+      }
     },
     confirmLogin() {
       this.dialog = false;
@@ -149,7 +160,6 @@ export default {
     },
   }
 };
-
 </script>
 
 <style scoped>
@@ -202,7 +212,7 @@ export default {
 }
 
 h2 {
-  font-family: 'Montserrat', sans-serif;
+  font-family: 'Montserrat SemiBold', sans-serif;
   font-size: 24px;
   font-weight: 600;
   line-height: 32px;

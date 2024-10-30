@@ -9,24 +9,23 @@
           <v-img src="/assets/logos/logomark.png" alt="Logo"></v-img>
         </div>
         <div class="change-password-title-text">
-          <h2>Recuperar Contraseña</h2>
+          <h2>Configura tu nueva contraseña</h2>
           <p>
-            ¿Olvidaste tu contraseña? Escribe tu correo y te enviaremos un link
-            para recuperarla
+            Debe tener al menos 8 caracteres, una mayúscula y un símbolo especial
           </p>
         </div>
       </div>
-      <v-form v-model="isFormValid" @submit.prevent="handleChangePassword" class="change-password-box">
+      <v-form @submit.prevent="handleChangePassword" class="change-password-box">
         <div class="input-group">
           <label for="password">Nueva contraseña</label>
           <v-text-field v-model="password" :type="showPassword ? 'text' : 'password'" placeholder="••••••••" required
-            variant="outlined" :append-inner-icon="showPassword ? 'mdi-eye-off-outline' : 'mdi-eye-outline'"
+            :rules="passwordRules" variant="outlined" :append-inner-icon="showPassword ? 'mdi-eye-off-outline' : 'mdi-eye-outline'"
             @click:append-inner="showPassword = !showPassword" id="password"></v-text-field>
         </div>
         <div class="input-group">
           <label for="password">Confirmar contraseña</label>
           <v-text-field v-model="passwordConfirm" :type="showPasswordConfirm ? 'text' : 'password'"
-            placeholder="••••••••" required variant="outlined"
+            placeholder="••••••••" required :rules="passwordConfirmRules" variant="outlined"
             :append-inner-icon="showPasswordConfirm ? 'mdi-eye-off-outline' : 'mdi-eye-outline'"
             @click:append-inner="showPasswordConfirm = !showPasswordConfirm" id="password"></v-text-field>
         </div>
@@ -43,7 +42,20 @@ export default {
   data() {
     return {
       password: '',
+      passwordRules: [
+        value => (value && value.length >= 8) || 'La contraseña debe tener al menos 8 caracteres',
+        value => /[A-Z]/.test(value) || 'La contraseña debe tener al menos una mayúscula',
+        value => /[^A-Za-z0-9]/.test(value) || 'La contraseña debe tener al menos un símbolo especial',
+      ],
       passwordConfirm: '',
+      passwordConfirmRules: [
+        (value) => {
+          if (value !== this.password) {
+            return 'Las contraseñas no coinciden';
+          }
+          return true;
+        },
+      ],
       showPassword: false,
       showPasswordConfirm: false,
     };
