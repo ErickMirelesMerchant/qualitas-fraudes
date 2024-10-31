@@ -23,10 +23,7 @@
   </template>
   
   <script setup>
-  import customeCardDashboard from "~/kernel/components/cards/custome-card-dashboard.vue";
   import DrawerNavigation from "~/kernel/components/drawer-navigation.vue";
-  import customeTabs from "~/kernel/components/tabs/custome-tabs.vue";
-  import customTable from "~/kernel/components/custom-table/custom-table.vue";
   
   const searchQuery = ref("");
   const tab = ref(1); // El tab seleccionado, inicializado en "Activos"

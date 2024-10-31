@@ -150,7 +150,7 @@
 <script setup>
 import * as XLSX from "xlsx";
 import customeCardDashboard from "~/kernel/components/cards/custome-card-dashboard.vue";
-import customTable from "~/kernel/components/custom-table/custom-table.vue";
+import customTable from "~/kernel/components/custom-table/CustomTable.vue";
 import dialogChanger from "~/kernel/components/dialog-changer/dialog-changer.vue";
 import DrawerNavigation from "~/kernel/components/drawer-navigation.vue";
 import paginator from "~/kernel/components/paginator/paginator.vue";

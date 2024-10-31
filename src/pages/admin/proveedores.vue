@@ -173,13 +173,13 @@
 <script setup>
 import { ref } from "vue";
 import * as XLSX from "xlsx";
+import CustomAlert from "~/kernel/components/alerts/CustomAlert.vue";
 import customeCardDashboard from "~/kernel/components/cards/custome-card-dashboard.vue";
-import customTable from "~/kernel/components/custom-table/custom-table.vue";
+import customTable from "~/kernel/components/custom-table/CustomTable.vue";
+import dialogChanger from "~/kernel/components/dialog-changer/dialog-changer.vue";
 import DrawerNavigation from "~/kernel/components/drawer-navigation.vue";
 import paginator from "~/kernel/components/paginator/paginator.vue";
 import customeTabs from "~/kernel/components/tabs/custome-tabs.vue";
-import dialogChanger from "~/kernel/components/dialog-changer/dialog-changer.vue";
-import CustomAlert from "~/kernel/components/alerts/CustomAlert.vue";
 const searchQuery = ref("");
 
 const showAlert = ref(false);
