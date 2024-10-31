@@ -90,13 +90,13 @@
 
       <CustomAlert
         v-if="showAlert"
-        :type="'success'"
+        :type="'error'"
         :icon="'mdi-check-circle-outline'"
         :icon-close="'mdi-close'"
         :variant="'outlined'"
         :position="'top-right'"
         :show="showAlert"
-        :timer="4000"
+        :timer="8000"
       >
         <p
           class="text-h4 mb-2"
@@ -132,6 +132,25 @@
             :items="dialogData.items"
             placeholder="Selecciona una opción"
           />
+
+          <div
+            v-else-if="dialogData.itemsCheckbox"
+            style="max-height: 360px; overflow-y: auto"
+          >
+            <div
+              v-for="(localidad, index) in dialogData.itemsCheckbox"
+              :key="index"
+              class="d-flex align-items-center"
+              style="padding: 4px 0; margin-bottom: -48px"
+            >
+              <v-checkbox
+                v-model="selectedLocalidades"
+                :label="localidad"
+                :value="localidad"
+              />
+            </div>
+          </div>
+
           <div
             v-else
             class="text-center d-flex flex-column align-items-center justify-center ga-3 my-4"
@@ -180,12 +199,15 @@ import paginator from "~/kernel/components/paginator/paginator.vue";
 import customeTabs from "~/kernel/components/tabs/custome-tabs.vue";
 import dialogChanger from "~/kernel/components/dialog-changer/dialog-changer.vue";
 import CustomAlert from "~/kernel/components/alerts/CustomAlert.vue";
+import { localidadesMexico } from "~/kernel/utils/LocalidadesMexico";
+import { comboAsignacion } from "~/kernel/utils/ComboAsignacion";
 const searchQuery = ref("");
 
 const showAlert = ref(false);
 const dialogVisible = ref(false);
 const calendarVisible = ref(false);
-const newChanger = ref(null);
+const newChanger = ref("1");
+const selectedLocalidades = ref([]);
 let dialogData = {
   img: "",
   title: "",
@@ -511,12 +533,12 @@ const actionItems = [
   {
     icon: "mdi-map-outline",
     title: "Asignar localidad",
-    action: () => openDialog("inactivity"),
+    action: () => openDialog("assignLocality"),
   },
   {
     icon: "mdi-button-cursor",
     title: "Asignar combo asignación",
-    action: () => openDialog("inactivity"),
+    action: () => openDialog("comboAssignment"),
   },
 ];
 
@@ -546,31 +568,60 @@ const exportToExcel = () => {
 };
 
 function openDialog(type) {
-  if (type === "status") {
-    dialogData = {
-      icon: "mdi-swap-horizontal",
-      title: "Cambio de estatus",
-      label: "Estatus",
-      description:
-        "¿Deseas cambiar el estatus del analista [ID Analista] [Nombre Analista]? Su estatus actual es [Estatus]. ",
-      items: ["Activo", "Inactivo", "En baja"],
-    };
-  } else if (type === "capacity") {
-    dialogData = {
-      icon: "mdi-pencil-outline",
-      title: "Cambio de capacidad",
-      label: "Capacidad",
-      description:
-        "¿Deseas cambiar la capacidad de [ID Analista] [Nombre Analista]? Su capacidad actual es [Capacidad].",
-      items: ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"],
-    };
-  } else if (type === "inactivity") {
-    dialogData = {
-      icon: "mdi-weather-sunset",
-      title: "Programar Inactividad",
-      description: "Gestiona y programa los períodos de inactividad. ",
-      inactivities: [],
-    };
+  switch (type) {
+    case "status":
+      newChanger.value = "Activo";
+      dialogData = {
+        icon: "mdi-swap-horizontal",
+        title: "Cambio de estatus",
+        label: "Estatus",
+        description:
+          "¿Deseas cambiar el estatus del analista [ID Analista] [Nombre Analista]? Su estatus actual es [Estatus].",
+        items: ["Activo", "Inactivo", "En baja"],
+      };
+      break;
+
+    case "capacity":
+      newChanger.value = "1";
+      dialogData = {
+        icon: "mdi-pencil-outline",
+        title: "Cambio de capacidad",
+        label: "Capacidad",
+        description:
+          "¿Deseas cambiar la capacidad de [ID Analista] [Nombre Analista]? Su capacidad actual es [Capacidad].",
+        items: ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"],
+      };
+      break;
+
+    case "inactivity":
+      dialogData = {
+        icon: "mdi-weather-sunset",
+        title: "Programar Inactividad",
+        description: "Gestiona y programa los períodos de inactividad.",
+        inactivities: [],
+      };
+      break;
+
+    case "assignLocality":
+      dialogData = {
+        icon: "mdi-map-outline",
+        title: "Asignar localidad",
+        description: "Asigna una o varias localidades al Proveedor",
+        itemsCheckbox: localidadesMexico,
+      };
+      break;
+
+    case "comboAssignment":
+      dialogData = {
+        icon: "mdi-button-cursor",
+        title: "Asignar combo asignación",
+        description: "",
+        itemsCheckbox: comboAsignacion,
+      };
+      break;
+
+    default:
+      console.error("Tipo no reconocido:", type);
   }
 
   dialogVisible.value = true;
