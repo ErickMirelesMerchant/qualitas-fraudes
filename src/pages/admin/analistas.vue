@@ -350,7 +350,7 @@ const exportToExcel = () => {
 
 const dialogVisible = ref(false);
 const calendarVisible = ref(false);
-const newChanger = ref(null);
+const newChanger = ref('1');
 
 let dialogData = {
   img: "",
@@ -381,6 +381,7 @@ const actionItems = [
 
 function openDialog(type) {
   if (type === "status") {
+    newChanger.value = "Activo";
     dialogData = {
       icon: "mdi-swap-horizontal",
       title: "Cambio de estatus",
@@ -390,13 +391,14 @@ function openDialog(type) {
       items: ["Activo", "Inactivo", "En baja"],
     };
   } else if (type === "capacity") {
+    newChanger.value = "1";
     dialogData = {
       icon: "mdi-pencil-outline",
       title: "Cambio de capacidad",
       label: "Capacidad",
       description:
         "¿Deseas cambiar la capacidad de [ID Analista] [Nombre Analista]? Su capacidad actual es [Capacidad].",
-      items: ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"],
+      items: ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"],
     };
   } else if (type === "inactivity") {
     dialogData = {

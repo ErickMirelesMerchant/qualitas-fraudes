@@ -12,8 +12,8 @@
           max-height="auto"
         ></v-img>
       </div>
-      <v-card-text class="text-left px-0 py-4">
-        <v-card-title class="px-0">
+      <v-card-text class="text-left px-0 py-2">
+        <v-card-title class="px-0" style="position: relative; z-index: 100;">
           <span>{{ title }}</span>
         </v-card-title>
         <p class="pb-4">{{ description }}</p>
@@ -43,6 +43,11 @@
       <v-card-actions class="justify-space-around">
         <v-row>
           <v-col cols="12" md="6">
+            <v-btn width="100%" class="secondary-btn" text @click="closeDialog"
+              >Cancelar</v-btn
+            >
+          </v-col>
+          <v-col cols="12" md="6">
             <v-btn
               class="primary-btn"
               @click="$emit('handleDataChange')"
@@ -50,11 +55,6 @@
               >{{
                 title.includes("Inactividad") ? "Guardar" : "Confirmar"
               }}</v-btn
-            >
-          </v-col>
-          <v-col cols="12" md="6">
-            <v-btn width="100%" class="secondary-btn" text @click="closeDialog"
-              >Cancelar</v-btn
             >
           </v-col>
         </v-row>
