@@ -132,14 +132,21 @@
             No hay inactividad programada
           </div>
           <div v-if="dialogData.inactivities.length !== 0">
-            <ul
-              v-for="inactivity in dialogData.inactivities"
-              :key="inactivity.id"
-            >
-              <li>
-                {{ inactivity[0] }} - {{ inactivity[inactivity.length - 1] }}
-              </li>
-            </ul>
+
+            <v-list lines="one">
+  <v-list-item
+    v-for="(inactivity, index) in dialogData.inactivities"
+    :key="index"
+    max-width="100%"
+    style="flex-wrap: nowrap;"
+  >
+    {{ inactivity[0] }} - {{ inactivity[inactivity.length - 1] }}
+    <v-chip class="ml-2 mr-16" :class="index < 1 ? 'active-item' : 'inactive-item'">{{ index < 1 ? 'En curso' : 'Programada' }}</v-chip> 
+    <v-btn class="px-1" width="fit-content" variant="text" icon="mdi-pencil-outline"></v-btn>
+    <v-btn class="px-1" width="fit-content" variant="text" icon="mdi-trash-can-outline"></v-btn>
+  </v-list-item>
+  <v-divider></v-divider>
+</v-list>
           </div>
         </div>
       </template>
@@ -423,7 +430,27 @@ function openCalendar() {
 }
 
 function handleDateSelected(range) {
-  dialogData.inactivities.push(range);
+  if(range[0] !== '' || range[1] !== ''){
+    return dialogData.inactivities.push(range);
+  }
   calendarVisible.value = false;
 }
 </script>
+<style scoped>
+.active-item {
+  color: #067647;
+  background-color: #ECFDF3;
+height: 22px;
+padding: 2px 8px ;
+border-radius: 999999px !important;
+border: 1px solid #ABEFC6 !important;
+}
+.inactive-item {
+  color: #344054;
+  background-color: #F9FAFB;
+height: 22px;
+padding: 2px 8px ;
+border-radius: 999999px !important;
+border: 1px solid #EAECF0 !important;
+}
+</style>

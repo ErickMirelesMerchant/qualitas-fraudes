@@ -621,7 +621,7 @@ const _oDG5MxHIEj = (function(nitro) {
 
 const rootDir = "C:/qualitas-fraudes";
 
-const appHead = {"meta":[{"charset":"utf-8"},{"name":"viewport","content":"width=device-width, initial-scale=1"},{"hid":"description","name":"description","content":"A simple login app"}],"link":[],"style":[],"script":[],"noscript":[],"title":"Qualitas Fraudes"};
+const appHead = {"meta":[{"charset":"utf-8"},{"name":"viewport","content":"width=device-width, initial-scale=1"},{"hid":"description","name":"description","content":"A simple login app"}],"link":[{"rel":"icon","type":"image/x-icon","href":"/favicon.ico"}],"style":[],"script":[],"noscript":[],"title":"Qualitas Fraudes"};
 
 const appRootTag = "div";
 

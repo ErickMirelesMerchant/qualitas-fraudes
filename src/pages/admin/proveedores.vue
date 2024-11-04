@@ -60,19 +60,19 @@
 
     <v-row>
       <v-col cols="12">
-        <customeTabs :tabsList="tabsData" />
+        <customeTabs :tabsList="tabsData" v-model="tab" />
       </v-col>
     </v-row>
 
     <v-row>
       <v-col cols="12">
         <customTable
+          title="Proveedores"
           :columns="columns"
           :data="filteredData"
           :has-checkbox="true"
           :first="first"
           :rows="rows"
-          title="Proveedores"
           :menuItems="actionItems"
           :showButton="false"
         />
@@ -192,15 +192,15 @@
 <script setup>
 import { ref } from "vue";
 import * as XLSX from "xlsx";
+import CustomAlert from "~/kernel/components/alerts/CustomAlert.vue";
 import customeCardDashboard from "~/kernel/components/cards/custome-card-dashboard.vue";
 import customTable from "~/kernel/components/custom-table/custom-table.vue";
+import dialogChanger from "~/kernel/components/dialog-changer/dialog-changer.vue";
 import DrawerNavigation from "~/kernel/components/drawer-navigation.vue";
 import paginator from "~/kernel/components/paginator/paginator.vue";
 import customeTabs from "~/kernel/components/tabs/custome-tabs.vue";
-import dialogChanger from "~/kernel/components/dialog-changer/dialog-changer.vue";
-import CustomAlert from "~/kernel/components/alerts/CustomAlert.vue";
-import { localidadesMexico } from "~/kernel/utils/LocalidadesMexico";
 import { comboAsignacion } from "~/kernel/utils/ComboAsignacion";
+import { localidadesMexico } from "~/kernel/utils/LocalidadesMexico";
 const searchQuery = ref("");
 
 const showAlert = ref(false);
@@ -208,6 +208,8 @@ const dialogVisible = ref(false);
 const calendarVisible = ref(false);
 const newChanger = ref("1");
 const selectedLocalidades = ref([]);
+const tab = ref(1);
+
 let dialogData = {
   img: "",
   title: "",
@@ -272,7 +274,7 @@ const data = [
     oficinaEmision: "Nombre de oficina",
     gerenteCuenta: "Nombre de gerente de cuenta",
     etiquetaSISE: "Etiqueta",
-    estatusPlataforma: "Estatus",
+    estatusPlataforma: "Activo",
     marca: "Toyota",
     fechaDeReporte: "30/09/2024",
     fechaOcurrido: "30/09/2024",
@@ -295,7 +297,7 @@ const data = [
     oficinaEmision: "Nombre de oficina",
     gerenteCuenta: "Nombre de gerente de cuenta",
     etiquetaSISE: "Etiqueta",
-    estatusPlataforma: "Estatus",
+    estatusPlataforma: "Inactivo",
     marca: "Toyota",
     fechaDeReporte: "30/09/2024",
     fechaOcurrido: "30/09/2024",
@@ -318,7 +320,7 @@ const data = [
     oficinaEmision: "Nombre de oficina",
     gerenteCuenta: "Nombre de gerente de cuenta",
     etiquetaSISE: "Etiqueta",
-    estatusPlataforma: "Estatus",
+    estatusPlataforma: "En baja",
     marca: "Toyota",
     fechaDeReporte: "30/09/2024",
     fechaOcurrido: "30/09/2024",
@@ -341,7 +343,7 @@ const data = [
     oficinaEmision: "Nombre de oficina",
     gerenteCuenta: "Nombre de gerente de cuenta",
     etiquetaSISE: "Etiqueta",
-    estatusPlataforma: "Estatus",
+    estatusPlataforma: "Activo",
     marca: "Toyota",
     fechaDeReporte: "30/09/2024",
     fechaOcurrido: "30/09/2024",
@@ -364,7 +366,7 @@ const data = [
     oficinaEmision: "Nombre de oficina",
     gerenteCuenta: "Nombre de gerente de cuenta",
     etiquetaSISE: "Etiqueta",
-    estatusPlataforma: "Estatus",
+    estatusPlataforma: "Inactivo",
     marca: "Toyota",
     fechaDeReporte: "30/09/2024",
     fechaOcurrido: "30/09/2024",
@@ -387,7 +389,7 @@ const data = [
     oficinaEmision: "Nombre de oficina",
     gerenteCuenta: "Nombre de gerente de cuenta",
     etiquetaSISE: "Etiqueta",
-    estatusPlataforma: "Estatus",
+    estatusPlataforma: "En baja",
     marca: "Toyota",
     fechaDeReporte: "30/09/2024",
     fechaOcurrido: "30/09/2024",
@@ -410,7 +412,7 @@ const data = [
     oficinaEmision: "Nombre de oficina",
     gerenteCuenta: "Nombre de gerente de cuenta",
     etiquetaSISE: "Etiqueta",
-    estatusPlataforma: "Estatus",
+    estatusPlataforma: "Activo",
     marca: "Toyota",
     fechaDeReporte: "30/09/2024",
     fechaOcurrido: "30/09/2024",
@@ -433,7 +435,7 @@ const data = [
     oficinaEmision: "Nombre de oficina",
     gerenteCuenta: "Nombre de gerente de cuenta",
     etiquetaSISE: "Etiqueta",
-    estatusPlataforma: "Estatus",
+    estatusPlataforma: "Inactivo",
     marca: "Toyota",
     fechaDeReporte: "30/09/2024",
     fechaOcurrido: "30/09/2024",
@@ -456,7 +458,7 @@ const data = [
     oficinaEmision: "Nombre de oficina",
     gerenteCuenta: "Nombre de gerente de cuenta",
     etiquetaSISE: "Etiqueta",
-    estatusPlataforma: "Estatus",
+    estatusPlataforma: "En baja",
     marca: "Toyota",
     fechaDeReporte: "30/09/2024",
     fechaOcurrido: "30/09/2024",
@@ -479,7 +481,7 @@ const data = [
     oficinaEmision: "Nombre de oficina",
     gerenteCuenta: "Nombre de gerente de cuenta",
     etiquetaSISE: "Etiqueta",
-    estatusPlataforma: "Estatus",
+    estatusPlataforma: "Activo",
     marca: "Toyota",
     fechaDeReporte: "30/09/2024",
     fechaOcurrido: "30/09/2024",
@@ -502,7 +504,7 @@ const data = [
     oficinaEmision: "Nombre de oficina",
     gerenteCuenta: "Nombre de gerente de cuenta",
     etiquetaSISE: "Etiqueta",
-    estatusPlataforma: "Estatus",
+    estatusPlataforma: "Inactivo",
     marca: "Toyota",
     fechaDeReporte: "30/09/2024",
     fechaOcurrido: "30/09/2024",
@@ -546,14 +548,25 @@ const first = ref(0);
 const rows = ref(10);
 
 const filteredData = computed(() => {
-  if (!searchQuery.value) {
-    return data;
+  let filtered = data;
+
+  if (tab.value === 1) {
+    filtered = data.filter((item) => item.estatusPlataforma === "Activo");
+  } else if (tab.value === 2) {
+    filtered = data.filter((item) => item.estatusPlataforma === "Inactivo");
+  } else if (tab.value === 3) {
+    filtered = data.filter((item) => item.estatusPlataforma === "En baja");
   }
-  return data.filter((item) =>
-    Object.values(item).some((value) =>
-      String(value).toLowerCase().includes(searchQuery.value.toLowerCase())
-    )
-  );
+
+  if (searchQuery.value) {
+    filtered = filtered.filter((item) =>
+      Object.values(item).some((value) =>
+        String(value).toLowerCase().includes(searchQuery.value.toLowerCase())
+      )
+    );
+  }
+
+  return filtered;
 });
 
 const updatePage = (newFirst) => {
