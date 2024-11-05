@@ -9,6 +9,9 @@ export default defineNuxtConfig({
     baseURL: '/qualitas-fraudes/',
     head: {
       title: "Qualitas Fraudes",
+      link: [
+        { rel: "icon", type: "image/x-icon", href: "/favicon.ico" }
+      ],
       meta: [
         { charset: "utf-8" },
         { name: "viewport", content: "width=device-width, initial-scale=1" },

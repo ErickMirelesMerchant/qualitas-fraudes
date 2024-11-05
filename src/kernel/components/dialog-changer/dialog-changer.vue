@@ -28,13 +28,14 @@
           <v-card>
             <v-date-picker
               v-model="dateRange"
-              mode="range"
               multiple="range"
               hide-header
+              show-adjacent-months="true"
+              color="#0096AE"
             ></v-date-picker>
             <v-card-actions>
-              <v-btn text @click="closeCalendar">Cancelar</v-btn>
-              <v-btn text @click="confirmDate">Confirmar</v-btn>
+              <v-btn tonal base-color="#667085" @click="closeCalendar">Cancelar</v-btn>
+              <v-btn tonal base-color="#0096AE" @click="confirmDate">Programar</v-btn>
             </v-card-actions>
           </v-card>
         </v-dialog>
@@ -77,7 +78,6 @@ const props = defineProps({
 const emit = defineEmits([
   "handleDataChange",
   "close",
-  "date-selected",
   "update:dateRange",
 ]);
 const isDialogOpen = ref(props.isOpen);
@@ -103,9 +103,17 @@ function closeDialog() {
 }
 
 function closeCalendar() {
-  calendarVisible.value = false;
-  emit("update:calendarVisible", false);
+  dateRange.value = null;
+  emit("update:dateRange", ['', '']);
 }
+
+function confirmDate() {
+  const formattedRange = dateRange.value.map(formatDate);
+  emit("update:dateRange", formattedRange);
+  closeCalendar();
+  dateRange.value = null;
+}
+
 function formatDate(date) {
   return date
     ? new Date(date).toLocaleDateString("es-ES", {
@@ -114,13 +122,6 @@ function formatDate(date) {
         year: "numeric",
       })
     : "";
-}
-
-function confirmDate() {
-  const formattedRange = dateRange.value.map(formatDate);
-  emit("update:dateRange", formattedRange);
-  closeCalendar();
-  dateRange.value = null;
 }
 </script>
 
