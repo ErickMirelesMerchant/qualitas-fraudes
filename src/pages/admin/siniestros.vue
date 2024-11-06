@@ -16,11 +16,11 @@
     </v-row>
     <v-container>
     <v-row>
-      <v-col cols="auto" style="transition: all 0.3s ease;">
+      <v-col cols="12" md="3" style="transition: all 0.3s ease;">
         <Details v-if="showDetails" @closeDetails="handleCloseDetails" :siniestroId="selectedSiniestroId" :textButton="'Ver detalle de siniestro'" :actionButton="verDetalle" max-width="324px">
         <template #content>
           <v-row v-for="(section, sectionIndex) in siniestroSections" :key="sectionIndex"
-            class="mt-4 ml-1 mb-0 border-s-lg" style="border-color: #0096AE !important;">
+            class="mt-4 mb-0 border-s-lg" style="border-color: #0096AE !important;">
             <v-col cols="12" v-for="(item, itemIndex) in section" :key="itemIndex" class="pb-2 pt-0">
               <h5 class="text-subtitle-1">{{ item.label }}</h5>
               <p class="text-body-2">{{ item.value }}</p>
@@ -30,7 +30,7 @@
       </Details>
       </v-col>
       <v-spacer></v-spacer>
-      <v-col v-bind="showDetails ? { cols: 9 } : { cols: 12 }" style="transition: all 0.3s ease;">
+      <v-col v-bind="showDetails ? { cols: 12, md: 9 } : { cols: 12 }">
         <customTable :columns="columns" :data="filteredData" :has-checkbox="false" :first="first" :rows="rows"
           title="Siniestros" @checkbox-selected="openDetails" :checkedId="checkedId" />
           <paginator :totalRecords="filteredData.length" :rows="rows" :first="first" @pageChange="updatePage" />
@@ -357,9 +357,6 @@ const siniestroSections = [
           { label: "Clave condiciones generales", value: "[Clave condiciones]" }
         ]
       ]
-
-
-
 const first = ref(0);
 const rows = ref(10);
 

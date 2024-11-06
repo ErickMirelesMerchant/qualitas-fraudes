@@ -13,7 +13,7 @@
       </v-row>
     </v-card-title>
     <v-card-text>
-      <p class="text-h3">{{ quantity }}</p>
+      <p class="text-h6">{{ quantity }}</p>
     </v-card-text>
   </v-card>
 </template>

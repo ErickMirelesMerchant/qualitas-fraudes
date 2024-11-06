@@ -1,9 +1,27 @@
 <template :id="siniestroId">
   <v-card class="pa-4">
-    <v-btn variant="outlined" style="width: 248px;color: #344054 !important; border-color: #D0D5DD;" rounded="lg" @click="actionButton">
-      {{ textButton }}
-    </v-btn>
-    <v-btn @click="closeCardDetail" variant="plain" color="#98A2B3" icon="mdi-close" width="fit-content" height="fit-content" class="ml-1 pa-2"></v-btn>
+    <v-row  align="center">
+      <v-col cols="10">
+        <v-btn
+          variant="outlined"
+          style="width: 248px; color: #344054 !important; border-color: #d0d5dd"
+          rounded="lg"
+          @click="actionButton"
+        >
+          {{ textButton }}
+        </v-btn>
+      </v-col>
+      <v-col cols="2">
+        <v-btn
+          @click="closeCardDetail"
+          variant="plain"
+          color="#98A2B3"
+          icon="mdi-close"
+          width="fit-content"
+          height="fit-content"
+        ></v-btn>
+      </v-col>
+    </v-row>
 
     <v-divider class="my-2"></v-divider>
 
@@ -12,7 +30,7 @@
 </template>
 
 <script setup>
-import { defineEmits, defineProps } from 'vue';
+import { defineEmits, defineProps } from "vue";
 
 const props = defineProps({
   siniestroId: {
@@ -21,18 +39,18 @@ const props = defineProps({
   textButton: {
     type: String,
     required: true,
-    default: 'Ver detalle de siniestro'
+    default: "Ver detalle de siniestro",
   },
   actionButton: {
     type: Function,
     required: true,
-  }
+  },
 });
 
-const emit = defineEmits(['closeDetails']);
+const emit = defineEmits(["closeDetails"]);
 
 const closeCardDetail = () => {
-  emit('closeDetails', props.siniestroId);
+  emit("closeDetails", props.siniestroId);
 };
 </script>
 
