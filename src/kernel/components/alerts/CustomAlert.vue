@@ -1,6 +1,7 @@
 <template>
   <v-alert
-    v-show="visible"
+    v-show="show"
+    :inert="!show"
     :type="type"
     :variant="variant"
     :elevation="0"
@@ -27,8 +28,17 @@
         <slot></slot>
       </v-col>
       <v-col cols="3" md="2">
-        <v-icon>
-          <v-icon style="cursor: pointer;" size="x-small" @click="closeAlert">mdi-close</v-icon>
+        <v-icon
+          role="button"
+          aria-label="Cerrar alerta"
+          tabindex="0"
+          style="cursor: pointer"
+          size="x-small"
+          @click="closeAlert"
+          @keydown.enter="closeAlert"
+          aria-hidden="false"
+        >
+          mdi-close
         </v-icon>
       </v-col>
     </v-row>
@@ -36,7 +46,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, watch, computed } from "vue";
+import { computed } from "vue";
 
 const props = defineProps({
   type: {
@@ -75,7 +85,7 @@ const props = defineProps({
   },
   show: {
     type: Boolean,
-    default: true,
+    required: true,
   },
   timer: {
     type: Number,
@@ -83,7 +93,7 @@ const props = defineProps({
   },
 });
 
-const visible = ref(props.show);
+const emit = defineEmits(["update:show"]);
 
 const positionClass = computed(() => {
   return {
@@ -119,23 +129,14 @@ const iconColorClass = computed(() => {
 });
 
 const closeAlert = () => {
-  visible.value = false;
+  emit("update:show", false);
 };
 
-onMounted(() => {
-  if (props.timer > 0) {
-    setTimeout(() => {
-      closeAlert();
-    }, props.timer);
-  }
-});
-
-watch(
-  () => props.show,
-  (newVal) => {
-    visible.value = newVal;
-  }
-);
+if (props.timer > 0) {
+  setTimeout(() => {
+    closeAlert();
+  }, props.timer);
+}
 </script>
 
 <style scoped>

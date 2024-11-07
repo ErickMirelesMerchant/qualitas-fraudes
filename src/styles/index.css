@@ -118,6 +118,7 @@
 
 .v-table__wrapper {
   -webkit-overflow-scrolling: touch;
+  overflow: auto;
 }
 .v-table__wrapper::-webkit-scrollbar {
   width: 2px;

@@ -6,12 +6,7 @@
       </v-col>
       <v-spacer></v-spacer>
       <v-col cols="auto">
-        <v-btn
-          append-icon="mdi-export-variant"
-          @click="exportToExcel"
-          color="primary"
-          rounded="x-large"
-        >
+        <v-btn append-icon="mdi-export-variant" @click="exportToExcel" color="primary" rounded="x-large">
           Exportar tabla
           <template v-slot:append>
             <v-icon color="white"></v-icon>
@@ -21,45 +16,22 @@
     </v-row>
     <v-row>
       <v-col cols="12" md="3">
-        <customeCardDashboard
-          title="Activos"
-          icon="mdi-account-check-outline"
-          :quantity="9"
-        />
+        <customeCardDashboard title="Activos" icon="mdi-account-check-outline" :quantity="9" />
       </v-col>
       <v-col cols="12" md="3">
-        <customeCardDashboard
-          title="Inactivos"
-          icon="mdi-account-remove-outline"
-          :quantity="2"
-        />
+        <customeCardDashboard title="Inactivos" icon="mdi-account-remove-outline" :quantity="2" />
       </v-col>
       <v-col cols="12" md="3">
-        <customeCardDashboard
-          title="En baja"
-          icon="mdi-account-minus-outline"
-          :quantity="4"
-        />
+        <customeCardDashboard title="En baja" icon="mdi-account-minus-outline" :quantity="4" />
       </v-col>
       <v-col cols="12" md="3">
-        <customeCardDashboard
-          title="Conectados"
-          icon="mdi mdi-account-circle-outline"
-          :quantity="9"
-        />
+        <customeCardDashboard title="Conectados" icon="mdi mdi-account-circle-outline" :quantity="9" />
       </v-col>
     </v-row>
     <v-row justify="end">
       <v-col cols="12" md="4">
-        <v-text-field
-          density="comfortable"
-          v-model="searchQuery"
-          variant="solo"
-          prepend-inner-icon="mdi-magnify"
-          placeholder="Buscar"
-          outlined
-          hide-details="auto"
-        ></v-text-field>
+        <v-text-field density="comfortable" v-model="searchQuery" variant="solo" prepend-inner-icon="mdi-magnify"
+          placeholder="Buscar" outlined hide-details="auto"></v-text-field>
       </v-col>
     </v-row>
     <v-row>
@@ -69,84 +41,46 @@
     </v-row>
     <v-row>
       <v-col cols="12">
-        <customTable
-          title="Analistas"
-          :columns="columns"
-          :data="filteredData"
-          :has-checkbox="true"
-          :first="first"
-          :rows="rows"
-          :menuItems="actionItems"
-          :showButton="false"
-        />
+        <customTable title="Analistas" :columns="columns" :data="filteredData" :has-checkbox="true" :first="first"
+          :rows="rows" :menuItems="actionItems" :showButton="false" />
       </v-col>
     </v-row>
     <v-row>
       <v-col cols="12">
-        <paginator
-          :totalRecords="filteredData.length"
-          :rows="rows"
-          :first="first"
-          @pageChange="updatePage"
-        />
+        <paginator :totalRecords="filteredData.length" :rows="rows" :first="first" @pageChange="updatePage" />
       </v-col>
     </v-row>
-    <dialogChanger
-      v-if="dialogVisible"
-      :icon="dialogData.icon"
-      :title="dialogData.title"
-      :description="dialogData.description"
-      :isOpen="dialogVisible"
-      :calendarVisible="calendarVisible"
-      @handleDataChange="handleDataChange"
-      @close="dialogVisible = false"
-      @update:dateRange="handleDateSelected"
-    >
+    <dialogChanger v-if="dialogVisible" :icon="dialogData.icon" :title="dialogData.title"
+      :description="dialogData.description" :isOpen="dialogVisible" :calendarVisible="calendarVisible"
+      @close="dialogVisible = false" @update:dateRange="handleDateSelected">
       <template v-slot:content>
-        <v-select
-          v-if="dialogData.items"
-          variant="outlined"
-          v-model="newChanger"
-          :items="dialogData.items"
-          placeholder="Selecciona una opción"
-        />
-        <div
-          v-else
-          class="text-center d-flex flex-column align-items-center justify-center ga-3 my-4"
-        >
-          <v-btn
-            variant="text"
-            height="48px"
-            color="transparent"
-            @click="openCalendar"
-          >
-            <v-img
-              center
-              src="/assets/icons/add-button.svg"
-              alt="add-btn"
-              height="48px"
-              width="48px"
-            ></v-img>
+        <v-select v-if="dialogData.items" variant="outlined" v-model="newChanger" :items="dialogData.items"
+          placeholder="Selecciona una opción" />
+        <div v-else class="text-center d-flex flex-column align-items-center justify-center ga-3 my-4">
+          <v-btn variant="text" height="48px" color="transparent" @click="openCalendar">
+            <v-img center src="/assets/icons/add-button.svg" alt="add-btn" height="48px" width="48px"></v-img>
           </v-btn>
-          <div v-if="dialogData.inactivities.length === 0">
-            No hay inactividad programada
-          </div>
           <div v-if="dialogData.inactivities.length !== 0">
-
             <v-list lines="one">
-  <v-list-item
-    v-for="(inactivity, index) in dialogData.inactivities"
-    :key="index"
-    max-width="100%"
-    style="flex-wrap: nowrap;"
-  >
-    {{ inactivity[0] }} - {{ inactivity[inactivity.length - 1] }}
-    <v-chip class="ml-2 mr-16" :class="index < 1 ? 'active-item' : 'inactive-item'">{{ index < 1 ? 'En curso' : 'Programada' }}</v-chip> 
-    <v-btn class="px-1" width="fit-content" variant="text" icon="mdi-pencil-outline" @click="editInactivity"></v-btn>
-    <v-btn class="px-1" width="fit-content" variant="text" icon="mdi-trash-can-outline" @click="deleteInactivity"></v-btn>
-    <v-divider></v-divider>
-  </v-list-item>
-</v-list>
+              <v-list-item v-for="(inactivity, index) in dialogData.inactivities" :key="index" max-width="100%"
+                style="flex-wrap: nowrap;">
+                <span class="mr-10 w-75">
+                  {{ inactivity[0] }} - {{ inactivity[inactivity.length - 1] }}
+                  <v-chip class="ml-2" :class="index < 1 ? 'active-item' : 'inactive-item'">{{ index < 1 ? 'En curso'
+                    : 'Programada' }}</v-chip>
+                </span>
+                <span class="w-25">
+                  <v-btn class="px-1 " width="fit-content" variant="text" icon="mdi-pencil-outline"
+                    @click="editInactivity(index)"></v-btn>
+                  <v-btn class="px-1 " width="fit-content" variant="text" icon="mdi-trash-can-outline"
+                    @click="deleteInactivity(index)"></v-btn>
+                </span>
+                <v-divider></v-divider>
+              </v-list-item>
+            </v-list>
+          </div>
+          <div v-else class="text-center">
+            No hay inactividad programada
           </div>
         </div>
       </template>
@@ -155,9 +89,10 @@
 </template>
 
 <script setup>
+import { computed, ref } from 'vue';
 import * as XLSX from "xlsx";
 import customeCardDashboard from "~/kernel/components/cards/custome-card-dashboard.vue";
-import customTable from "~/kernel/components/custom-table/custom-table.vue";
+import customTable from "~/kernel/components/custom-table/CustomTable.vue";
 import dialogChanger from "~/kernel/components/dialog-changer/dialog-changer.vue";
 import DrawerNavigation from "~/kernel/components/drawer-navigation.vue";
 import paginator from "~/kernel/components/paginator/paginator.vue";
@@ -165,6 +100,24 @@ import customeTabs from "~/kernel/components/tabs/custome-tabs.vue";
 
 const searchQuery = ref("");
 const tab = ref(1);
+
+const first = ref(0);
+const rows = ref(10);
+
+const dialogVisible = ref(false);
+const calendarVisible = ref(false);
+const newChanger = ref('1');
+const editRanges = ref(false);
+let editID = ref('');
+
+const dialogData = ref({
+  img: "",
+  title: "",
+  label: "",
+  description: "",
+  items: [],
+  inactivities: [],
+});
 
 const tabsData = ref([
   { title: "Activos" },
@@ -319,8 +272,7 @@ const data = [
   },
 ];
 
-const first = ref(0);
-const rows = ref(10);
+
 
 const filteredData = computed(() => {
   let filtered = data;
@@ -355,19 +307,6 @@ const exportToExcel = () => {
   XLSX.writeFile(workbook, "tabla_exportada.xlsx");
 };
 
-const dialogVisible = ref(false);
-const calendarVisible = ref(false);
-const newChanger = ref('1');
-
-let dialogData = {
-  img: "",
-  title: "",
-  label: "",
-  description: "",
-  items: [],
-  inactivities: [],
-};
-
 const actionItems = [
   {
     icon: "mdi-swap-horizontal",
@@ -389,7 +328,7 @@ const actionItems = [
 function openDialog(type) {
   if (type === "status") {
     newChanger.value = "Activo";
-    dialogData = {
+    dialogData.value = {
       icon: "mdi-swap-horizontal",
       title: "Cambio de estatus",
       label: "Estatus",
@@ -399,7 +338,7 @@ function openDialog(type) {
     };
   } else if (type === "capacity") {
     newChanger.value = "1";
-    dialogData = {
+    dialogData.value = {
       icon: "mdi-pencil-outline",
       title: "Cambio de capacidad",
       label: "Capacidad",
@@ -408,7 +347,7 @@ function openDialog(type) {
       items: ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"],
     };
   } else if (type === "inactivity") {
-    dialogData = {
+    dialogData.value = {
       icon: "mdi-weather-sunset",
       title: "Programar Inactividad",
       description: "Gestiona y programa los períodos de inactividad. ",
@@ -421,36 +360,49 @@ function openDialog(type) {
   return dialogData;
 }
 
-function handleDataChange() {
-  dialogVisible.value = false;
-}
-
 function openCalendar() {
   calendarVisible.value = true;
 }
-
 function handleDateSelected(range) {
-  if(range[0] !== '' || range[1] !== ''){
-    return dialogData.inactivities.push(range);
+  if (range[0] !== null || range[1] !== null) {
+    if (editRanges.value) {
+      dialogData.value.inactivities.splice(editID.value, 1, range);
+      editRanges.value = false;
+    } else {
+      dialogData.value.inactivities.push(range);
+    }
   }
   calendarVisible.value = false;
 }
+
+function editInactivity(id) {
+  openCalendar();
+  editID.value = id;
+  console.log(id);
+  editRanges.value = true;
+}
+
+function deleteInactivity(id) {
+  dialogData.value.inactivities.splice(id, 1);
+}
+
 </script>
 <style scoped>
 .active-item {
   color: #067647;
   background-color: #ECFDF3;
-height: 22px;
-padding: 2px 8px ;
-border-radius: 999999px !important;
-border: 1px solid #ABEFC6 !important;
+  height: 22px;
+  padding: 2px 8px;
+  border-radius: 999999px !important;
+  border: 1px solid #ABEFC6 !important;
 }
+
 .inactive-item {
   color: #344054;
   background-color: #F9FAFB;
-height: 22px;
-padding: 2px 8px ;
-border-radius: 999999px !important;
-border: 1px solid #EAECF0 !important;
+  height: 22px;
+  padding: 2px 8px;
+  border-radius: 999999px !important;
+  border: 1px solid #EAECF0 !important;
 }
 </style>

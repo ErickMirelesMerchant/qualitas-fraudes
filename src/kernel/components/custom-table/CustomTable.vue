@@ -65,7 +65,16 @@
                     />
                   </td>
                   <td v-for="col in columns" :key="col.key">
-                    <span v-if="col.title === 'Score'">
+                    <span v-if="col.title === 'Siniestro'">
+                      <v-checkbox
+                      width="max-content"
+                      :label="item.siniestro"
+                      v-model="item.checked"
+                      @change="showDetailsCard(index)"
+                      hide-details="true"
+                    />
+                    </span>
+                    <span v-else-if="col.title === 'Score'">
                       <v-chip
                         class="score-chip"
                         prepend-icon="mdi-arrow-down"
@@ -161,6 +170,8 @@
 <script setup>
 import { computed, ref, toRefs, watch } from "vue";
 
+const emit = defineEmits(['checkbox-selected']);
+
 const props = defineProps({
   columns: {
     type: Array,
@@ -194,6 +205,10 @@ const props = defineProps({
   actionButton: {
     type: Function,
   },
+  checkedId: {
+    type: String,
+    default: null,
+  }
 });
 
 const tableData = ref([]);
@@ -250,6 +265,16 @@ function toggleAll() {
 function updateAllChecked() {
   allChecked.value = tableData.value.every((item) => item.checked);
 }
+
+function showDetailsCard(item) {
+  emit("checkbox-selected", item);
+  tableData.value.forEach((val, index) => {
+    if (index !== item) {
+      val.checked = false;
+    }
+  });
+}
+
 </script>
 
 <style scoped>
@@ -272,7 +297,7 @@ function updateAllChecked() {
 
 .v-table td,
 .v-table th {
-  text-wrap: nowrap;
+  text-wrap: nowrap !important;
 }
 
 .text-h5 {
@@ -340,4 +365,5 @@ function updateAllChecked() {
 .v-card-text.card-table {
   padding: 0 !important;
 }
+
 </style>

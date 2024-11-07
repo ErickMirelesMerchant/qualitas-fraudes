@@ -35,7 +35,7 @@
               color="#0096AE"
             ></v-date-picker>
             <v-card-actions>
-              <v-text-field
+              <!-- <v-text-field
                 v-model="manualDate"
                 label="Fecha (dd/mm/aaaa)"
                 placeholder="dd/mm/aaaa"
@@ -43,7 +43,7 @@
                 dense
                 outlined
                 @input="updateDateRange"
-              ></v-text-field>
+              ></v-text-field> -->
               <v-btn tonal base-color="#667085" @click="closeCalendar">Cancelar</v-btn>
               <v-btn tonal base-color="#0096AE" @click="confirmDate">Programar</v-btn>
             </v-card-actions>
@@ -86,19 +86,25 @@ const props = defineProps({
 });
 
 const emit = defineEmits([
-  "handleDataChange",
   "close",
   "update:dateRange",
 ]);
 const isDialogOpen = ref(props.isOpen);
 const calendarVisible = ref(props.calendarVisible);
 const dateRange = ref(null);
-const manualDate = ref(''); // Campo de texto manual
+// const manualDate = ref(''); // Campo de texto manual
 
 watch(
   () => props.isOpen,
   (newVal) => {
     isDialogOpen.value = newVal;
+  }
+);
+
+watch(
+  () => props.calendarVisible,
+  (newVal) => {
+    calendarVisible.value = newVal;
   }
 );
 
@@ -115,7 +121,8 @@ function closeDialog() {
 
 function closeCalendar() {
   dateRange.value = null;
-  emit("update:dateRange", ['', '']);
+  emit("update:dateRange", [null, null]);
+  // emit("update:dateRange", ['', '']);
 }
 
 function confirmDate() {
@@ -135,14 +142,14 @@ function formatDate(date) {
     : "";
 }
 
-function updateDateRange() {
-  // Convertir manualDate al formato de Date y actualizar dateRange si es válido
-  const [day, month, year] = manualDate.value.split('/');
-  const parsedDate = new Date(`${year}-${month}-${day}`);
-  if (!isNaN(parsedDate)) {
-    dateRange.value = [parsedDate];
-  }
-}
+// function updateDateRange() {
+//   // Convertir manualDate al formato de Date y actualizar dateRange si es válido
+//   const [day, month, year] = manualDate.value.split('/');
+//   const parsedDate = new Date(`${year}-${month}-${day}`);
+//   if (!isNaN(parsedDate)) {
+//     dateRange.value = [parsedDate];
+//   }
+// }
 </script>
 
 <style scoped>

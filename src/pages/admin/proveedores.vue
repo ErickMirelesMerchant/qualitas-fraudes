@@ -90,13 +90,14 @@
 
       <CustomAlert
         v-if="showAlert"
-        :type="'error'"
+        :type="'success'"
         :icon="'mdi-check-circle-outline'"
         :icon-close="'mdi-close'"
         :variant="'outlined'"
         :position="'top-right'"
+        :timer="1000"
         :show="showAlert"
-        :timer="8000"
+        @update:show="setShowAlert"
       >
         <p
           class="text-h4 mb-2"
@@ -135,7 +136,7 @@
 
           <div
             v-else-if="dialogData.itemsCheckbox"
-            style="max-height: 360px; overflow-y: auto"
+            :style="isScrollActive ? 'max-height: 360px; overflow-y: auto' : ''"
           >
             <div
               v-for="(localidad, index) in dialogData.itemsCheckbox"
@@ -173,14 +174,34 @@
               No hay inactividad programada
             </div>
             <div v-if="dialogData.inactivities.length !== 0">
-              <ul
-                v-for="inactivity in dialogData.inactivities"
-                :key="inactivity.id"
-              >
-                <li>
+              <v-list lines="one">
+                <v-list-item
+                  v-for="(inactivity, index) in dialogData.inactivities"
+                  :key="index"
+                  max-width="100%"
+                  style="flex-wrap: nowrap"
+                >
                   {{ inactivity[0] }} - {{ inactivity[inactivity.length - 1] }}
-                </li>
-              </ul>
+                  <v-chip
+                    class="ml-2 mr-16"
+                    :class="index < 1 ? 'active-item' : 'inactive-item'"
+                    >{{ index < 1 ? "En curso" : "Programada" }}</v-chip
+                  >
+                  <v-btn
+                    class="px-1"
+                    width="fit-content"
+                    variant="text"
+                    icon="mdi-pencil-outline"
+                  ></v-btn>
+                  <v-btn
+                    class="px-1"
+                    width="fit-content"
+                    variant="text"
+                    icon="mdi-trash-can-outline"
+                  ></v-btn>
+                </v-list-item>
+                <v-divider></v-divider>
+              </v-list>
             </div>
           </div>
         </template>
@@ -194,7 +215,7 @@ import { ref } from "vue";
 import * as XLSX from "xlsx";
 import CustomAlert from "~/kernel/components/alerts/CustomAlert.vue";
 import customeCardDashboard from "~/kernel/components/cards/custome-card-dashboard.vue";
-import customTable from "~/kernel/components/custom-table/custom-table.vue";
+import customTable from "~/kernel/components/custom-table/CustomTable.vue";
 import dialogChanger from "~/kernel/components/dialog-changer/dialog-changer.vue";
 import DrawerNavigation from "~/kernel/components/drawer-navigation.vue";
 import paginator from "~/kernel/components/paginator/paginator.vue";
@@ -209,6 +230,7 @@ const calendarVisible = ref(false);
 const newChanger = ref("1");
 const selectedLocalidades = ref([]);
 const tab = ref(1);
+const isScrollActive = ref(false);
 
 let dialogData = {
   img: "",
@@ -616,6 +638,7 @@ function openDialog(type) {
       break;
 
     case "assignLocality":
+      isScrollActive.value = true;
       dialogData = {
         icon: "mdi-map-outline",
         title: "Asignar localidad",
@@ -625,6 +648,7 @@ function openDialog(type) {
       break;
 
     case "comboAssignment":
+      isScrollActive.value = false;
       dialogData = {
         icon: "mdi-button-cursor",
         title: "Asignar combo asignación",
@@ -642,10 +666,15 @@ function openDialog(type) {
   return dialogData;
 }
 
+function setShowAlert(value) {
+  showAlert.value = value;
+}
+
 function handleDataChange() {
   console.log("Data changed");
-  showAlert.value = true;
+
   dialogVisible.value = false;
+  setShowAlert(true);
 }
 
 function openCalendar() {
@@ -653,7 +682,9 @@ function openCalendar() {
 }
 
 function handleDateSelected(range) {
-  dialogData.inactivities.push(range);
+  if (range[0] !== "" || range[1] !== "") {
+    return dialogData.inactivities.push(range);
+  }
   calendarVisible.value = false;
 }
 </script>
