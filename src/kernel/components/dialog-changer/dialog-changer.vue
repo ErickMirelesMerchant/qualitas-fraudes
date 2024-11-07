@@ -1,6 +1,6 @@
 <template>
-  <v-dialog v-model="isDialogOpen" max-width="500" persistent>
-    <v-card class="dialog-box">
+  <v-dialog v-model="isDialogOpen" max-width="500px" width="100%" style="overflow: hidden; min-height: 340px;" persistent>
+    <v-card class="dialog-box" width="100%" height="100%">
       <div class="dialog-image">
         <v-icon class="icon-wrapper">
           {{ icon }}
@@ -13,10 +13,10 @@
         ></v-img>
       </div>
       <v-card-text class="text-left px-0 py-2">
-        <v-card-title class="px-0" style="position: relative; z-index: 100;">
+        <v-card-title class="px-0 pb-1" style="position: relative; z-index: 100;">
           <span>{{ title }}</span>
         </v-card-title>
-        <p class="pb-4">{{ description }}</p>
+        <p>{{ description }}</p>
         <slot name="content" class="w-100 ma-4"></slot>
 
         <!-- Diálogo del calendario -->
@@ -26,6 +26,7 @@
           max-width="330"
         >
           <v-card>
+            
             <v-date-picker
               v-model="dateRange"
               multiple="range"
@@ -34,6 +35,15 @@
               color="#0096AE"
             ></v-date-picker>
             <v-card-actions>
+              <v-text-field
+                v-model="manualDate"
+                label="Fecha (dd/mm/aaaa)"
+                placeholder="dd/mm/aaaa"
+                class="mr-4"
+                dense
+                outlined
+                @input="updateDateRange"
+              ></v-text-field>
               <v-btn tonal base-color="#667085" @click="closeCalendar">Cancelar</v-btn>
               <v-btn tonal base-color="#0096AE" @click="confirmDate">Programar</v-btn>
             </v-card-actions>
@@ -41,14 +51,14 @@
         </v-dialog>
       </v-card-text>
 
-      <v-card-actions class="justify-space-around">
+      <v-card-actions class="justify-space-around py-0">
         <v-row>
-          <v-col cols="12" md="6">
+          <v-col cols="12" md="6" class="py-0">
             <v-btn width="100%" class="secondary-btn" text @click="closeDialog"
               >Cancelar</v-btn
             >
           </v-col>
-          <v-col cols="12" md="6">
+          <v-col cols="12" md="6" class="py-0">
             <v-btn
               class="primary-btn"
               @click="$emit('handleDataChange')"
@@ -83,6 +93,7 @@ const emit = defineEmits([
 const isDialogOpen = ref(props.isOpen);
 const calendarVisible = ref(props.calendarVisible);
 const dateRange = ref(null);
+const manualDate = ref(''); // Campo de texto manual
 
 watch(
   () => props.isOpen,
@@ -122,6 +133,15 @@ function formatDate(date) {
         year: "numeric",
       })
     : "";
+}
+
+function updateDateRange() {
+  // Convertir manualDate al formato de Date y actualizar dateRange si es válido
+  const [day, month, year] = manualDate.value.split('/');
+  const parsedDate = new Date(`${year}-${month}-${day}`);
+  if (!isNaN(parsedDate)) {
+    dateRange.value = [parsedDate];
+  }
 }
 </script>
 

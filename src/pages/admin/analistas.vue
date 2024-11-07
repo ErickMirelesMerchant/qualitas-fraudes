@@ -142,10 +142,10 @@
   >
     {{ inactivity[0] }} - {{ inactivity[inactivity.length - 1] }}
     <v-chip class="ml-2 mr-16" :class="index < 1 ? 'active-item' : 'inactive-item'">{{ index < 1 ? 'En curso' : 'Programada' }}</v-chip> 
-    <v-btn class="px-1" width="fit-content" variant="text" icon="mdi-pencil-outline"></v-btn>
-    <v-btn class="px-1" width="fit-content" variant="text" icon="mdi-trash-can-outline"></v-btn>
+    <v-btn class="px-1" width="fit-content" variant="text" icon="mdi-pencil-outline" @click="editInactivity"></v-btn>
+    <v-btn class="px-1" width="fit-content" variant="text" icon="mdi-trash-can-outline" @click="deleteInactivity"></v-btn>
+    <v-divider></v-divider>
   </v-list-item>
-  <v-divider></v-divider>
 </v-list>
           </div>
         </div>
