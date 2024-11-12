@@ -32,7 +32,8 @@ const props = defineProps({
     required: true,
   },
   quantity: {
-    type: Number,
+    //type number or string
+    type: [Number, String],
     required: false,
     default: 50,
   },

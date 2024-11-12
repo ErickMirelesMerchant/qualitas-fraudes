@@ -1,7 +1,7 @@
 <template>
   <v-card rounded="lg">
     <v-card-text style="padding: auto 0">
-      <v-row class="pa-1">
+      <v-row class="pa-1" v-if="showTitle">
         <v-col cols="auto">
           <p class="text-h5">{{ title }}</p>
         </v-col>
@@ -208,7 +208,11 @@ const props = defineProps({
   checkedId: {
     type: String,
     default: null,
-  }
+  },
+  showTitle: {
+    type: Boolean,
+    default: true,
+  },
 });
 
 const tableData = ref([]);
