@@ -1,14 +1,18 @@
 <template :id="siniestroId">
   <v-card class="pa-4">
-    <v-row  align="center">
+    <v-row align="center">
       <v-col cols="10">
         <v-btn
           variant="outlined"
-          style="width: 248px; color: #344054 !important; border-color: #d0d5dd"
-          rounded="lg"
+          size="small"
+          rounded="small"
           @click="actionButton"
+          color="#D0D5DD"
+          width="100%"
         >
-          {{ textButton }}
+          <span class="text-button-custom">
+            {{ textButton }}
+          </span>
         </v-btn>
       </v-col>
       <v-col cols="2">
@@ -32,9 +36,10 @@
 <script setup>
 import { defineEmits, defineProps } from "vue";
 
+
 const props = defineProps({
   siniestroId: {
-    type: String,
+    type: Number,
   },
   textButton: {
     type: String,
@@ -58,5 +63,10 @@ const closeCardDetail = () => {
 .v-card {
   border-radius: 12px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.text-button-custom{
+  font-weight: bold;
+  color: black;
 }
 </style>

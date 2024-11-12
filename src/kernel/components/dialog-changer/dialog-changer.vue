@@ -31,7 +31,7 @@
               v-model="dateRange"
               multiple="range"
               hide-header
-              show-adjacent-months="true"
+              :show-adjacent-months="true"
               color="#0096AE"
             ></v-date-picker>
             <v-card-actions>

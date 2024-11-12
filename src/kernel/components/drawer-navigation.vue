@@ -47,7 +47,12 @@
         :icon="rail ? 'mdi-chevron-double-right' : 'mdi-chevron-double-left'"
         color="#667085"
       ></v-app-bar-nav-icon>
-      <v-toolbar-title class="custom-title">{{ title }}</v-toolbar-title>
+      <template v-if="breadcrumbs && breadcrumbs.length">
+        <Breadcrumbs :breadcrumbs="breadcrumbs" />
+      </template>
+      <template v-else>
+        <v-toolbar-title class="custom-title">{{ title }}</v-toolbar-title>
+      </template>
       <v-spacer></v-spacer>
       <v-btn icon>
         <v-icon size="small" color="grey-darken-1" class="icon-wrapper"
@@ -68,37 +73,41 @@
 import { computed, onMounted, ref, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { useDisplay } from "vuetify";
+import Breadcrumbs from "@/kernel/components/Breadcrumbs/Breadcrumbs.vue";
 
-const drawer = ref(false); // Cambiado a `false` por defecto para evitar discrepancia inicial
-const isMounted = ref(false); // Nuevo control para montaje en cliente
+const drawer = ref(false);
+const isMounted = ref(false);
 const rail = ref(false);
-const { mdAndUp } = useDisplay(); // Detecta tamaño de pantalla
+const { mdAndUp } = useDisplay();
 const router = useRouter();
 const route = useRoute();
 
 const props = defineProps({
   title: {
     type: String,
-    required: true,
+    required: false,
+  },
+  breadcrumbs: {
+    type: Array,
+    required: false,
+    default: () => [],
   },
 });
 
-// Determina si es mobile basado en `mdAndUp` y si el cliente está montado
 const isMobile = computed(() => !mdAndUp.value && isMounted.value);
 
 onMounted(() => {
   isMounted.value = true;
-  drawer.value = mdAndUp.value; // Define `drawer` solo cuando está montado en cliente
+  drawer.value = mdAndUp.value;
 });
 
-// Sincroniza `drawer` con el tamaño de pantalla solo en el cliente
 watch(
   mdAndUp,
   (isDesktop) => {
     drawer.value = isDesktop;
-    if (!isDesktop) rail.value = false; // Resetear `rail` si no es desktop
+    if (!isDesktop) rail.value = false;
   },
-  { immediate: true } // Aplica el watcher inmediatamente
+  { immediate: true }
 );
 
 const items = [
