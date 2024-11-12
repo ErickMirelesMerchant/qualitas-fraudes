@@ -134,7 +134,7 @@ const columns = [
   { title: "Última conexión", key: "ultimaConexión" },
   { title: "Tiempo activo", key: "tiempoActivo" },
   { title: "Prox. inactividad", key: "proxInactividad" },
-  { title: "Acciones", key: "accionesAnalistas" },
+  { title: "Acciones", key: "acciones" },
 ];
 
 const data = [
@@ -147,7 +147,7 @@ const data = [
     ultimaConexión: "dd/mm/aaaa 17:00 hrs",
     tiempoActivo: "8 hrs",
     proxInactividad: "dd/mm/aaaa - dd/mm/aaaa",
-    accionesAnalistas: "",
+    acciones: "",
   },
   {
     id: "0002",
@@ -158,7 +158,7 @@ const data = [
     ultimaConexión: "dd/mm/aaaa 17:00 hrs",
     tiempoActivo: "8 hrs",
     proxInactividad: "No programado",
-    accionesAnalistas: "",
+    acciones: "",
   },
   {
     id: "0003",
@@ -169,7 +169,7 @@ const data = [
     ultimaConexión: "dd/mm/aaaa 17:00 hrs",
     tiempoActivo: "8 hrs",
     proxInactividad: "dd/mm/aaaa - dd/mm/aaaa",
-    accionesAnalistas: "",
+    acciones: "",
   },
   {
     id: "0004",
@@ -180,7 +180,7 @@ const data = [
     ultimaConexión: "dd/mm/aaaa 17:00 hrs",
     tiempoActivo: "8 hrs",
     proxInactividad: "dd/mm/aaaa - dd/mm/aaaa",
-    accionesAnalistas: "",
+    acciones: "",
   },
   {
     id: "0005",
@@ -191,7 +191,7 @@ const data = [
     ultimaConexión: "dd/mm/aaaa 17:00 hrs",
     tiempoActivo: "8 hrs",
     proxInactividad: "dd/mm/aaaa - dd/mm/aaaa",
-    accionesAnalistas: "",
+    acciones: "",
   },
   {
     id: "0006",
@@ -202,7 +202,7 @@ const data = [
     ultimaConexión: "dd/mm/aaaa 17:00 hrs",
     tiempoActivo: "8 hrs",
     proxInactividad: "dd/mm/aaaa - dd/mm/aaaa",
-    accionesAnalistas: "",
+    acciones: "",
   },
   {
     id: "0007",
@@ -213,7 +213,7 @@ const data = [
     ultimaConexión: "dd/mm/aaaa 17:00 hrs",
     tiempoActivo: "8 hrs",
     proxInactividad: "dd/mm/aaaa - dd/mm/aaaa",
-    accionesAnalistas: "",
+    acciones: "",
   },
   {
     id: "0008",
@@ -224,7 +224,7 @@ const data = [
     ultimaConexión: "dd/mm/aaaa 17:00 hrs",
     tiempoActivo: "8 hrs",
     proxInactividad: "dd/mm/aaaa - dd/mm/aaaa",
-    accionesAnalistas: "",
+    acciones: "",
   },
   {
     id: "0009",
@@ -235,7 +235,7 @@ const data = [
     ultimaConexión: "dd/mm/aaaa 17:00 hrs",
     tiempoActivo: "8 hrs",
     proxInactividad: "No programado",
-    accionesAnalistas: "",
+    acciones: "",
   },
   {
     id: "0010",
@@ -246,7 +246,7 @@ const data = [
     ultimaConexión: "dd/mm/aaaa 17:00 hrs",
     tiempoActivo: "8 hrs",
     proxInactividad: "dd/mm/aaaa - dd/mm/aaaa",
-    accionesAnalistas: "",
+    acciones: "",
   },
   {
     id: "0011",
@@ -257,7 +257,7 @@ const data = [
     ultimaConexión: "dd/mm/aaaa 17:00 hrs",
     tiempoActivo: "8 hrs",
     proxInactividad: "dd/mm/aaaa - dd/mm/aaaa",
-    accionesAnalistas: "",
+    acciones: "",
   },
   {
     id: "0012",
@@ -268,7 +268,7 @@ const data = [
     ultimaConexión: "dd/mm/aaaa 17:00 hrs",
     tiempoActivo: "8 hrs",
     proxInactividad: "dd/mm/aaaa - dd/mm/aaaa",
-    accionesAnalistas: "",
+    acciones: "",
   },
 ];
 
@@ -378,7 +378,6 @@ function handleDateSelected(range) {
 function editInactivity(id) {
   openCalendar();
   editID.value = id;
-  console.log(id);
   editRanges.value = true;
 }
 

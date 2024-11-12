@@ -114,7 +114,7 @@
                         {{ item.estatus }}
                       </v-chip>
                     </span>
-                    <span v-else-if="col.key === 'accionesAnalistas'">
+                    <span v-else-if="col.key === 'acciones'">
                       <v-menu>
                         <template v-slot:activator="{ props }">
                           <v-btn

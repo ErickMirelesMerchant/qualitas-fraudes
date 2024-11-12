@@ -88,6 +88,7 @@ const props = defineProps({
 const emit = defineEmits([
   "close",
   "update:dateRange",
+  "handleDataChange",
 ]);
 const isDialogOpen = ref(props.isOpen);
 const calendarVisible = ref(props.calendarVisible);

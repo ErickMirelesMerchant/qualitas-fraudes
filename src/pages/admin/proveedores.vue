@@ -170,39 +170,28 @@
                 width="48px"
               ></v-img>
             </v-btn>
-            <div v-if="dialogData.inactivities.length === 0">
-              No hay inactividad programada
-            </div>
             <div v-if="dialogData.inactivities.length !== 0">
-              <v-list lines="one">
-                <v-list-item
-                  v-for="(inactivity, index) in dialogData.inactivities"
-                  :key="index"
-                  max-width="100%"
-                  style="flex-wrap: nowrap"
-                >
+            <v-list lines="one">
+              <v-list-item v-for="(inactivity, index) in dialogData.inactivities" :key="index" max-width="100%"
+                style="flex-wrap: nowrap;">
+                <span class="mr-10 w-75">
                   {{ inactivity[0] }} - {{ inactivity[inactivity.length - 1] }}
-                  <v-chip
-                    class="ml-2 mr-16"
-                    :class="index < 1 ? 'active-item' : 'inactive-item'"
-                    >{{ index < 1 ? "En curso" : "Programada" }}</v-chip
-                  >
-                  <v-btn
-                    class="px-1"
-                    width="fit-content"
-                    variant="text"
-                    icon="mdi-pencil-outline"
-                  ></v-btn>
-                  <v-btn
-                    class="px-1"
-                    width="fit-content"
-                    variant="text"
-                    icon="mdi-trash-can-outline"
-                  ></v-btn>
-                </v-list-item>
+                  <v-chip class="ml-2" :class="index < 1 ? 'active-item' : 'inactive-item'">{{ index < 1 ? 'En curso'
+                    : 'Programada' }}</v-chip>
+                </span>
+                <span class="w-25">
+                  <v-btn class="px-1 " width="fit-content" variant="text" icon="mdi-pencil-outline"
+                    @click="editInactivity(index)"></v-btn>
+                  <v-btn class="px-1 " width="fit-content" variant="text" icon="mdi-trash-can-outline"
+                    @click="deleteInactivity(index)"></v-btn>
+                </span>
                 <v-divider></v-divider>
-              </v-list>
-            </div>
+              </v-list-item>
+            </v-list>
+          </div>
+          <div v-else class="text-center">
+            No hay inactividad programada
+          </div>
           </div>
         </template>
       </dialogChanger>
@@ -231,18 +220,20 @@ const newChanger = ref("1");
 const selectedLocalidades = ref([]);
 const tab = ref(1);
 const isScrollActive = ref(false);
+const editRanges = ref(false);
+let editID = ref('');
 
-let dialogData = {
+const dialogData = ref({
   img: "",
   title: "",
   label: "",
   description: "",
   items: [],
   inactivities: [],
-};
+});
 
 const tabsData = ref([
-  { title: "Activo" },
+  { title: "Activos" },
   { title: "Inactivos" },
   { title: "En baja" },
 ]);
@@ -259,7 +250,7 @@ const columns = [
   { title: "Fecha de ingreso", key: "fechaDeIngreso" },
   { title: "Última conexión", key: "ultimaConexion" },
   { title: "Tiempo activo", key: "tiempoActivo" },
-  { title: "Acciones", key: "accionesProveedores" },
+  { title: "Acciones", key: "acciones" },
 ];
 
 const data = [
@@ -274,7 +265,7 @@ const data = [
     fechaDeIngreso: "28/05/24",
     ultimaConexion: "dd/mm/aaaa",
     tiempoActivo: "8 hrs",
-    accionesProveedores: ""
+    acciones: ""
   },
   {
     id: "0002",
@@ -287,7 +278,7 @@ const data = [
     fechaDeIngreso: "28/05/24",
     ultimaConexion: "dd/mm/aaaa",
     tiempoActivo: "8 hrs",
-    accionesProveedores: ""
+    acciones: ""
   },
   {
     id: "0003",
@@ -300,7 +291,7 @@ const data = [
     fechaDeIngreso: "28/05/24",
     ultimaConexion: "dd/mm/aaaa",
     tiempoActivo: "8 hrs",
-    accionesProveedores: ""
+    acciones: ""
   },
   {
     id: "0004",
@@ -313,7 +304,7 @@ const data = [
     fechaDeIngreso: "28/05/24",
     ultimaConexion: "dd/mm/aaaa",
     tiempoActivo: "8 hrs",
-    accionesProveedores: ""
+    acciones: ""
   },
   {
     id: "0005",
@@ -326,7 +317,7 @@ const data = [
     fechaDeIngreso: "28/05/24",
     ultimaConexion: "dd/mm/aaaa",
     tiempoActivo: "8 hrs",
-    accionesProveedores: ""
+    acciones: ""
   },
   {
     id: "0006",
@@ -339,7 +330,7 @@ const data = [
     fechaDeIngreso: "28/05/24",
     ultimaConexion: "dd/mm/aaaa",
     tiempoActivo: "8 hrs",
-    accionesProveedores: ""
+    acciones: ""
   },
   {
     id: "0007",
@@ -352,7 +343,7 @@ const data = [
     fechaDeIngreso: "28/05/24",
     ultimaConexion: "dd/mm/aaaa",
     tiempoActivo: "8 hrs",
-    accionesProveedores: ""
+    acciones: ""
   },
   {
     id: "0008",
@@ -365,7 +356,7 @@ const data = [
     fechaDeIngreso: "28/05/24",
     ultimaConexion: "dd/mm/aaaa",
     tiempoActivo: "8 hrs",
-    accionesProveedores: ""
+    acciones: ""
   },
   {
     id: "0009",
@@ -378,7 +369,7 @@ const data = [
     fechaDeIngreso: "28/05/24",
     ultimaConexion: "dd/mm/aaaa",
     tiempoActivo: "8 hrs",
-    accionesProveedores: ""
+    acciones: ""
   },
   {
     id: "0010",
@@ -391,7 +382,7 @@ const data = [
     fechaDeIngreso: "28/05/24",
     ultimaConexion: "dd/mm/aaaa",
     tiempoActivo: "8 hrs",
-    accionesProveedores: ""
+    acciones: ""
   },
   // Agrega más objetos según las filas en tu tabla
 ];
@@ -465,7 +456,7 @@ function openDialog(type) {
   switch (type) {
     case "status":
       newChanger.value = "Activo";
-      dialogData = {
+      dialogData.value = {
         icon: "mdi-swap-horizontal",
         title: "Cambio de estatus",
         label: "Estatus",
@@ -477,7 +468,7 @@ function openDialog(type) {
 
     case "capacity":
       newChanger.value = "1";
-      dialogData = {
+      dialogData.value = {
         icon: "mdi-pencil-outline",
         title: "Cambio de capacidad",
         label: "Capacidad",
@@ -488,7 +479,7 @@ function openDialog(type) {
       break;
 
     case "inactivity":
-      dialogData = {
+      dialogData.value = {
         icon: "mdi-weather-sunset",
         title: "Programar Inactividad",
         description: "Gestiona y programa los períodos de inactividad.",
@@ -498,7 +489,7 @@ function openDialog(type) {
 
     case "assignLocality":
       isScrollActive.value = true;
-      dialogData = {
+      dialogData.value = {
         icon: "mdi-map-outline",
         title: "Asignar localidad",
         description: "Asigna una o varias localidades al Proveedor",
@@ -508,7 +499,7 @@ function openDialog(type) {
 
     case "comboAssignment":
       isScrollActive.value = false;
-      dialogData = {
+      dialogData.value = {
         icon: "mdi-button-cursor",
         title: "Asignar combo asignación",
         description: "",
@@ -539,11 +530,44 @@ function handleDataChange() {
 function openCalendar() {
   calendarVisible.value = true;
 }
-
 function handleDateSelected(range) {
-  if (range[0] !== "" || range[1] !== "") {
-    return dialogData.inactivities.push(range);
+  if (range[0] !== null || range[1] !== null) {
+    if (editRanges.value) {
+      dialogData.value.inactivities.splice(editID.value, 1, range);
+      editRanges.value = false;
+    } else {
+      dialogData.value.inactivities.push(range);
+    }
   }
   calendarVisible.value = false;
 }
+
+function editInactivity(id) {
+  openCalendar();
+  editID.value = id;
+  editRanges.value = true;
+}
+
+function deleteInactivity(id) {
+  dialogData.value.inactivities.splice(id, 1);
+}
 </script>
+<style scoped>
+.active-item {
+  color: #067647;
+  background-color: #ECFDF3;
+  height: 22px;
+  padding: 2px 8px;
+  border-radius: 999999px !important;
+  border: 1px solid #ABEFC6 !important;
+}
+
+.inactive-item {
+  color: #344054;
+  background-color: #F9FAFB;
+  height: 22px;
+  padding: 2px 8px;
+  border-radius: 999999px !important;
+  border: 1px solid #EAECF0 !important;
+}
+</style>
