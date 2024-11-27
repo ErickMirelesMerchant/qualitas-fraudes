@@ -3,7 +3,7 @@
     <v-card-title>
       <div class="card-header">
         <span class="card-title">{{ title }}</span>
-        <v-btn icon variant="text" @click="toggleContent">
+        <v-btn icon variant="text" @click="toggleContent" v-if="buttonShow">
           <v-icon color="black">{{
             isVisible ? "mdi-chevron-up" : "mdi-chevron-down"
           }}</v-icon>
@@ -23,6 +23,10 @@ const props = defineProps({
   title: {
     type: String,
     required: true,
+  },
+  buttonShow: {
+    type: Boolean,
+    default: true,
   },
 });
 

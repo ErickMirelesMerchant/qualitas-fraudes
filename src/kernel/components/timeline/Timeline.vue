@@ -1,45 +1,45 @@
 <template>
-  
-    <div class="timeline-wrapper">
-      <v-timeline
-        direction="horizontal"
-        truncate-line="both"
-        class="custom-timeline"
+  <div class="timeline-wrapper">
+    <v-timeline
+      direction="horizontal"
+      truncate-line="both"
+      class="custom-timeline"
+    >
+      <v-timeline-item
+        v-for="(step, index) in steps"
+        :key="index"
+        :dot-color="step.status ? 'primary' : 'grey lighten-1'"
       >
-        <v-timeline-item
-          v-for="(step, index) in steps"
-          :key="index"
-          :dot-color="step.status ? 'primary' : 'grey lighten-1'"
-        >
-          <template v-slot:icon>
-            <v-icon>{{
-              step.status && index !== 0
-                ? "mdi-check-bold"
-                : "mdi-circle-outline"
-            }}</v-icon>
-          </template>
-          <template v-if="index % 2 === 0" v-slot:opposite>
-            <v-row>
-              <v-col cols="12" class="text-center">
-                <span>{{ step.title }}</span>
-                <br />
-                <span>{{ step.date }}</span>
-              </v-col>
-            </v-row>
-          </template>
-          <template v-if="index % 2 === 1">
-            <v-row>
-              <v-col cols="12" class="text-center">
-                <span>{{ step.title }}</span>
-                <br />
-                <span>{{ step.date }}</span>
-              </v-col>
-            </v-row>
-          </template>
-        </v-timeline-item>
-      </v-timeline>
-    </div>
-  
+        <template v-slot:icon>
+          <v-icon :size="index === 0 ? 'x-small' : 'large'">{{
+            step.status && index !== 0 ? "mdi-check-bold" : "mdi-circle"
+          }}</v-icon>
+        </template>
+        <template v-if="index % 2 === 0" v-slot:opposite>
+          <v-row>
+            <v-col cols="12" class="text-center">
+              <span :class="index === 0 ? 'text-title-first' : 'text-title'">{{
+                step.title
+              }}</span>
+              <br />
+              <span :class="index === 0 ? 'text-date-first' : 'text-date'">{{
+                step.date
+              }}</span>
+            </v-col>
+          </v-row>
+        </template>
+        <template v-if="index % 2 === 1">
+          <v-row>
+            <v-col cols="12" class="text-center">
+              <span class="text-title">{{ step.title }}</span>
+              <br />
+              <span class="text-date">{{ step.date }}</span>
+            </v-col>
+          </v-row>
+        </template>
+      </v-timeline-item>
+    </v-timeline>
+  </div>
 </template>
 
 <script setup>
@@ -60,13 +60,28 @@ const props = defineProps({
 
 <style>
 .timeline-wrapper {
-  overflow-x: auto; /* Agrega scroll horizontal */
-  white-space: nowrap; /* Evita el wrapping de los elementos */
+  overflow-x: auto; 
+  white-space: nowrap;
   padding: 1rem;
 }
 .custom-timeline .v-timeline-divider__before,
 .custom-timeline .v-timeline-divider__after {
   background-color: #2d96ae !important;
   height: 2px !important;
+}
+.text-title {
+  font-weight: bold;
+}
+.text-title-first {
+  font-weight: bold;
+  color: #2d96ae !important;
+}
+.text-date {
+  font-size: 14px;
+  color: #475467;
+}
+.text-date-first {
+  font-size: 14px;
+  color: #2d96ae !important;
 }
 </style>

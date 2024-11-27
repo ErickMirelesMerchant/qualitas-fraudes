@@ -90,12 +90,12 @@
 
       <CustomAlert
         v-if="showAlert"
-        :type="'success'"
+        :type="'info'"
         :icon="'mdi-check-circle-outline'"
         :icon-close="'mdi-close'"
         :variant="'outlined'"
         :position="'top-right'"
-        :timer="1000"
+        :timer="5000"
         :show="showAlert"
         @update:show="setShowAlert"
       >
@@ -259,7 +259,7 @@ const columns = [
   { title: "Fecha de ingreso", key: "fechaDeIngreso" },
   { title: "Última conexión", key: "ultimaConexion" },
   { title: "Tiempo activo", key: "tiempoActivo" },
-  { title: "Acciones", key: "accionesProveedores" },
+  { title: "Acciones", key: "acciones" },
 ];
 
 const data = [
@@ -274,7 +274,7 @@ const data = [
     fechaDeIngreso: "28/05/24",
     ultimaConexion: "dd/mm/aaaa",
     tiempoActivo: "8 hrs",
-    accionesProveedores: ""
+    acciones: ""
   },
   {
     id: "0002",

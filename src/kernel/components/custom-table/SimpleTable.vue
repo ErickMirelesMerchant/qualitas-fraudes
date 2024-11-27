@@ -1,6 +1,5 @@
 <template>
-  <v-card rounded="lg">
-    <v-card-text style="padding: auto 0">
+    <div>
       <v-row class="pa-1" v-if="showTitle">
         <v-col cols="auto">
           <p class="text-h5">{{ title }}</p>
@@ -74,18 +73,6 @@
                         hide-details="true"
                       />
                     </span>
-                    <span v-else-if="col.title === 'Score'">
-                      <v-chip
-                        class="score-chip"
-                        prepend-icon="mdi-arrow-down"
-                        color="#026AA2"
-                        style="
-                          border-radius: 16px !important;
-                          border: 1px solid #b9e6fe;
-                        "
-                        >{{ item.score }}</v-chip
-                      >
-                    </span>
                     <span v-else-if="col.title === 'Estatus plataforma'">
                       <v-chip
                         class="status-chip"
@@ -126,7 +113,7 @@
                             <v-icon>mdi-dots-vertical</v-icon>
                           </v-btn>
                         </template>
-
+  
                         <!-- Contenido del menú -->
                         <v-list
                           class="rounded-lg"
@@ -177,7 +164,7 @@
                         </span>
                       </span>
                     </div>
-
+  
                     <span v-else>{{ item[col.key] }}</span>
                   </td>
                 </tr>
@@ -186,256 +173,256 @@
           </v-card-text>
         </v-col>
       </v-row>
-    </v-card-text>
-    <v-dialog v-model="dialog" max-width="600">
-      <v-card>
-        <v-card-title class="text-h5"> Detalle </v-card-title>
-        <v-card-text>
-          {{ fullText }}
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer />
-          <v-btn text @click="dialog = false">Cerrar</v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
-  </v-card>
-</template>
-
-<script setup>
-import { computed, ref, toRefs, watch } from "vue";
-
-const emit = defineEmits(["checkbox-selected"]);
-const dialog = ref(false);
-const fullText = ref("");
-
-const props = defineProps({
-  columns: {
-    type: Array,
-    required: true,
-  },
-  data: {
-    type: Array,
-    required: true,
-  },
-  hasCheckbox: {
-    type: Boolean,
-    default: false,
-  },
-  first: Number,
-  rows: Number,
-  title: {
-    required: true,
-    type: String,
-  },
-  menuItems: {
-    type: Array,
-  },
-  showButton: {
-    type: Boolean,
-    default: true,
-  },
-  textButton: {
-    type: String,
-    default: "Configurar",
-  },
-  actionButton: {
-    type: Function,
-  },
-  checkedId: {
-    type: String,
-    default: null,
-  },
-  showTitle: {
-    type: Boolean,
-    default: true,
-  },
-  isTruncate: {
-    type: Boolean,
-    default: false,
-  },
-});
-
-const tableData = ref([]);
-const allChecked = ref(false);
-
-const sortedBy = ref(null);
-const sortDirection = ref("asc");
-
-watch(
-  () => props.data,
-  (newData) => {
-    tableData.value = newData.map((item) => ({ ...item, checked: false }));
-    allChecked.value = false;
-  },
-  { immediate: true }
-);
-
-const { first, rows } = toRefs(props);
-
-const paginatedData = computed(() => {
-  const start = first.value;
-  const end = start + rows.value;
-  return tableData.value.slice(start, end);
-});
-
-const sortedData = computed(() => {
-  if (!sortedBy.value) return paginatedData.value;
-
-  const sortedArray = [...paginatedData.value].sort((a, b) => {
-    const sortFactor = sortDirection.value === "asc" ? 1 : -1;
-    if (a[sortedBy.value] > b[sortedBy.value]) return sortFactor;
-    if (a[sortedBy.value] < b[sortedBy.value]) return -sortFactor;
-    return 0;
+      <v-dialog v-model="dialog" max-width="600">
+        <v-card>
+          <v-card-title class="text-h5"> Detalle </v-card-title>
+          <v-card-text>
+            {{ fullText }}
+          </v-card-text>
+          <v-card-actions>
+            <v-spacer />
+            <v-btn text @click="dialog = false">Cerrar</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+    </div>
+  </template>
+  
+  <script setup>
+  import { computed, ref, toRefs, watch } from "vue";
+  
+  const emit = defineEmits(["checkbox-selected"]);
+  const dialog = ref(false);
+  const fullText = ref("");
+  
+  const props = defineProps({
+    columns: {
+      type: Array,
+      required: true,
+    },
+    data: {
+      type: Array,
+      required: true,
+    },
+    hasCheckbox: {
+      type: Boolean,
+      default: false,
+    },
+    first: Number,
+    rows: Number,
+    title: {
+      required: true,
+      type: String,
+    },
+    menuItems: {
+      type: Array,
+    },
+    showButton: {
+      type: Boolean,
+      default: true,
+    },
+    textButton: {
+      type: String,
+      default: "Configurar",
+    },
+    actionButton: {
+      type: Function,
+    },
+    checkedId: {
+      type: String,
+      default: null,
+    },
+    showTitle: {
+      type: Boolean,
+      default: true,
+    },
+    isTruncate: {
+      type: Boolean,
+      default: false,
+    },
   });
-
-  return sortedArray;
-});
-
-function sortTable(key) {
-  if (sortedBy.value === key) {
-    sortDirection.value = sortDirection.value === "asc" ? "desc" : "asc";
-  } else {
-    sortedBy.value = key;
-    sortDirection.value = "asc";
-  }
-}
-
-function toggleAll() {
-  tableData.value.forEach((item) => {
-    item.checked = allChecked.value;
+  
+  const tableData = ref([]);
+  const allChecked = ref(false);
+  
+  const sortedBy = ref(null);
+  const sortDirection = ref("asc");
+  
+  watch(
+    () => props.data,
+    (newData) => {
+      tableData.value = newData.map((item) => ({ ...item, checked: false }));
+      allChecked.value = false;
+    },
+    { immediate: true }
+  );
+  
+  const { first, rows } = toRefs(props);
+  
+  const paginatedData = computed(() => {
+    const start = first.value;
+    const end = start + rows.value;
+    return tableData.value.slice(start, end);
   });
-}
-
-function updateAllChecked() {
-  allChecked.value = tableData.value.every((item) => item.checked);
-}
-
-function showDetailsCard(item) {
-  emit("checkbox-selected", item);
-  tableData.value.forEach((val, index) => {
-    if (index !== item) {
-      val.checked = false;
+  
+  const sortedData = computed(() => {
+    if (!sortedBy.value) return paginatedData.value;
+  
+    const sortedArray = [...paginatedData.value].sort((a, b) => {
+      const sortFactor = sortDirection.value === "asc" ? 1 : -1;
+      if (a[sortedBy.value] > b[sortedBy.value]) return sortFactor;
+      if (a[sortedBy.value] < b[sortedBy.value]) return -sortFactor;
+      return 0;
+    });
+  
+    return sortedArray;
+  });
+  
+  function sortTable(key) {
+    if (sortedBy.value === key) {
+      sortDirection.value = sortDirection.value === "asc" ? "desc" : "asc";
+    } else {
+      sortedBy.value = key;
+      sortDirection.value = "asc";
     }
-  });
-}
-
-function openDialog(text) {
-  fullText.value = text;
-  dialog.value = true;
-}
-</script>
-
-<style scoped>
-.v-data-table-virtual {
-  border: 1px solid #ddd;
-  border-radius: 8px;
-}
-
-.v-data-table-col {
-  background-color: #f5f5f5;
-}
-
-.v-data-table-row {
-  transition: background-color 0.3s ease;
-}
-
-.v-data-table-row:hover {
-  background-color: #f0f0f0;
-}
-
-.v-table td,
-.v-table th {
-  text-wrap: nowrap !important;
-}
-
-.text-h5 {
-  font-family: "Inter-SemiBold", sans-serif;
-  font-size: 18px;
-  font-weight: 600;
-  line-height: 28px;
-  text-align: left;
-  color: #101828;
-}
-
-.v-row.table-header {
-  padding: 20px;
-  display: flex;
-  justify-content: space-between;
-}
-
-.v-input {
-  display: flex;
-}
-
-.v-table th:first-child,
-.v-table td:first-child {
-  padding: 0;
-}
-
-.v-table th {
-  font-family: "Inter-Medium", sans-serif;
-  font-size: 12px;
-  font-weight: 500;
-  line-height: 18px;
-  text-align: left;
-  color: #475467;
-}
-
-.v-table td {
-  font-family: "Inter-Regular", sans-serif;
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 20px;
-  text-align: left;
-  color: #475467;
-}
-
-.v-btn.config-btn {
-  width: 129px;
-  height: 40px;
-  padding: 10px 14px;
-  border-radius: 8px !important;
-  border: 1px solid #d0d5dd;
-  font-family: "Inter-SemiBold", sans-serif;
-  font-size: 14px;
-  font-weight: 600;
-  line-height: 20px;
-  text-align: left;
-  margin-left: calc(100% - 129px);
-}
-
-.v-col.table-header-actions {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.v-card-text.card-table {
-  padding: 0 !important;
-}
-
-.truncate-text {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 150px;
-  display: inline-block;
-}
-
-.table-cell {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-.link-button {
-  color: #0096AE;
-  text-decoration: underline;
-  font-weight: normal;
-  cursor: pointer;
-}
-.link-button:hover {
-  color: #0096AE;
-  text-decoration: underline;
-}
-</style>
+  }
+  
+  function toggleAll() {
+    tableData.value.forEach((item) => {
+      item.checked = allChecked.value;
+    });
+  }
+  
+  function updateAllChecked() {
+    allChecked.value = tableData.value.every((item) => item.checked);
+  }
+  
+  function showDetailsCard(item) {
+    emit("checkbox-selected", item);
+    tableData.value.forEach((val, index) => {
+      if (index !== item) {
+        val.checked = false;
+      }
+    });
+  }
+  
+  function openDialog(text) {
+    fullText.value = text;
+    dialog.value = true;
+  }
+  </script>
+  
+  <style scoped>
+  .v-data-table-virtual {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+  }
+  
+  .v-data-table-col {
+    background-color: #f5f5f5;
+  }
+  
+  .v-data-table-row {
+    transition: background-color 0.3s ease;
+  }
+  
+  .v-data-table-row:hover {
+    background-color: #f0f0f0;
+  }
+  
+  .v-table td,
+  .v-table th {
+    text-wrap: nowrap !important;
+  }
+  
+  .text-h5 {
+    font-family: "Inter-SemiBold", sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 28px;
+    text-align: left;
+    color: #101828;
+  }
+  
+  .v-row.table-header {
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .v-input {
+    display: flex;
+  }
+  
+  .v-table th:first-child,
+  .v-table td:first-child {
+    padding: 0;
+  }
+  
+  .v-table th {
+    font-family: "Inter-Medium", sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 18px;
+    text-align: left;
+    color: #475467;
+  }
+  
+  .v-table td {
+    font-family: "Inter-Regular", sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 20px;
+    text-align: left;
+    color: #475467;
+  }
+  
+  .v-btn.config-btn {
+    width: 129px;
+    height: 40px;
+    padding: 10px 14px;
+    border-radius: 8px !important;
+    border: 1px solid #d0d5dd;
+    font-family: "Inter-SemiBold", sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 20px;
+    text-align: left;
+    margin-left: calc(100% - 129px);
+  }
+  
+  .v-col.table-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  
+  .v-card-text.card-table {
+    padding: 0 !important;
+  }
+  
+  .truncate-text {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 150px;
+    display: inline-block;
+  }
+  
+  .table-cell {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .link-button {
+    color: #0096ae;
+    text-decoration: underline;
+    font-weight: normal;
+    cursor: pointer;
+  }
+  .link-button:hover {
+    color: #0096ae;
+    text-decoration: underline;
+  }
+  </style>
+  

@@ -440,7 +440,6 @@ const handleCloseDetails = () => {
 function verDetalle() {
   try {
     const encryptedId = encryptId(data[selectedSiniestroId.value].siniestro);
-    console.log("ID encriptado seguro para URL:", encryptedId);
     router.push(`/admin/siniestro/${encryptedId}`);
   } catch (error) {
     console.error("Error al navegar:", error.message);

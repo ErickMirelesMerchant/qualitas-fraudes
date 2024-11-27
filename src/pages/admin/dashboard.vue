@@ -47,6 +47,7 @@ const items = ref([
   { title: "Analistas", icon: "mdi-account-multiple-outline" },
   { title: "Proveedores", icon: "mdi-handshake-outline" },
   { title: "Notificaciones", icon: "mdi-checkbox-blank-badge-outline" },
+  { title: "Nueva", icon: "mdi-checkbox-blank-badge-outline" },
 ]);
 
 const heads = ref([

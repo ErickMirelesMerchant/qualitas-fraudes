@@ -132,6 +132,11 @@ const items = [
     icon: "mdi-checkbox-blank-badge-outline",
     route: "/admin/notificaciones",
   },
+  {
+    title: "Nuevo",
+    icon: "mdi-checkbox-blank-badge-outline",
+    route: "/admin/nuevo",
+  },
 ];
 
 const navigateTo = (item) => {
