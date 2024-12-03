@@ -7,12 +7,12 @@
     "module": true,
     "resourceType": "script"
   },
-  "C:/qualitas-fraudes/node_modules/nuxt/dist/app/entry.js": {
+  "C:/Users/gupuy/OneDrive/Escritorio/RocketCode/fraudes/front/qualitas-fraudes/node_modules/nuxt/dist/app/entry.js": {
     "resourceType": "script",
     "module": true,
     "prefetch": true,
     "preload": true,
     "isEntry": true,
-    "file": "C:/qualitas-fraudes/node_modules/nuxt/dist/app/entry.js"
+    "file": "C:/Users/gupuy/OneDrive/Escritorio/RocketCode/fraudes/front/qualitas-fraudes/node_modules/nuxt/dist/app/entry.js"
   }
 }

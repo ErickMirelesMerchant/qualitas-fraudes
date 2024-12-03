@@ -34,6 +34,25 @@
       </v-col>
     </v-row>
     <v-row v-if="tab === 1">
+       <v-col cols="12">
+        <CustomCardShowHide title="Datos Generales">
+          <v-row>
+            <v-col cols="12">
+              <SimpleTable
+                title=""
+                :columns="columnsSiniestro"
+                :data="dataSiniestro"
+                :has-checkbox="false"
+                :first="first"
+                :rows="rows"
+                :showButton="false"
+                :showTitle="false"
+              />
+            </v-col>
+          </v-row>
+        </CustomCardShowHide>
+      </v-col>
+
       <v-col cols="12">
         <CustomCardShowHide title="Coberturas">
           <v-row>
@@ -313,6 +332,81 @@ const tabsData = ref([
   { title: "Siniestros relacionados" },
   { title: "Notificaciones y acciones" },
 ]);
+
+const columnsSiniestro = [
+  { title: "Siniestro", key: "siniestro" },
+  { title: "Score", key: "score" },
+  { title: "Siniestro relacionado", key: "siniestroRelacionado" },
+  { title: "Reporte", key: "reporte" },
+  { title: "Analista", key: "analista" },
+  { title: "Reglas", key: "reglas" },
+  { title: "ID Proveedor", key: "idProveedor" },
+  { title: "Fecha asignación analista", key: "fechaAsignacionAnalista" },
+  { title: "Fecha asignación proveedor", key: "fechaAsignacionProveedor" },
+  { title: "Oficina de emisión", key: "oficinaEmision" },
+  { title: "Gerente de cuenta", key: "gerenteCuenta" },
+  { title: "Etiqueta SISE", key: "etiquetaSise" },
+  { title: "Estatus plataforma", key: "estatusPlataforma" },
+  { title: "Marca", key: "marca" },
+  { title: "Fecha de reporte", key: "fechaReporte" },
+  { title: "Fecha ocurrido", key: "fechaOcurrido" },
+  { title: "Clave agente", key: "claveAgente" },
+  { title: "Nombre agente", key: "nombreAgente" },
+  { title: "Tiempo de revisión", key: "tiempoRevision" },
+  { title: "Tiempo de asignación", key: "tiempoAsignacion" },
+  { title: "Causa", key: "causa" },
+  { title: "Tipo de proveedor", key: "tipoProveedor" },
+  { title: "Nombre corto proveedor", key: "nombreCortoProveedor" },
+  { title: "Nombre de asegurado", key: "nombreAsegurado" },
+  { title: "Póliza", key: "poliza" },
+  { title: "Paquete cobertura", key: "paqueteCobertura" },
+  { title: "Serie", key: "serie" },
+  { title: "Inciso", key: "inciso" },
+  { title: "Endoso", key: "endoso" },
+  { title: "Entidad", key: "entidad" },
+  { title: "Uso", key: "uso" },
+  { title: "Servicio", key: "servicio" },
+  { title: "Clave condiciones generales", key: "claveCondicionesGenerales" },
+];
+
+const dataSiniestro = [
+  {
+    siniestro: "04241245475",
+    score: "23",
+    siniestroRelacionado: "04241247218",
+    reporte: "04241456664",
+    analista: "[Nombre analista]",
+    reglas: "[Reglas]",
+    idProveedor: "[ID Proveedor]",
+    fechaAsignacionAnalista: "28/05/24 8:30:24",
+    fechaAsignacionProveedor: "28/05/24 8:30:24",
+    oficinaEmision: "Nombre de oficina",
+    gerenteCuenta: "Nombre de gerente de cuenta",
+    etiquetaSise: "Etiqueta",
+    estatusPlataforma: "Estatus",
+    marca: "Toyota",
+    fechaReporte: "30/09/2024",
+    fechaOcurrido: "30/09/2024",
+    claveAgente: "AGT-123456",
+    nombreAgente: "Juan Carlos Pérez González",
+    tiempoRevision: "5 días",
+    tiempoAsignacion: "5 días",
+    causa: "Robo de automóvil",
+    tipoProveedor: "[Tipo_proveedor]",
+    nombreCortoProveedor: "[Nombre_proveedor]",
+    nombreAsegurado: "[nombre_asegurado]",
+    poliza: "POL-1234567890",
+    paqueteCobertura: "Cobertura Amplia",
+    serie: "ABC1234XYZ987654",
+    inciso: "INC-001",
+    endoso: "END-001",
+    entidad: "Yucatán",
+    uso: "[Uso]",
+    servicio: "[Servicio]",
+    claveCondicionesGenerales: "[Clave condiciones generales]",
+  },
+];
+
 
 const columnsCobertura = [
   { title: "Clave", key: "clave" },
