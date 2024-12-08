@@ -155,6 +155,24 @@
                         </v-list>
                       </v-menu>
                     </span>
+                    <span v-else-if="col.key === 'verSiniestro'">
+                      <v-a
+                      class="ver-button"
+                        >Ver Siniestro</v-a
+                      >
+                    </span>
+                    <span v-else-if="col.key === 'verDocumento'">
+                      <v-a
+                      class="ver-button"
+                        >Ver Documento</v-a
+                      >
+                    </span>
+                    <span v-else-if="col.key === 'ver'">
+                      <v-a
+                      class="ver-button"
+                        >Ver</v-a
+                      >
+                    </span>
                     <div
                       class="table-cell"
                       v-else-if="
@@ -429,13 +447,20 @@ function openDialog(text) {
   justify-content: space-between;
 }
 .link-button {
-  color: #0096AE;
+  color: #0096ae;
   text-decoration: underline;
   font-weight: normal;
   cursor: pointer;
 }
 .link-button:hover {
-  color: #0096AE;
+  color: #0096ae;
   text-decoration: underline;
+}
+
+.ver-button {
+  color: #006e80;
+  font-weight: normal;
+  cursor: pointer;
+  font-weight: 600;
 }
 </style>

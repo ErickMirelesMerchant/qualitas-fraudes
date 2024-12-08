@@ -42,7 +42,7 @@ const columnsContent = [
   { title: "Responsable siguiente", key: "responsableSiguiente" },
   { title: "Tipo", key: "tipo" },
   { title: "Detalle", key: "detalle" },
-  { title: "Acciones", key: "acciones" },
+  { title: "Acciones", key: "verDocumento" },
 ];
 
 const dataContent = [

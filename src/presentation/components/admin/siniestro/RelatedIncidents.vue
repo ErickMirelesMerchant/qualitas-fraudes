@@ -35,7 +35,7 @@ const columnsContent = [
   { title: "Vehículo", key: "vehiculo" },
   { title: "Serie", key: "serie" },
   { title: "Reserva inicial", key: "reservaInicial" },
-  { title: "Acciones", key: "acciones" },
+  { title: "Acciones", key: "verSiniestro" },
 ];
 
 const dataContent = [

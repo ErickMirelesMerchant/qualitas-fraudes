@@ -128,7 +128,7 @@ const columnsContent = [
   { title: "Tipo de documento", key: "tipoDocumento" },
   { title: "Usuario", key: "usuario" },
   { title: "Última modificación", key: "ultimaModificacion" },
-  { title: "Acciones", key: "acciones" },
+  { title: "Acciones", key: "ver" },
 ];
 
 const dataContent = [
@@ -209,7 +209,7 @@ const columnsValuacion = [
   { title: "Tipo de documento", key: "tipoDocumento" },
   { title: "Usuario", key: "usuario" },
   { title: "Última modificación", key: "ultimaModificacion" },
-  { title: "Acciones", key: "acciones" },
+  { title: "Acciones", key: "ver" },
 ];
 
 const dataValuacion = [
@@ -290,7 +290,7 @@ const columnsConsultaExterna = [
   { title: "Tipo de documento", key: "tipoDocumento" },
   { title: "Usuario", key: "usuario" },
   { title: "Última modificación", key: "ultimaModificacion" },
-  { title: "Acciones", key: "acciones" },
+  { title: "Acciones", key: "ver" },
 ];
 
 const dataConsultaExterna = [
@@ -371,7 +371,7 @@ const columnGeneradoPlataforma = [
   { title: "Tipo de documento", key: "tipoDocumento" },
   { title: "Usuario", key: "usuario" },
   { title: "Última modificación", key: "ultimaModificacion" },
-  { title: "Acciones", key: "acciones" },
+  { title: "Acciones", key: "ver" },
 ];
 
 const dataGeneradoPlataforma = [
