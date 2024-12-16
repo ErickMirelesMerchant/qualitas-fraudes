@@ -43,7 +43,7 @@
                     </span>
                   </th>
                   <th
-                    v-for="col in columns"
+                    v-for="col in visibleColumns"
                     :key="col.key"
                     id="header-{{ col.key }}"
                     @click="col.sortable && sortTable(col.key)"
@@ -65,7 +65,7 @@
                       hide-details="true"
                     />
                   </td>
-                  <td v-for="col in columns" :key="col.key">
+                  <td v-for="col in visibleColumns" :key="col.key">
                     <span v-if="col.title === 'Siniestro'">
                       <v-checkbox
                         width="max-content"
@@ -200,59 +200,71 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-    <v-dialog v-model="dialogConfig" max-width="420px" max-height="500px">
-      <v-card>
-        <div class="icon-container">
-          <div class="icon-waves">
-            <v-img center src="/assets/icons/config-columns.svg" alt="add-btn" height="20px" width="20px"></v-img>
-          </div>
-          <div>
-            <span class="text-header">Configurar tabla</span>
-          </div>
-          <div>
-            <span class="text-grey"
-              >Selecciona las columnas que deseas ver en la tabla.</span
-            >
+    <v-dialog 
+    v-model="dialogConfig" 
+    max-width="420px" 
+    max-height="500px"
+    @close="handleDialogClose"
+  >
+    <v-card>
+      <div class="icon-container" style="position:relative; padding-top:5rem">
+        <div class="outer-circle">
+        <div class="middle-circle">
+          <div class="inner-circle">
+            <div class="icon-waves">
+              <v-img center src="/assets/icons/config-columns.svg" alt="add-btn" height="20px" width="20px"></v-img>
+            </div>
           </div>
         </div>
-        <v-card-text class="custom-scrollbar">
-          <v-form>
-            <v-checkbox
-              class="compact-checkbox"
-              style="height: 32px"
-              v-for="(column, index) in columns"
-              :key="`index-column-${column.key}-${index}`"
-              :label="column.title"
-              v-model="column.visible"
-            ></v-checkbox>
-          </v-form>
-        </v-card-text>
-        <v-card-actions style="padding:1rem; padding-left:2rem; padding-right:2rem">
-          <v-btn
-            variant="outlined"
-            class="secondary-btn"
-            style="
-              width: 50%;
-              height: 40px !important;
-              font-weight: 600;
-            "
-            color="#344054"
-            @click="dialogConfig = false"
-            >Cancelar</v-btn
-          >
-          <v-btn
-            variant="outlined"
-            class="primary-btn"
-            style="
-              width: 50%;
-              height: 40px !important;
-            "
-            @click="applyColumnFilter"
-            >Guardar</v-btn
-          >
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
+      </div>
+        
+        <div>
+          <span class="text-header">Configurar tabla</span>
+        </div>
+        <div>
+          <span class="text-grey">Selecciona las columnas que deseas ver en la tabla.</span>
+        </div>
+      </div>
+      <v-card-text class="custom-scrollbar" style="padding-top:0;">
+        <v-form>
+          <v-checkbox
+            class="compact-checkbox"
+            style="height: 32px"
+            v-for="(column, index) in localColumns"
+            :key="`index-column-${column.key}-${index}`"
+            :label="column.title"
+            v-model="column.visible"
+          ></v-checkbox>
+        </v-form>
+      </v-card-text>
+      <v-card-actions style="padding:1rem; padding-left:2rem; padding-right:2rem">
+        <v-btn
+          variant="outlined"
+          class="secondary-btn"
+          style="
+            width: 50%;
+            height: 40px !important;
+            font-weight: 600;
+          "
+          color="#344054"
+          @click="cancelColumnConfig"
+        >
+          Cancelar
+        </v-btn>
+        <v-btn
+          variant="outlined"
+          class="primary-btn"
+          style="
+            width: 50%;
+            height: 40px !important;
+          "
+          @click="applyColumnFilter"
+        >
+          Guardar
+        </v-btn>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
   </v-card>
 </template>
 
@@ -263,6 +275,7 @@ const emit = defineEmits(["checkbox-selected"]);
 const dialog = ref(false);
 const dialogConfig = ref(false);
 const fullText = ref("");
+
 
 const props = defineProps({
   columns: {
@@ -311,6 +324,29 @@ const props = defineProps({
   },
 });
 
+const localColumns = ref(JSON.parse(JSON.stringify(props.columns)));
+var visibleColumns = props.columns;
+
+const applyColumnFilter = () => {
+ visibleColumns = localColumns.value.filter(column => column.visible);
+  dialogConfig.value = false;
+}
+
+const cancelColumnConfig = () => {
+  localColumns.value = localColumns.value.map((column) => {
+    return {
+      ...column,
+      visible: visibleColumns.some((visibleColumn) => (visibleColumn.key === column.key)),
+    };
+  });
+  console.log(localColumns.value, visibleColumns)
+  dialogConfig.value = false;
+}
+
+const handleDialogClose = () => {
+  cancelColumnConfig()
+}
+
 const tableData = ref([]);
 const allChecked = ref(false);
 
@@ -325,10 +361,6 @@ watch(
   },
   { immediate: true }
 );
-const applyColumnFilter = () => {
-  // Lógica para aplicar el filtro de columnas
-  dialogConfig.value = false;
-};
 
 const { first, rows } = toRefs(props);
 
@@ -350,10 +382,6 @@ const sortedData = computed(() => {
 
   return sortedArray;
 });
-
-const visibleColumns = computed(() =>
-  props.columns.filter((col) => col.visible)
-);
 
 function sortTable(key) {
   if (sortedBy.value === key) {
@@ -526,10 +554,34 @@ function openDialog(text) {
   flex-direction: column;
   align-items: flex-start;
   padding: 1rem;
+  padding-top: 5rem;
+}
+.outer-circle {
+  border: 0.1px solid #fafbfc;
+  border-radius: 100%;
+  padding: 1.5rem;
+  position: absolute;
+  top: -35%;
+  left: -12%;
+  z-index: -1;
+}
+
+.middle-circle {
+  border: 0.1px solid #f7f8fa;
+  border-radius: 100%;
+  padding: 1.5rem;
+}
+
+.inner-circle {
+  border: 1px solid #f4f5f7;
+  border-radius: 100%;
+  padding: 1.5rem;
 }
 .icon-waves {
   position: relative;
-  padding: 1rem;
+  padding: 0.8rem;
+  border: 1px solid #EAECF0;
+  border-radius: 1rem;
 }
 .text-grey {
   color: #6c757d;
